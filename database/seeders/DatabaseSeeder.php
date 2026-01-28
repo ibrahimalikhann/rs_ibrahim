@@ -20,6 +20,7 @@ class DatabaseSeeder extends Seeder
             'name' => 'System Admin',
             'email' => 'admin@ratnasagar.com',
             'password' => bcrypt('password'),
+            'role' => 'admin',
         ]);
 
         // Vice President
@@ -27,6 +28,7 @@ class DatabaseSeeder extends Seeder
             'name' => 'Rajesh VP',
             'email' => 'vp@ratnasagar.com',
             'password' => bcrypt('password'),
+            'role' => 'vp',
         ]);
 
         // Geo Head
@@ -34,6 +36,7 @@ class DatabaseSeeder extends Seeder
             'name' => 'Amit Geo Head',
             'email' => 'geo@ratnasagar.com',
             'password' => bcrypt('password'),
+            'role' => 'geo-head',
         ]);
 
         // Team Leader
@@ -41,6 +44,7 @@ class DatabaseSeeder extends Seeder
             'name' => 'Suresh TL',
             'email' => 'tl@ratnasagar.com',
             'password' => bcrypt('password'),
+            'role' => 'team-leader',
         ]);
 
         // Executive
@@ -48,6 +52,7 @@ class DatabaseSeeder extends Seeder
             'name' => 'Rahul Executive',
             'email' => 'exec@ratnasagar.com',
             'password' => bcrypt('password'),
+            'role' => 'executive',
         ]);
     }
 }

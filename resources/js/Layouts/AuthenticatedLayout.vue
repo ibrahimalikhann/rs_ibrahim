@@ -54,9 +54,21 @@ const toggleGroup = (group) => {
     openGroups.value[group] = !openGroups.value[group];
 };
 
+const userRole = computed(() => page.props.auth.user.role || 'user');
+
+const dashboardRoute = computed(() => {
+    const role = userRole.value;
+    if (role === 'admin') return route('dashboard.admin');
+    if (role === 'vp') return route('dashboard.vp');
+    if (role === 'geo-head') return route('dashboard.geo-head');
+    if (role === 'team-leader') return route('dashboard.team-leader');
+    if (role === 'executive') return route('dashboard.executive');
+    return route('dashboard');
+});
+
 // Sidebar Configuration based on Ratna Sagar requirements
-const navigation = [
-    { name: 'Overview', href: route('dashboard.team-leader'), icon: LayoutDashboard, current: true },
+const navigation = computed(() => [
+    { name: 'Overview', href: dashboardRoute.value, icon: LayoutDashboard, current: true },
     
     // Group: Team Management
     { 
@@ -123,17 +135,31 @@ const navigation = [
             { name: 'My Profile', href: route('my-profile'), icon: User },
         ]
     },
-];
+]);
 
 const toggleSidebar = () => (sidebarOpen.value = !sidebarOpen.value);
 const page = usePage();
 const userName = computed(() => page.props.auth.user.name);
 const isActive = (href) => {
     if (href === '#') return false; 
-    return route().current('dashboard.team-leader') && href === route('dashboard.team-leader');
+    try {
+        const url = new URL(href);
+        return page.url === url.pathname || page.url.startsWith(url.pathname);
+    } catch (e) {
+        return false;
+    }
 };
 
 const currentDate = new Date().toLocaleDateString('en-IN', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
+
+const consoleLabel = computed(() => {
+    if (route().current('dashboard.executive')) return 'Executive Console';
+    if (route().current('dashboard.team-leader')) return 'Team Leader Console';
+    if (route().current('dashboard.geo-head')) return 'Geo Head Console';
+    if (route().current('dashboard.vp')) return 'VP Console';
+    if (route().current('dashboard.admin')) return 'Admin Console';
+    return 'Ratna Sagar Console';
+});
 </script>
 
 <template>
@@ -237,7 +263,7 @@ const currentDate = new Date().toLocaleDateString('en-IN', { weekday: 'long', ye
                      <!-- Context Badge -->
                     <div class="hidden md:flex items-center gap-2 px-3 py-1 bg-slate-50 rounded-full border border-slate-200">
                         <div class="w-2 h-2 rounded-full bg-brand-500 animate-pulse"></div>
-                        <span class="text-[11px] font-bold text-slate-500 uppercase tracking-widest">Team Leader Console</span>
+                        <span class="text-[11px] font-bold text-slate-500 uppercase tracking-widest">{{ consoleLabel }}</span>
                     </div>
                 </div>
 
