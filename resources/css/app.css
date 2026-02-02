@@ -1,5 +1,29 @@
-@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@100..900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap');
 
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+/* Global Rupee Symbol Styling */
+/* Render rupee symbols in a distinctive serif font for better visual appearance */
+.rupee-symbol {
+    font-family: Georgia, 'Noto Sans Devanagari', serif !important;
+    font-weight: 600;
+    letter-spacing: -0.5px;
+}
+
+/* Fade Transition for Modal */
+.fade-enter-active,
+.fade-leave-active {
+    transition: opacity 0.3s ease;
+}
+
+.fade-enter-from,
+.fade-leave-to {
+    opacity: 0;
+}
+
+.fade-enter-to,
+.fade-leave-from {
+    opacity: 1;
+}

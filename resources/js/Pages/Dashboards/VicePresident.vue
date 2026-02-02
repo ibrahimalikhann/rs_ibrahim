@@ -44,6 +44,12 @@ import { GridComponent, TooltipComponent, LegendComponent, VisualMapComponent, G
 
 use([CanvasRenderer, BarChart, LineChart, EPieChart, MapChart, ScatterChart, GridComponent, TooltipComponent, LegendComponent, VisualMapComponent, GeoComponent, DataZoomComponent]);
 
+// Helper function to wrap rupee symbols with CSS class for font styling
+const formatRupee = (text) => {
+    if (!text) return text;
+    return String(text).replace(/₹/g, '<span class="rupee-symbol">₹</span>');
+};
+
 // ----------------------------------------------------------------------
 // DATA & STATE
 // ----------------------------------------------------------------------
@@ -75,12 +81,12 @@ const corporateData = {
 
 // 2. STRATEGIC KPI CARDS
 const kpis = [
-    { id: 'revenue', label: 'Total Revenue', value: '₹ 145.2 Cr', change: '+14%', sub: 'vs last year', trend: 'up', icon: DollarSign, color: 'border-blue-500', bg: 'bg-blue-50', text: 'text-blue-700' },
-    { id: 'orders', label: 'Total Orders', value: '12,450', change: '+8%', sub: 'vs last year', trend: 'up', icon: ShoppingCart, color: 'border-purple-500', bg: 'bg-purple-50', text: 'text-purple-700' },
-    { id: 'schools', label: 'Active Schools', value: '2,800', change: '+3%', sub: 'growing base', trend: 'up', icon: School, color: 'border-orange-500', bg: 'bg-orange-50', text: 'text-orange-700' },
-    { id: 'conversion', label: 'Conversion', value: '64%', change: '-1.2%', sub: 'slight dip', trend: 'down', icon: Percent, color: 'border-indigo-500', bg: 'bg-indigo-50', text: 'text-indigo-700' },
-    { id: 'returns', label: 'Returns Value', value: '₹ 5.8 Cr', change: '4.0%', sub: 'of revenue', trend: 'up', isBad: true, icon: AlertCircle, color: 'border-red-500', bg: 'bg-red-50', text: 'text-red-700' },
-    { id: 'receivables', label: 'Receivables', value: '₹ 12.5 Cr', change: '-2%', sub: 'outstanding', trend: 'down', isGood: true, icon: Activity, color: 'border-emerald-500', bg: 'bg-emerald-50', text: 'text-emerald-700' },
+    { id: 'revenue', label: 'Total Revenue', value: '₹ 145.2 Cr', change: '+14%', sub: 'vs last year', trend: 'up', icon: DollarSign, color: 'border-[#015276]', bg: 'bg-[#FFEEDE]', text: 'text-[#AC0C13]' },
+    { id: 'orders', label: 'Total Orders', value: '12,450', change: '+8%', sub: 'vs last year', trend: 'up', icon: ShoppingCart, color: 'border-[#F37B15]', bg: 'bg-[#FFEEDE]', text: 'text-[#AC0C13]' },
+    { id: 'schools', label: 'Active Schools', value: '2,800', change: '+3%', sub: 'growing base', trend: 'up', icon: School, color: 'border-[#015276]', bg: 'bg-[#FFEEDE]', text: 'text-[#AC0C13]' },
+    { id: 'conversion', label: 'Conversion', value: '64%', change: '-1.2%', sub: 'slight dip', trend: 'down', icon: Percent, color: 'border-[#F37B15]', bg: 'bg-[#FFEEDE]', text: 'text-[#AC0C13]' },
+    { id: 'returns', label: 'Returns Value', value: '₹ 5.8 Cr', change: '4.0%', sub: 'of revenue', trend: 'up', isBad: true, icon: AlertCircle, color: 'border-[#AC0C13]', bg: 'bg-[#FFEEDE]', text: 'text-[#AC0C13]' },
+    { id: 'receivables', label: 'Receivables', value: '₹ 12.5 Cr', change: '-2%', sub: 'outstanding', trend: 'down', isGood: true, icon: Activity, color: 'border-[#015276]', bg: 'bg-[#FFEEDE]', text: 'text-[#AC0C13]' },
 ];
 
 // 4. PERFORMANCE HIERARCHY DATA
@@ -298,13 +304,15 @@ const deepDiveTrendOption = computed(() => ({
             <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
                  <button v-for="(kpi, idx) in kpis" :key="idx" 
                      @click="openAnalysisDrawer(kpi)"
-                     class="group bg-white rounded-xl p-5 border border-slate-200 shadow-sm hover:shadow-lg hover:-translate-y-1 transition-all duration-300 cursor-pointer relative overflow-hidden text-left focus:outline-none focus:ring-2 focus:ring-brand-500 focus:ring-offset-2">
-                    <div :class="['absolute top-0 left-0 w-1 h-full transition-colors', kpi.text.replace('text-', 'bg-')]"></div>
+                     class="group bg-[#FFFAF7] rounded-xl p-5 border border-slate-100 shadow-sm hover:shadow-lg hover:-translate-y-1 transition-all duration-300 cursor-pointer relative overflow-hidden text-left focus:outline-none focus:ring-2 focus:ring-[#015276] focus:ring-offset-2">
+                    <div :class="['absolute top-0 left-0 w-1 h-full transition-colors', kpi.color.replace('border-', 'bg-')]"></div>
                     <div class="flex justify-between items-start mb-2">
-                        <p class="text-[10px] font-bold text-slate-500 uppercase tracking-widest">{{ kpi.label }}</p>
-                        <component :is="kpi.icon" :class="['w-4 h-4 opacity-70 group-hover:scale-110 transition-transform', kpi.text]" />
+                        <p class="text-[10px] font-bold text-slate-400 uppercase tracking-widest">{{ kpi.label }}</p>
+                        <div :class="['p-1.5 rounded-lg', kpi.bg]">
+                            <component :is="kpi.icon" :class="['w-4 h-4 group-hover:scale-110 transition-transform', kpi.text]" />
+                        </div>
                     </div>
-                    <p class="text-2xl font-bold text-slate-800 tracking-tight">{{ kpi.value }}</p>
+                    <p class="text-2xl font-bold text-[#015276] tracking-tight" v-html="formatRupee(kpi.value)"></p>
                     <div class="flex items-center gap-1 mt-2 text-[11px] font-bold">
                         <span :class="[(kpi.trend === 'up' && !kpi.isBad) || (kpi.trend === 'down' && kpi.isGood) ? 'text-emerald-600' : 'text-red-600']">{{ kpi.change }}</span>
                         <component :is="kpi.trend === 'up' ? TrendingUp : TrendingDown" :class="['w-3 h-3', (kpi.trend === 'up' && !kpi.isBad) ? 'text-emerald-600' : 'text-red-600']" />
@@ -401,7 +409,7 @@ const deepDiveTrendOption = computed(() => ({
                     </div>
 
                     <!-- 5) INTELLIGENCE CHARTS & 8) PIPELINE -->
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div class="grid grid-cols-1 gap-6">
                         <!-- Revenue Trend -->
                         <div class="bg-white rounded-xl border border-slate-200 shadow-sm p-6">
                             <div class="flex justify-between items-center mb-6">
@@ -414,38 +422,38 @@ const deepDiveTrendOption = computed(() => ({
                                 <v-chart class="h-full w-full" :option="revenueTrendOption" autoresize />
                             </div>
                         </div>
-                        
-                        <!-- Pipeline View -->
-                        <div class="bg-white rounded-xl border border-slate-200 shadow-sm p-6 flex flex-col">
-                             <h4 class="font-bold text-slate-800 text-xs uppercase tracking-widest flex items-center gap-2 mb-6">
-                                <Briefcase class="w-4 h-4 text-slate-400" /> Strategic Pipeline
-                            </h4>
-                            <div class="flex-1 flex flex-col justify-center space-y-3">
-                                <div v-for="(stage, i) in pipelineStages" :key="i" class="relative group">
-                                    <div :class="['flex items-center justify-between px-4 py-2.5 rounded-lg border border-transparent transition-all', stage.color, stage.alert ? 'ring-2 ring-red-200' : '']">
-                                        <span class="text-xs font-bold uppercase tracking-wide w-24">{{ stage.label }}</span>
-                                        <span :class="['font-bold text-sm', stage.text]">{{ stage.value }}</span>
-                                        <span v-if="stage.drop" class="text-[10px] font-bold text-slate-400">{{ stage.drop }}</span>
-                                    </div>
-                                    <div v-if="i < pipelineStages.length-1" class="h-2 w-0.5 bg-slate-300 mx-auto"></div>
-                                    <!-- Tooltip for dropoff -->
-                                    <div v-if="stage.alert" class="absolute -right-2 top-0 translate-x-full bg-red-600 text-white text-[10px] py-1 px-2 rounded opacity-0 group-hover:opacity-100 transition-opacity w-24 text-center z-10">
-                                        High Drop-off! Needs Review.
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="mt-4 pt-4 border-t border-slate-100 flex justify-between items-center">
-                                <span class="text-xs font-bold text-slate-500">Forecasted Revenue</span>
-                                <span class="text-sm font-bold text-slate-800">₹ 42.5 Cr</span>
-                            </div>
-                        </div>
                     </div>
                 </div>
 
                 <!-- RIGHT COL (1/3) -->
                 <div class="xl:col-span-1 space-y-8">
                     
-                    <!-- 6) STRATEGIC INSIGHTS -->
+                    <!-- 6) STRATEGIC PIPELINE -->
+                    <div class="bg-white rounded-xl border border-slate-200 shadow-sm p-6 flex flex-col">
+                         <h4 class="font-bold text-slate-800 text-xs uppercase tracking-widest flex items-center gap-2 mb-6">
+                            <Briefcase class="w-4 h-4 text-brand-600" /> Strategic Pipeline
+                        </h4>
+                        <div class="flex-1 flex flex-col justify-center space-y-3">
+                            <div v-for="(stage, i) in pipelineStages" :key="i" class="relative group">
+                                <div :class="['flex items-center justify-between px-4 py-2.5 rounded-lg border border-transparent transition-all', stage.color, stage.alert ? 'ring-2 ring-red-200' : '']">
+                                    <span class="text-xs font-bold uppercase tracking-wide w-24">{{ stage.label }}</span>
+                                    <span :class="['font-bold text-sm', stage.text]">{{ stage.value }}</span>
+                                    <span v-if="stage.drop" class="text-[10px] font-bold text-slate-400">{{ stage.drop }}</span>
+                                </div>
+                                <div v-if="i < pipelineStages.length-1" class="h-2 w-0.5 bg-slate-300 mx-auto"></div>
+                                <!-- Tooltip for dropoff -->
+                                <div v-if="stage.alert" class="absolute -right-2 top-0 translate-x-full bg-red-600 text-white text-[10px] py-1 px-2 rounded opacity-0 group-hover:opacity-100 transition-opacity w-24 text-center z-10">
+                                    High Drop-off! Needs Review.
+                                </div>
+                            </div>
+                        </div>
+                        <div class="mt-4 pt-4 border-t border-slate-100 flex justify-between items-center">
+                            <span class="text-xs font-bold text-slate-500">Forecasted Revenue</span>
+                            <span class="text-sm font-bold text-slate-800">₹ 42.5 Cr</span>
+                        </div>
+                    </div>
+
+                    <!-- 7) STRATEGIC INSIGHTS -->
                     <div class="bg-white rounded-xl border border-slate-200 shadow-sm overflow-hidden">
                         <div class="p-5 border-b border-slate-100 bg-slate-50 flex items-center justify-between">
                              <h3 class="font-bold text-slate-800 flex items-center gap-2 text-xs uppercase tracking-widest">
@@ -469,7 +477,7 @@ const deepDiveTrendOption = computed(() => ({
                         </div>
                     </div>
 
-                    <!-- 7) FINANCIAL RISK -->
+                    <!-- 8) FINANCIAL RISK -->
                     <div class="bg-white rounded-xl border border-slate-200 shadow-sm p-6">
                         <h3 class="font-bold text-slate-800 mb-6 flex items-center gap-2 text-xs uppercase tracking-widest">
                             <ShieldAlert class="w-4 h-4 text-slate-400" /> Governance & Risk

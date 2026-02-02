@@ -31,4 +31,9 @@ class DashboardController extends Controller
     {
         return Inertia::render('Dashboards/Admin');
     }
+
+    public function hr()
+    {
+        return Inertia::render('Dashboards/HR');
+    }
 }

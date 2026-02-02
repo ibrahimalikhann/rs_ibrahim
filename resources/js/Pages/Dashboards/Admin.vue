@@ -25,6 +25,7 @@ import {
     ChevronUp,
     Download,
     Eye,
+    EyeOff,
     Landmark,
     Search,
     CreditCard,
@@ -32,7 +33,9 @@ import {
     ArrowUpRight,
     ArrowDownRight,
     X,
-    Maximize2
+    Maximize2,
+    Flag,
+    Send
 } from 'lucide-vue-next';
 
 // ECharts Imports
@@ -44,7 +47,129 @@ import { GridComponent, TooltipComponent, LegendComponent, DataZoomComponent, Ti
 
 use([CanvasRenderer, LineChart, BarChart, EPieChart, TreemapChart, GaugeChart, SankeyChart, GridComponent, TooltipComponent, LegendComponent, DataZoomComponent, TitleComponent]);
 
-// ----------------------------------------------------------------------
+// Helper function to wrap rupee symbols with CSS class for font styling
+const formatRupee = (text) => {
+    if (!text) return text;
+    return String(text).replace(/₹/g, '<span class="rupee-symbol">₹</span>');
+};
+
+// Computed property to format all KPI values with rupee styling
+const formattedKpis = computed(() => {
+    return kpis.map(kpi => ({
+        ...kpi,
+        valueHtml: formatRupee(kpi.value)
+    }));
+});
+
+// Financial Unlock State
+const isFinancialsUnlocked = ref(false);
+const showUnlockModal = ref(false);
+const otpInput = ref('');
+const otpError = ref('');
+const correctOTP = '123456'; // Fake OTP
+
+const openUnlockModal = () => {
+    showUnlockModal.value = true;
+    otpInput.value = '';
+    otpError.value = '';
+};
+
+const closeUnlockModal = () => {
+    showUnlockModal.value = false;
+    otpInput.value = '';
+    otpError.value = '';
+};
+
+const submitOTP = () => {
+    if (otpInput.value.trim() === correctOTP) {
+        isFinancialsUnlocked.value = true;
+        otpError.value = '';
+        closeUnlockModal();
+    } else {
+        otpError.value = 'Invalid OTP. Please try again.';
+    }
+};
+
+// Helper function to mask financial values with dots
+const maskFinancial = (value) => {
+    if (isFinancialsUnlocked.value) return value;
+    // Return dots matching the length
+    const numStr = String(value).replace(/[^0-9]/g, '');
+    return '••••••';
+};
+
+// Helper function to display masked or real values
+const displayFinancial = (value) => {
+    if (isFinancialsUnlocked.value) return formatRupee(value);
+    return '<span class="tracking-widest font-bold">•••••••</span>';
+};
+
+// Critical Issue Reporting State
+const showCriticalIssueModal = ref(false);
+const issueForm = ref({
+    issueTitle: '',
+    issueCategory: 'Technical',
+    severity: 'High',
+    description: '',
+    affectedModules: []
+});
+const isSubmittingIssue = ref(false);
+const issueSubmitMessage = ref('');
+
+const openCriticalIssueModal = () => {
+    showCriticalIssueModal.value = true;
+    issueForm.value = {
+        issueTitle: '',
+        issueCategory: 'Technical',
+        severity: 'High',
+        description: '',
+        affectedModules: []
+    };
+    issueSubmitMessage.value = '';
+};
+
+const closeCriticalIssueModal = () => {
+    showCriticalIssueModal.value = false;
+    issueForm.value = {
+        issueTitle: '',
+        issueCategory: 'Technical',
+        severity: 'High',
+        description: '',
+        affectedModules: []
+    };
+};
+
+const submitCriticalIssue = async () => {
+    if (!issueForm.value.issueTitle.trim() || !issueForm.value.description.trim()) {
+        issueSubmitMessage.value = 'Please fill in all required fields.';
+        return;
+    }
+
+    isSubmittingIssue.value = true;
+    
+    try {
+        const formData = {
+            ...issueForm.value,
+            timestamp: new Date().toISOString(),
+            reportedBy: 'Admin User'
+        };
+        
+        console.log('Critical Issue Reported:', formData);
+        await new Promise(resolve => setTimeout(resolve, 1500));
+        
+        issueSubmitMessage.value = '✓ Issue reported successfully to IT Department!';
+        setTimeout(() => {
+            closeCriticalIssueModal();
+        }, 2000);
+    } catch (error) {
+        issueSubmitMessage.value = 'Error submitting issue. Please try again.';
+        console.error('Issue submission error:', error);
+    } finally {
+        isSubmittingIssue.value = false;
+    }
+};
+
+// -----------------------------------------------------------------------------
 // DATA & STATE
 // ----------------------------------------------------------------------
 
@@ -142,22 +267,22 @@ const sankeyOption = {
         emphasis: { focus: 'adjacency' },
         data: [
             { name: 'Revenue', itemStyle: { color: '#ea580c' } },
-            { name: 'Marketing', itemStyle: { color: '#64748b' } },
+            { name: 'Net Profit', itemStyle: { color: '#16a34a' } }, // Green - Now First
             { name: 'Production', itemStyle: { color: '#64748b' } },
+            { name: 'Salaries', itemStyle: { color: '#64748b' } },
+            { name: 'Marketing', itemStyle: { color: '#64748b' } },
             { name: 'Discounts', itemStyle: { color: '#64748b' } },
             { name: 'Logistics', itemStyle: { color: '#64748b' } },
-            { name: 'Salaries', itemStyle: { color: '#64748b' } },
             { name: 'Ops/Admin', itemStyle: { color: '#64748b' } },
-            { name: 'Net Profit', itemStyle: { color: '#16a34a' } }, // Green
         ],
         links: [
-            { source: 'Revenue', target: 'Marketing', value: 18.5 },
+            { source: 'Revenue', target: 'Net Profit', value: 24.5 },
             { source: 'Revenue', target: 'Production', value: 42.0 },
+            { source: 'Revenue', target: 'Salaries', value: 25.0 },
+            { source: 'Revenue', target: 'Marketing', value: 18.5 },
             { source: 'Revenue', target: 'Discounts', value: 15.2 },
             { source: 'Revenue', target: 'Logistics', value: 12.0 },
-            { source: 'Revenue', target: 'Salaries', value: 25.0 },
             { source: 'Revenue', target: 'Ops/Admin', value: 8.0 },
-            { source: 'Revenue', target: 'Net Profit', value: 24.5 },
         ],
         lineStyle: { color: 'gradient', curveness: 0.5 },
         label: { color: '#334155', fontWeight: 'bold' }
@@ -183,12 +308,12 @@ const expensePieOption = {
             label: { show: false },
             emphasis: { label: { show: true, fontSize: 12, fontWeight: 'bold' } },
             data: [
-                { value: 42.0, name: 'Production', itemStyle: { color: '#334155' } },
-                { value: 25.0, name: 'Salaries', itemStyle: { color: '#475569' } },
-                { value: 18.5, name: 'Marketing', itemStyle: { color: '#64748b' } },
-                { value: 15.2, name: 'Discounts', itemStyle: { color: '#94a3b8' } },
-                { value: 12.0, name: 'Logistics', itemStyle: { color: '#cbd5e1' } },
-                { value: 8.0, name: 'Ops/Admin', itemStyle: { color: '#e2e8f0' } }
+                { value: 42.0, name: 'Production', itemStyle: { color: '#3B82F6' } },
+                { value: 25.0, name: 'Salaries', itemStyle: { color: '#10B981' } },
+                { value: 18.5, name: 'Marketing', itemStyle: { color: '#F59E0B' } },
+                { value: 15.2, name: 'Discounts', itemStyle: { color: '#EF4444' } },
+                { value: 12.0, name: 'Logistics', itemStyle: { color: '#8B5CF6' } },
+                { value: 8.0, name: 'Operations', itemStyle: { color: '#EC4899' } }
             ]
         }
     ]
@@ -271,7 +396,8 @@ const closeDrawer = () => {
                     <div class="lg:col-span-6 flex justify-around items-center px-4">
                         <div class="text-center">
                             <p class="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-1">Revenue</p>
-                            <p class="text-4xl font-bold font-mono tracking-tight">{{ companyData.revenue }}</p>
+                            <p v-if="isFinancialsUnlocked" class="text-4xl font-bold font-mono tracking-tight" v-html="formatRupee(companyData.revenue)"></p>
+                            <p v-else class="text-4xl font-bold font-mono tracking-widest text-white/40">•••••••</p>
                             <span class="text-xs font-bold text-emerald-400 flex items-center justify-center gap-1">{{ companyData.growth }} YoY</span>
                         </div>
                         <div class="h-10 w-px bg-white/10"></div>
@@ -294,10 +420,27 @@ const closeDrawer = () => {
 
                     <!-- Meta -->
                     <div class="lg:col-span-3 flex flex-col items-end border-l border-white/10 pl-6 space-y-2">
-                        <div class="flex items-center gap-2 text-xs font-medium text-slate-400">
-                            <RefreshCw class="w-3.5 h-3.5 animate-spin-slow" />
-                            Synced: {{ companyData.lastSync }}
+                        <div class="flex items-center gap-2">
+                            <div class="flex items-center gap-2 text-xs font-medium text-slate-400">
+                                <RefreshCw class="w-3.5 h-3.5 animate-spin-slow" />
+                                Synced: {{ companyData.lastSync }}
+                            </div>
+                            <button 
+                                @click="openCriticalIssueModal"
+                                class="ml-4 p-2 hover:bg-red-600/30 rounded-lg text-red-400 hover:text-red-300 transition-all hover:scale-110 transform"
+                                title="Flag Critical Issue">
+                                <Flag class="w-5 h-5" />
+                            </button>
                         </div>
+                        <button 
+                            v-if="!isFinancialsUnlocked"
+                            @click="openUnlockModal"
+                            class="bg-amber-600 hover:bg-amber-500 text-white text-xs font-bold px-4 py-2 rounded-md shadow-lg transition-all flex items-center gap-2">
+                            <Lock class="w-3.5 h-3.5" /> Unlock Revenues & Financials
+                        </button>
+                        <button v-else class="bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-bold px-4 py-2 rounded-md shadow-lg transition-all flex items-center gap-2">
+                            <Eye class="w-3.5 h-3.5" /> Financials Unlocked
+                        </button>
                         <button class="bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-bold px-4 py-2 rounded-md shadow-lg transition-all flex items-center gap-2">
                             <Lock class="w-3.5 h-3.5" /> Emergency Access
                         </button>
@@ -311,13 +454,14 @@ const closeDrawer = () => {
                 <div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-7 gap-4">
                     <button v-for="(kpi, idx) in kpis" :key="idx" 
                             @click="openDrawer(kpi)"
-                            :class="['group relative bg-white p-4 rounded-xl border shadow-sm hover:shadow-lg hover:-translate-y-0.5 transition-all text-left overflow-hidden', kpi.color.split(' ')[2]]">
+                            :class="['group relative bg-[#FFFAF7] p-4 rounded-xl border border-slate-100 shadow-sm hover:shadow-lg hover:-translate-y-0.5 transition-all text-left overflow-hidden']">
                         <div :class="['absolute top-0 left-0 w-1 h-full', kpi.color.split(' ')[0].replace('text-', 'bg-')]"></div>
                         <div class="flex justify-between items-start mb-2 opacity-80">
                             <component :is="kpi.icon" :class="['w-4 h-4', kpi.color.split(' ')[0]]" />
                         </div>
-                        <p class="text-xs font-bold text-slate-500 uppercase tracking-wider mb-0.5">{{ kpi.label }}</p>
-                        <p class="text-xl font-bold text-slate-900 tracking-tight">{{ kpi.value }}</p>
+                        <p class="text-xs font-bold text-slate-400 uppercase tracking-wider mb-0.5">{{ kpi.label }}</p>
+                        <p v-if="isFinancialsUnlocked" class="text-xl font-bold text-[#015276] tracking-tight" v-html="formatRupee(kpi.value)"></p>
+                        <p v-else class="text-xl font-bold text-slate-400 tracking-widest">•••••••</p>
                         <div class="flex items-center gap-1 mt-1.5 text-[10px] font-bold">
                              <component :is="kpi.trend === 'up' ? TrendingUp : TrendingDown" :class="['w-3 h-3', (kpi.trend === 'up' && !kpi.isBad) || (kpi.trend === 'down' && kpi.isGood) ? 'text-emerald-600' : 'text-red-600']" />
                             <span :class="[(kpi.trend === 'up' && !kpi.isBad) || (kpi.trend === 'down' && kpi.isGood) ? 'text-emerald-600' : 'text-red-600']">{{ kpi.change }}</span>
@@ -352,7 +496,8 @@ const closeDrawer = () => {
                     <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
                         <div v-for="(item, idx) in financialSummary" :key="idx" class="p-4 rounded-xl border bg-slate-50/50 flex flex-col justify-center">
                             <p class="text-xs font-bold text-slate-400 uppercase tracking-widest mb-1">{{ item.label }}</p>
-                            <p :class="['text-2xl font-bold tracking-tight', item.label === 'Net Profit' || item.label === 'Profit Margin' ? 'text-emerald-700' : 'text-slate-900']">{{ item.value }}</p>
+                            <p v-if="isFinancialsUnlocked" :class="['text-2xl font-bold tracking-tight', item.label === 'Net Profit' || item.label === 'Profit Margin' ? 'text-emerald-700' : 'text-slate-900']" v-html="formatRupee(item.value)"></p>
+                            <p v-else class="text-2xl font-bold tracking-widest text-slate-300">•••••••</p>
                             <div class="flex items-center gap-1 mt-1">
                                 <component :is="item.isPositive ? TrendingUp : TrendingDown" :class="['w-3 h-3', item.isPositive ? 'text-emerald-600' : 'text-slate-500']" />
                                 <span :class="['text-xs font-bold', item.isPositive ? 'text-emerald-600' : 'text-slate-500']">{{ item.change }}</span>
@@ -363,9 +508,13 @@ const closeDrawer = () => {
                     <!-- Row 2: Visuals (Sankey + Insights) -->
                     <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 mb-8">
                         <!-- Sankey Chart -->
-                        <div class="lg:col-span-8 bg-slate-50 rounded-xl border border-slate-100 p-4 h-[400px] relative overflow-hidden group">
+                        <div class="lg:col-span-8 bg-slate-50 rounded-xl border border-slate-100 p-4 min-h-[500px] relative overflow-hidden group">
                             <div class="flex justify-between items-center mb-4 pl-2 border-l-4 border-orange-500">
-                                <h3 class="font-bold text-slate-700 text-xs uppercase">Revenue to Profit Flow (Cr)</h3>
+                                <div>
+                                    <h3 class="font-bold text-slate-700 text-xs uppercase">Revenue to Profit Flow (Cr)</h3>
+                                    <p v-if="isFinancialsUnlocked" class="text-sm font-bold text-emerald-700 mt-1">Net Profit: <span v-html="formatRupee('₹ 24.5 Cr')"></span></p>
+                                    <p v-else class="text-sm font-bold text-slate-400 mt-1 tracking-widest">••••••••••••</p>
+                                </div>
                                 <div class="text-[10px] text-slate-400 italic">Click on 'Revenue' to expand details</div>
                             </div>
                             <!-- Added Click Handler -->
@@ -379,39 +528,45 @@ const closeDrawer = () => {
                         
                         <!-- Expense Breakdown & Insights -->
                         <div class="lg:col-span-4 flex flex-col gap-6">
-                            <div class="bg-white border border-slate-200 rounded-xl p-4 flex-1">
-                                <div class="flex justify-between items-center mb-2">
+                            <div class="bg-white border border-slate-200 rounded-xl p-4">
+                                <div class="flex justify-between items-center mb-3">
                                     <h3 class="font-bold text-slate-700 text-xs uppercase">Expense Distribution</h3>
-                                    <span class="text-[10px] font-bold text-slate-400">Top Categories</span>
+                                    <span class="text-[10px] font-bold text-slate-400">All Categories</span>
                                 </div>
                                 <div class="h-40 w-full">
                                     <v-chart class="h-full w-full" :option="expensePieOption" autoresize />
                                 </div>
-                                <div class="space-y-2 mt-2">
+                                <div class="space-y-2 mt-3">
                                     <div class="flex justify-between text-xs items-center">
-                                        <div class="flex items-center gap-2"><div class="w-2 h-2 rounded-full bg-slate-700"></div> <span class="text-slate-600 font-bold">Production</span></div>
-                                        <span class="font-bold">35%</span>
+                                        <div class="flex items-center gap-2"><div class="w-2 h-2 rounded-full bg-blue-500"></div> <span class="text-slate-600 font-bold">Production</span></div>
+                                        <span v-if="isFinancialsUnlocked" class="font-bold">35%</span>
+                                        <span v-else class="font-bold text-slate-400 tracking-widest">••••</span>
                                     </div>
                                     <div class="flex justify-between text-xs items-center">
-                                        <div class="flex items-center gap-2"><div class="w-2 h-2 rounded-full bg-slate-500"></div> <span class="text-slate-600 font-bold">Salaries</span></div>
-                                        <span class="font-bold">21%</span>
+                                        <div class="flex items-center gap-2"><div class="w-2 h-2 rounded-full bg-green-500"></div> <span class="text-slate-600 font-bold">Salaries</span></div>
+                                        <span v-if="isFinancialsUnlocked" class="font-bold">21%</span>
+                                        <span v-else class="font-bold text-slate-400 tracking-widest">••••</span>
                                     </div>
-                                </div>
-                            </div>
-                            
-                            <!-- AI Insights Box -->
-                            <div class="bg-emerald-50 border border-emerald-100 rounded-xl p-4 flex-1">
-                                <div class="flex items-center gap-2 mb-3">
-                                    <Eye class="w-4 h-4 text-emerald-600" />
-                                    <h3 class="font-bold text-emerald-900 text-xs uppercase">Owner Insights</h3>
-                                </div>
-                                <div class="space-y-3">
-                                    <p class="text-xs font-medium text-emerald-800 leading-snug pb-2 border-b border-emerald-100">
-                                        "Marketing spend increased 6%, but profit margin remains healthy due to 3.1% optimization in logistics."
-                                    </p>
-                                    <p class="text-xs font-medium text-emerald-800 leading-snug">
-                                        "Salary-to-revenue ratio is stable at 21%. Discount contribution is the primary drag on Net Margin."
-                                    </p>
+                                    <div class="flex justify-between text-xs items-center">
+                                        <div class="flex items-center gap-2"><div class="w-2 h-2 rounded-full bg-amber-500"></div> <span class="text-slate-600 font-bold">Marketing</span></div>
+                                        <span v-if="isFinancialsUnlocked" class="font-bold">15%</span>
+                                        <span v-else class="font-bold text-slate-400 tracking-widest">••••</span>
+                                    </div>
+                                    <div class="flex justify-between text-xs items-center">
+                                        <div class="flex items-center gap-2"><div class="w-2 h-2 rounded-full bg-red-500"></div> <span class="text-slate-600 font-bold">Discounts</span></div>
+                                        <span v-if="isFinancialsUnlocked" class="font-bold">13%</span>
+                                        <span v-else class="font-bold text-slate-400 tracking-widest">••••</span>
+                                    </div>
+                                    <div class="flex justify-between text-xs items-center">
+                                        <div class="flex items-center gap-2"><div class="w-2 h-2 rounded-full bg-purple-500"></div> <span class="text-slate-600 font-bold">Logistics</span></div>
+                                        <span v-if="isFinancialsUnlocked" class="font-bold">10%</span>
+                                        <span v-else class="font-bold text-slate-400 tracking-widest">••••</span>
+                                    </div>
+                                    <div class="flex justify-between text-xs items-center">
+                                        <div class="flex items-center gap-2"><div class="w-2 h-2 rounded-full bg-pink-500"></div> <span class="text-slate-600 font-bold">Operations</span></div>
+                                        <span v-if="isFinancialsUnlocked" class="font-bold">6%</span>
+                                        <span v-else class="font-bold text-slate-400 tracking-widest">••••</span>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -429,10 +584,10 @@ const closeDrawer = () => {
                 </div>
 
                 <!-- MAIN CONTENT GRID -->
-                <div class="grid grid-cols-1 xl:grid-cols-3 gap-8">
+                <div class="grid grid-cols-1 xl:grid-cols-3 gap-4">
                     
                     <!-- LEFT COL (2/3) -->
-                    <div class="xl:col-span-2 space-y-8">
+                    <div class="xl:col-span-2 space-y-4">
                         
                         <!-- 3) ORGANIZATIONAL POWER MAP -->
                         <div class="bg-white border border-slate-200 shadow-sm rounded-xl overflow-hidden">
@@ -469,7 +624,10 @@ const closeDrawer = () => {
                                                     <span class="text-[10px] font-bold text-orange-600 bg-orange-100 uppercase px-1.5 py-0.5 rounded">{{ node.role }}</span>
                                                 </div>
                                             </div>
-                                            <div class="w-2/12 text-center font-bold font-mono text-slate-700">{{ node.revenue }}</div>
+                                            <div class="w-2/12 text-center font-bold font-mono text-slate-700">
+                                                <span v-if="isFinancialsUnlocked" v-html="formatRupee(node.revenue)"></span>
+                                                <span v-else class="tracking-widest text-slate-400">•••••••</span>
+                                            </div>
                                             <div class="w-3/12 px-4">
                                                 <div class="flex justify-between text-xs font-bold mb-1">
                                                     <span>{{ node.pct }}%</span>
@@ -497,7 +655,10 @@ const closeDrawer = () => {
                                                             <span class="text-[10px] font-bold text-slate-400 uppercase">{{ geo.role }}</span>
                                                         </div>
                                                     </div>
-                                                    <div class="w-2/12 text-center font-bold font-mono text-sm text-slate-600">{{ geo.revenue }}</div>
+                                                    <div class="w-2/12 text-center font-bold font-mono text-sm text-slate-600">
+                                                        <span v-if="isFinancialsUnlocked" v-html="formatRupee(geo.revenue)"></span>
+                                                        <span v-else class="tracking-widest text-slate-400">•••••••</span>
+                                                    </div>
                                                     <div class="w-3/12 px-4">
                                                         <div class="h-1.5 bg-slate-200 rounded-full overflow-hidden">
                                                             <div :class="['h-full rounded-full', getStatusColor(geo.risk)]" :style="{ width: geo.pct + '%' }"></div>
@@ -515,7 +676,10 @@ const closeDrawer = () => {
                                                               <div class="w-1.5 h-1.5 rounded-full bg-slate-300"></div>
                                                               <span class="font-medium text-slate-600">{{ tl.name }}</span>
                                                           </div>
-                                                           <div class="w-2/12 text-center font-mono text-slate-500">{{ tl.revenue }}</div>
+                                                           <div class="w-2/12 text-center font-mono text-slate-500">
+                                                               <span v-if="isFinancialsUnlocked" v-html="formatRupee(tl.revenue)"></span>
+                                                               <span v-else class="tracking-widest text-slate-400">•••••••</span>
+                                                           </div>
                                                            <div class="w-3/12 px-4">
                                                                <span class="font-bold text-slate-700">{{ tl.pct }}%</span>
                                                            </div>
@@ -554,7 +718,7 @@ const closeDrawer = () => {
                     </div>
 
                     <!-- RIGHT COL (1/3) -->
-                    <div class="xl:col-span-1 space-y-8">
+                    <div class="xl:col-span-1 space-y-4">
                         
                         <!-- 4) STRATEGIC FINANCIAL CONTROL -->
                         <div class="bg-white border border-slate-200 shadow-sm rounded-xl p-6 relative overflow-hidden">
@@ -573,7 +737,8 @@ const closeDrawer = () => {
                                     <div class="flex-1">
                                         <div class="flex justify-between items-center mb-1">
                                             <span class="text-xs font-bold text-slate-600 uppercase">{{ item.label }}</span>
-                                            <span class="text-sm font-bold text-slate-900">{{ item.value }}</span>
+                                            <span v-if="isFinancialsUnlocked" class="text-sm font-bold text-slate-900" v-html="formatRupee(item.value)"></span>
+                                            <span v-else class="text-sm font-bold text-slate-400 tracking-widest">•••••••</span>
                                         </div>
                                         <p class="text-[11px] font-medium text-slate-500 leading-tight">{{ item.desc }}</p>
                                     </div>
@@ -636,10 +801,6 @@ const closeDrawer = () => {
                                 <span class="flex items-center gap-2 text-sm"><FileText class="w-4 h-4 text-slate-400" /> Full Company Audit</span>
                                 <Download class="w-4 h-4" />
                             </button>
-                             <button class="w-full bg-red-600 hover:bg-red-700 text-white p-4 rounded-lg font-bold flex items-center justify-between shadow-lg shadow-red-200 transform transition-transform hover:-translate-y-0.5">
-                                <span class="flex items-center gap-2 text-sm"><AlertOctagon class="w-4 h-4" /> Flag Critical Issue</span>
-                                <ArrowRight class="w-4 h-4" />
-                            </button>
                         </div>
                     </div>
                 </div>
@@ -689,12 +850,12 @@ const closeDrawer = () => {
                          <div class="grid grid-cols-2 gap-6">
                             <div class="p-5 border border-slate-200 rounded-xl">
                                 <h4 class="font-bold text-slate-500 text-xs uppercase mb-2">Highest Peak</h4>
-                                <p class="text-3xl font-bold text-slate-900">₹ 210 Cr</p>
+                                <p class="text-3xl font-bold text-slate-900" v-html="formatRupee('₹ 210 Cr')"></p>
                                 <p class="text-xs text-slate-400 mt-1">FY 2024-25</p>
                             </div>
                             <div class="p-5 border border-slate-200 rounded-xl">
                                 <h4 class="font-bold text-slate-500 text-xs uppercase mb-2">Lowest Point</h4>
-                                <p class="text-3xl font-bold text-slate-900">₹ 45 Cr</p>
+                                <p class="text-3xl font-bold text-slate-900" v-html="formatRupee('₹ 45 Cr')"></p>
                                 <p class="text-xs text-slate-400 mt-1">FY 2016-17</p>
                             </div>
                         </div>
@@ -807,6 +968,181 @@ const closeDrawer = () => {
                              </div>
 
                          </div>
+                    </div>
+                </div>
+            </div>
+        </transition>
+
+        <!-- OTP UNLOCK MODAL -->
+        <transition name="fade">
+            <div v-if="showUnlockModal" class="fixed inset-0 bg-slate-900/50 backdrop-blur-sm flex items-center justify-center z-50">
+                <div class="bg-white rounded-2xl shadow-2xl p-8 max-w-md w-full mx-4 animate-in slide-in-from-bottom-5">
+                    <!-- Header -->
+                    <div class="flex items-center justify-between mb-6">
+                        <div class="flex items-center gap-3">
+                            <div class="p-3 bg-amber-100 rounded-full">
+                                <Lock class="w-6 h-6 text-amber-600" />
+                            </div>
+                            <div>
+                                <h3 class="text-xl font-bold text-slate-900">Unlock Financials</h3>
+                                <p class="text-xs text-slate-500">Enter OTP to view revenues</p>
+                            </div>
+                        </div>
+                        <button @click="closeUnlockModal" class="p-1.5 hover:bg-slate-100 rounded-lg text-slate-400 hover:text-slate-600 transition-colors">
+                            <X class="w-5 h-5" />
+                        </button>
+                    </div>
+
+                    <!-- OTP Display -->
+                    <div class="bg-slate-50 p-4 rounded-lg mb-6 border border-slate-200">
+                        <p class="text-xs font-bold text-slate-500 uppercase tracking-widest mb-2">Your OTP</p>
+                        <p class="text-2xl font-mono font-bold text-slate-900 select-all">{{ correctOTP }}</p>
+                        <p class="text-[10px] text-slate-400 mt-2">OTP displayed for reference (in real scenario, sent via SMS/Email)</p>
+                    </div>
+
+                    <!-- OTP Input -->
+                    <div class="mb-6">
+                        <label class="block text-sm font-bold text-slate-700 mb-2">Enter OTP</label>
+                        <input 
+                            v-model="otpInput"
+                            type="text"
+                            placeholder="000000"
+                            maxlength="6"
+                            class="w-full px-4 py-3 border-2 border-slate-200 rounded-lg focus:border-amber-500 focus:ring-2 focus:ring-amber-200 outline-none transition-all font-mono text-lg font-bold tracking-widest text-center"
+                            @keyup.enter="submitOTP"
+                        />
+                        <p v-if="otpError" class="text-sm font-bold text-red-600 mt-2">{{ otpError }}</p>
+                    </div>
+
+                    <!-- Action Buttons -->
+                    <div class="flex gap-3">
+                        <button 
+                            @click="closeUnlockModal"
+                            class="flex-1 px-4 py-2.5 border-2 border-slate-200 text-slate-700 font-bold rounded-lg hover:bg-slate-50 transition-colors">
+                            Cancel
+                        </button>
+                        <button 
+                            @click="submitOTP"
+                            class="flex-1 px-4 py-2.5 bg-amber-600 hover:bg-amber-500 text-white font-bold rounded-lg shadow-lg transition-all hover:shadow-xl">
+                            Proceed
+                        </button>
+                    </div>
+
+                    <!-- Info -->
+                    <p class="text-[11px] text-slate-500 text-center mt-4">
+                        This will unlock all financial and revenue data on the dashboard.
+                    </p>
+                </div>
+            </div>
+        </transition>
+
+        <!-- Critical Issue Reporting Modal -->
+        <transition 
+            enter-active-class="transition ease-out duration-300"
+            enter-from-class="opacity-0 scale-95"
+            enter-to-class="opacity-100 scale-100"
+            leave-active-class="transition ease-in duration-200"
+            leave-from-class="opacity-100 scale-100"
+            leave-to-class="opacity-0 scale-95">
+            <div v-if="showCriticalIssueModal" class="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
+                <div class="bg-slate-800 rounded-lg shadow-2xl max-w-md w-full border border-red-900/30">
+                    <!-- Header -->
+                    <div class="bg-gradient-to-r from-red-600 to-red-700 px-6 py-4 flex items-center justify-between">
+                        <div class="flex items-center gap-3">
+                            <Flag class="w-5 h-5 text-red-100" />
+                            <h2 class="text-lg font-bold text-white">Report Critical Issue</h2>
+                        </div>
+                        <button 
+                            @click="closeCriticalIssueModal"
+                            class="text-red-100 hover:text-white transition-colors">
+                            ✕
+                        </button>
+                    </div>
+
+                    <!-- Form -->
+                    <div class="p-6 space-y-4">
+                        <!-- Issue Title -->
+                        <div>
+                            <label class="block text-xs font-bold text-slate-300 mb-2">Issue Title *</label>
+                            <input 
+                                v-model="issueForm.issueTitle"
+                                type="text"
+                                placeholder="e.g., Revenue calculations incorrect"
+                                class="w-full bg-slate-700 text-white px-3 py-2 rounded-lg border border-slate-600 focus:border-red-500 focus:outline-none text-sm placeholder-slate-500 transition-colors" />
+                        </div>
+
+                        <!-- Category & Severity Row -->
+                        <div class="grid grid-cols-2 gap-3">
+                            <div>
+                                <label class="block text-xs font-bold text-slate-300 mb-2">Category</label>
+                                <select 
+                                    v-model="issueForm.issueCategory"
+                                    class="w-full bg-slate-700 text-white px-3 py-2 rounded-lg border border-slate-600 focus:border-red-500 focus:outline-none text-sm transition-colors">
+                                    <option value="Technical">Technical</option>
+                                    <option value="Security">Security</option>
+                                    <option value="Data">Data</option>
+                                    <option value="Performance">Performance</option>
+                                    <option value="Other">Other</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label class="block text-xs font-bold text-slate-300 mb-2">Severity</label>
+                                <select 
+                                    v-model="issueForm.severity"
+                                    class="w-full bg-slate-700 text-white px-3 py-2 rounded-lg border border-slate-600 focus:border-red-500 focus:outline-none text-sm transition-colors">
+                                    <option value="Critical">Critical</option>
+                                    <option value="High">High</option>
+                                    <option value="Medium">Medium</option>
+                                    <option value="Low">Low</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <!-- Description -->
+                        <div>
+                            <label class="block text-xs font-bold text-slate-300 mb-2">Description *</label>
+                            <textarea 
+                                v-model="issueForm.description"
+                                placeholder="Provide detailed information about the issue..."
+                                rows="3"
+                                class="w-full bg-slate-700 text-white px-3 py-2 rounded-lg border border-slate-600 focus:border-red-500 focus:outline-none text-sm placeholder-slate-500 transition-colors resize-none"></textarea>
+                        </div>
+
+                        <!-- Affected Modules -->
+                        <div>
+                            <label class="block text-xs font-bold text-slate-300 mb-2">Affected Modules</label>
+                            <div class="space-y-2">
+                                <label v-for="module in ['Revenue', 'Financials', 'Performance', 'Organization', 'Other']" :key="module" class="flex items-center gap-2 cursor-pointer">
+                                    <input 
+                                        type="checkbox"
+                                        :value="module"
+                                        v-model="issueForm.affectedModules"
+                                        class="w-4 h-4 bg-slate-700 border-slate-600 rounded accent-red-600" />
+                                    <span class="text-xs text-slate-300">{{ module }}</span>
+                                </label>
+                            </div>
+                        </div>
+
+                        <!-- Status Message -->
+                        <div v-if="issueSubmitMessage" class="p-3 bg-emerald-900/40 border border-emerald-600/50 rounded-lg text-xs text-emerald-200">
+                            {{ issueSubmitMessage }}
+                        </div>
+                    </div>
+
+                    <!-- Footer -->
+                    <div class="bg-slate-700/50 px-6 py-4 flex gap-3 border-t border-slate-700">
+                        <button 
+                            @click="closeCriticalIssueModal"
+                            class="flex-1 px-4 py-2 bg-slate-600 hover:bg-slate-500 text-white font-bold rounded-lg transition-all">
+                            Cancel
+                        </button>
+                        <button 
+                            @click="submitCriticalIssue"
+                            :disabled="isSubmittingIssue || !issueForm.issueTitle || !issueForm.description"
+                            class="flex-1 px-4 py-2 bg-red-600 hover:bg-red-500 disabled:bg-red-600/50 disabled:cursor-not-allowed text-white font-bold rounded-lg shadow-lg transition-all flex items-center justify-center gap-2">
+                            <Send class="w-4 h-4" />
+                            {{ isSubmittingIssue ? 'Reporting...' : 'Report to IT' }}
+                        </button>
                     </div>
                 </div>
             </div>

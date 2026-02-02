@@ -17,15 +17,23 @@ class DatabaseSeeder extends Seeder
     {
         // Admin
         User::factory()->create([
-            'name' => 'System Admin',
+            'name' => 'Suresh Kumar',
             'email' => 'admin@ratnasagar.com',
             'password' => bcrypt('password'),
             'role' => 'admin',
         ]);
 
+        // HR Manager
+        User::factory()->create([
+            'name' => 'Anita Desai',
+            'email' => 'hr@ratnasagar.com',
+            'password' => bcrypt('password'),
+            'role' => 'hr',
+        ]);
+
         // Vice President
         User::factory()->create([
-            'name' => 'Rajesh VP',
+            'name' => 'Rajesh Choudhary',
             'email' => 'vp@ratnasagar.com',
             'password' => bcrypt('password'),
             'role' => 'vp',
@@ -33,7 +41,7 @@ class DatabaseSeeder extends Seeder
 
         // Geo Head
         User::factory()->create([
-            'name' => 'Amit Geo Head',
+            'name' => 'Amit Shah',
             'email' => 'geo@ratnasagar.com',
             'password' => bcrypt('password'),
             'role' => 'geo-head',
@@ -41,7 +49,7 @@ class DatabaseSeeder extends Seeder
 
         // Team Leader
         User::factory()->create([
-            'name' => 'Suresh TL',
+            'name' => 'Suresh Mithun',
             'email' => 'tl@ratnasagar.com',
             'password' => bcrypt('password'),
             'role' => 'team-leader',
@@ -49,7 +57,7 @@ class DatabaseSeeder extends Seeder
 
         // Executive
         User::factory()->create([
-            'name' => 'Rahul Executive',
+            'name' => 'Rahul Sharma',
             'email' => 'exec@ratnasagar.com',
             'password' => bcrypt('password'),
             'role' => 'executive',

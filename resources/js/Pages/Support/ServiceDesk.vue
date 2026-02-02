@@ -19,7 +19,7 @@ const categories = [
     { id: 'it', name: 'IT Support', desc: 'System Issues, Email, Network', icon: Monitor, color: 'text-blue-600', bg: 'bg-blue-50', border: 'border-blue-100' },
     { id: 'admin', name: 'Admin / Facilities', desc: 'ID Card, Office Requests', icon: Building, color: 'text-purple-600', bg: 'bg-purple-50', border: 'border-purple-100' },
     { id: 'finance', name: 'Finance', desc: 'Reimbursements, Expenses', icon: Banknote, color: 'text-emerald-600', bg: 'bg-emerald-50', border: 'border-emerald-100' },
-    { id: 'sales_ops', name: 'Sales Ops', desc: 'Sales Targets, CRM Tools', icon: Briefcase, color: 'text-orange-600', bg: 'bg-orange-50', border: 'border-orange-100' },
+    { id: 'sales_ops', name: 'Sales Operations', desc: 'Sales Targets, CRM Tools', icon: Briefcase, color: 'text-orange-600', bg: 'bg-orange-50', border: 'border-orange-100' },
 ];
 
 // Dummy Tickets
@@ -28,7 +28,7 @@ const tickets = [
     { id: '#1033', department: 'IT Support', subject: 'Outlook Email Access Issue', status: 'In Progress', date: 'Yesterday', priority: 'Medium' },
     { id: '#1011', department: 'Finance', subject: 'March Salary Slip Not Received', status: 'Resolved', date: '16 Apr, 2024', priority: 'Low' },
     { id: '#0998', department: 'Admin', subject: 'New ID Card Request', status: 'Rejected', date: '10 Apr, 2024', priority: 'Low' },
-    { id: '#0942', department: 'Sales Ops', subject: 'CRM Login Failure', status: 'Resolved', date: '05 Apr, 2024', priority: 'High' },
+    { id: '#0942', department: 'Sales Operations', subject: 'CRM Login Failure', status: 'Resolved', date: '05 Apr, 2024', priority: 'High' },
 ];
 
 // Ticket Status Styles

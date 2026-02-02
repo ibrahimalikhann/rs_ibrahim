@@ -33,7 +33,11 @@ import {
     Activity,
     X
 } from 'lucide-vue-next';
-
+// Helper function to wrap rupee symbols with CSS class for font styling
+const formatRupee = (text) => {
+    if (!text) return text;
+    return String(text).replace(/₹/g, '<span class="rupee-symbol">₹</span>');
+};
 // State for View Selection
 const viewMode = ref('self'); // 'self' or 'team'
 
@@ -323,67 +327,67 @@ const teamPerformance = [
 
         <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4 mb-8">
             <!-- KPICard Component Style -->
-            <div class="bg-white dark:bg-slate-800 rounded-lg p-5 shadow-sm border border-slate-200 border-l-4 border-l-emerald-500 hover:shadow-md transition-all cursor-pointer group hover:-translate-y-0.5">
+            <div class="bg-[#FFFAF7] dark:bg-slate-800 rounded-xl p-5 shadow-sm border border-slate-100 border-l-4 border-l-[#015276] hover:shadow-md transition-all cursor-pointer group hover:-translate-y-0.5">
                  <div class="flex justify-between items-start mb-2">
-                     <span class="text-xs font-bold text-slate-500 uppercase tracking-wide">Active Schools</span>
-                     <div class="p-1.5 bg-emerald-50 rounded text-emerald-600">
+                     <span class="text-xs font-bold text-slate-400 uppercase tracking-wide">Active Schools</span>
+                     <div class="p-1.5 bg-[#FFEEDE] rounded text-[#AC0C13]">
                         <School class="w-4 h-4" />
                      </div>
                  </div>
                  <div class="flex items-end gap-2 mt-1">
-                     <h4 class="text-2xl font-extrabold text-slate-900">{{ currentData.activeSchools }}</h4>
+                     <h4 class="text-2xl font-extrabold text-[#015276]">{{ currentData.activeSchools }}</h4>
                      <span class="text-xs font-bold text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded mb-1.5">+12%</span>
                  </div>
             </div>
 
-            <div class="bg-white dark:bg-slate-800 rounded-lg p-5 shadow-sm border border-slate-200 border-l-4 border-l-purple-500 hover:shadow-md transition-all cursor-pointer group hover:-translate-y-0.5">
+            <div class="bg-[#FFFAF7] dark:bg-slate-800 rounded-xl p-5 shadow-sm border border-slate-100 border-l-4 border-l-[#F37B15] hover:shadow-md transition-all cursor-pointer group hover:-translate-y-0.5">
                  <div class="flex justify-between items-start mb-2">
-                     <span class="text-xs font-bold text-slate-500 uppercase tracking-wide">This Month</span>
-                     <div class="p-1.5 bg-purple-50 rounded text-purple-600">
+                     <span class="text-xs font-bold text-slate-400 uppercase tracking-wide">This Month</span>
+                     <div class="p-1.5 bg-[#FFEEDE] rounded text-[#AC0C13]">
                         <Calendar class="w-4 h-4" />
                      </div>
                  </div>
                  <div class="flex items-end gap-2 mt-1">
-                     <h4 class="text-2xl font-extrabold text-slate-900">₹ 2.5L</h4>
-                     <span class="text-xs font-bold text-slate-500 mb-1.5">Target: ₹5.2L</span>
+                     <h4 class="text-2xl font-extrabold text-[#015276]" v-html="formatRupee('₹ 2.5L')"></h4>
+                     <span class="text-xs font-bold text-slate-500 mb-1.5" v-html="`Target: ${formatRupee('₹5.2L')}`"></span>
                  </div>
             </div>
 
-            <div class="bg-white dark:bg-slate-800 rounded-lg p-5 shadow-sm border border-slate-200 border-l-4 border-l-orange-500 hover:shadow-md transition-all cursor-pointer group hover:-translate-y-0.5">
+            <div class="bg-[#FFFAF7] dark:bg-slate-800 rounded-xl p-5 shadow-sm border border-slate-100 border-l-4 border-l-[#F37B15] hover:shadow-md transition-all cursor-pointer group hover:-translate-y-0.5">
                 <div class="flex justify-between items-start mb-2">
-                     <span class="text-xs font-bold text-slate-500 uppercase tracking-wide">Books Sold</span>
-                     <div class="p-1.5 bg-orange-50 rounded text-orange-600">
+                     <span class="text-xs font-bold text-slate-400 uppercase tracking-wide">Books Sold</span>
+                     <div class="p-1.5 bg-[#FFEEDE] rounded text-[#AC0C13]">
                         <Package class="w-4 h-4" />
                      </div>
                  </div>
                  <div class="flex items-end gap-2 mt-1">
-                     <h4 class="text-2xl font-extrabold text-slate-900">{{ (currentData.quantity / 1000).toFixed(1) }}k</h4>
+                     <h4 class="text-2xl font-extrabold text-[#015276]">{{ (currentData.quantity / 1000).toFixed(1) }}k</h4>
                      <span class="text-xs font-bold text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded mb-1.5">+8.2%</span>
                  </div>
             </div>
 
-            <div class="bg-white dark:bg-slate-800 rounded-lg p-5 shadow-sm border border-slate-200 border-l-4 border-l-red-500 hover:shadow-md transition-all cursor-pointer group hover:-translate-y-0.5">
+            <div class="bg-[#FFFAF7] dark:bg-slate-800 rounded-xl p-5 shadow-sm border border-slate-100 border-l-4 border-l-[#AC0C13] hover:shadow-md transition-all cursor-pointer group hover:-translate-y-0.5">
                   <div class="flex justify-between items-start mb-2">
-                     <span class="text-xs font-bold text-slate-500 uppercase tracking-wide">Returns</span>
-                     <div class="p-1.5 bg-red-50 rounded text-red-600">
+                     <span class="text-xs font-bold text-slate-400 uppercase tracking-wide">Returns</span>
+                     <div class="p-1.5 bg-[#FFEEDE] rounded text-[#AC0C13]">
                         <RotateCcw class="w-4 h-4" />
                      </div>
                  </div>
                  <div class="flex items-end gap-2 mt-1">
-                     <h4 class="text-2xl font-extrabold text-slate-900">₹{{ (currentData.returns / 1000).toFixed(1) }}k</h4>
+                     <h4 class="text-2xl font-extrabold text-[#015276]" v-html="formatRupee(`₹${(currentData.returns / 1000).toFixed(1)}k`)"></h4>
                      <span class="text-xs font-bold text-red-700 bg-red-50 px-2 py-0.5 rounded mb-1.5">High</span>
                  </div>
             </div>
 
-            <div class="bg-white dark:bg-slate-800 rounded-lg p-5 shadow-sm border border-slate-200 border-l-4 border-l-blue-500 hover:shadow-md transition-all cursor-pointer group hover:-translate-y-0.5">
+            <div class="bg-[#FFFAF7] dark:bg-slate-800 rounded-xl p-5 shadow-sm border border-slate-100 border-l-4 border-l-[#015276] hover:shadow-md transition-all cursor-pointer group hover:-translate-y-0.5">
                  <div class="flex justify-between items-start mb-2">
-                     <span class="text-xs font-bold text-slate-500 uppercase tracking-wide">Conversion</span>
-                     <div class="p-1.5 bg-blue-50 rounded text-blue-600">
+                     <span class="text-xs font-bold text-slate-400 uppercase tracking-wide">Conversion</span>
+                     <div class="p-1.5 bg-[#FFEEDE] rounded text-[#AC0C13]">
                         <CheckCircle2 class="w-4 h-4" />
                      </div>
                  </div>
                  <div class="flex items-end gap-2 mt-1">
-                     <h4 class="text-2xl font-extrabold text-slate-900">68.5%</h4>
+                     <h4 class="text-2xl font-extrabold text-[#015276]">68.5%</h4>
                      <span class="text-xs font-bold text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded mb-1.5">+5.0%</span>
                  </div>
             </div>
@@ -400,27 +404,27 @@ const teamPerformance = [
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-6 group-scope">
                 
                 <!-- 1. TARGET: QUANTITY -->
-                <div @click="selectMetric('quantity')" :class="{'ring-2 ring-blue-500 ring-offset-2 ring-offset-slate-50 dark:ring-offset-slate-900': selectedMetric === 'quantity'}" class="relative bg-slate-900 rounded-xl p-5 shadow-lg border border-slate-800 overflow-hidden group hover:shadow-2xl transition-all duration-300 cursor-pointer h-full flex flex-col justify-between hover:scale-[1.01]">
-                    <div class="absolute top-0 right-0 w-24 h-24 bg-white/5 rounded-full blur-2xl -mr-6 -mt-6 pointer-events-none"></div>
+                <div @click="selectMetric('quantity')" :class="{'ring-2 ring-[#015276] ring-offset-2 ring-offset-slate-50 dark:ring-offset-slate-900': selectedMetric === 'quantity'}" class="relative bg-[#FFFAF7] rounded-xl p-5 shadow-sm border border-slate-100 overflow-hidden group hover:shadow-md transition-all duration-300 cursor-pointer h-full flex flex-col justify-between hover:scale-[1.01]">
+                    <div class="absolute top-0 inset-x-0 h-1 bg-[#015276] opacity-0 group-hover:opacity-100 transition-opacity"></div>
                     
                     <div class="relative z-10 w-full flex-1 flex flex-col justify-between">
                         <div class="flex justify-between items-start">
                             <div class="flex flex-col">
                                 <div class="flex items-center gap-2 mb-2">
-                                    <div class="p-1.5 bg-blue-500/20 rounded text-blue-400">
+                                    <div class="p-1.5 bg-[#FFEEDE] rounded text-[#AC0C13]">
                                         <Package class="w-4 h-4" />
                                     </div>
-                                    <span class="text-xs font-bold text-blue-200 uppercase tracking-wider">Qty Target</span>
+                                    <span class="text-xs font-bold text-slate-400 uppercase tracking-wider">Qty Target</span>
                                 </div>
                                 <div class="flex items-baseline gap-1.5 mt-1">
-                                    <span class="text-3xl font-extrabold text-white tracking-tight">{{ (legacyData.achievedQty / 1000).toFixed(1) }}k</span>
-                                    <span class="text-slate-500 text-xs font-semibold">/ {{ (legacyData.targetQty / 1000).toFixed(1) }}k</span>
+                                    <span class="text-3xl font-extrabold text-[#015276] tracking-tight">{{ (legacyData.achievedQty / 1000).toFixed(1) }}k</span>
+                                    <span class="text-slate-400 text-xs font-semibold">/ {{ (legacyData.targetQty / 1000).toFixed(1) }}k</span>
                                 </div>
                             </div>
                             <div class="h-10 w-10 relative flex items-center justify-center">
                                 <svg class="transform -rotate-90 w-10 h-10">
-                                    <circle cx="20" cy="20" r="16" stroke="currentColor" stroke-width="3" fill="transparent" class="text-slate-800" />
-                                    <circle cx="20" cy="20" r="16" stroke="currentColor" stroke-width="3" fill="transparent" :stroke-dasharray="100" :stroke-dashoffset="100 - (legacyData.achievedQty / legacyData.targetQty * 100)" class="text-blue-500" />
+                                    <circle cx="20" cy="20" r="16" stroke="currentColor" stroke-width="3" fill="transparent" class="text-slate-200" />
+                                    <circle cx="20" cy="20" r="16" stroke="currentColor" stroke-width="3" fill="transparent" :stroke-dasharray="100" :stroke-dashoffset="100 - (legacyData.achievedQty / legacyData.targetQty * 100)" class="text-[#015276]" />
                                 </svg>
                             </div>
                         </div>
@@ -428,37 +432,37 @@ const teamPerformance = [
                         <div class="mt-4">
                             <div class="flex justify-between text-xs font-bold text-slate-400 mb-1.5 uppercase tracking-wide">
                                 <span>Completion</span>
-                                <span class="text-blue-400">{{ Math.round((legacyData.achievedQty / legacyData.targetQty) * 100) }}%</span>
+                                <span class="text-[#015276]">{{ Math.round((legacyData.achievedQty / legacyData.targetQty) * 100) }}%</span>
                             </div>
-                            <div class="w-full bg-slate-800 rounded-full h-2 overflow-hidden border border-white/5">
-                                <div class="bg-blue-500 h-full rounded-full shadow-[0_0_8px_rgba(59,130,246,0.6)]" :style="{ width: (legacyData.achievedQty / legacyData.targetQty * 100) + '%' }"></div>
+                            <div class="w-full bg-slate-200 rounded-full h-2 overflow-hidden">
+                                <div class="bg-[#015276] h-full rounded-full" :style="{ width: (legacyData.achievedQty / legacyData.targetQty * 100) + '%' }"></div>
                             </div>
                         </div>
                     </div>
                 </div>
 
                 <!-- 2. TARGET: RECEIVABLE -->
-                <div @click="selectMetric('revenue')" :class="{'ring-2 ring-purple-500 ring-offset-2 ring-offset-slate-50 dark:ring-offset-slate-900': selectedMetric === 'revenue'}" class="relative bg-slate-900 rounded-xl p-5 shadow-lg border border-slate-800 overflow-hidden group hover:shadow-2xl transition-all duration-300 cursor-pointer h-full flex flex-col justify-between hover:scale-[1.01]">
-                    <div class="absolute top-0 right-0 w-24 h-24 bg-purple-500/10 rounded-full blur-2xl -mr-6 -mt-6 pointer-events-none"></div>
+                <div @click="selectMetric('revenue')" :class="{'ring-2 ring-[#F37B15] ring-offset-2 ring-offset-slate-50 dark:ring-offset-slate-900': selectedMetric === 'revenue'}" class="relative bg-[#FFFAF7] rounded-xl p-5 shadow-sm border border-slate-100 overflow-hidden group hover:shadow-md transition-all duration-300 cursor-pointer h-full flex flex-col justify-between hover:scale-[1.01]">
+                    <div class="absolute top-0 inset-x-0 h-1 bg-[#F37B15] opacity-0 group-hover:opacity-100 transition-opacity"></div>
                     
                     <div class="relative z-10 w-full flex-1 flex flex-col justify-between">
                         <div class="flex justify-between items-start">
                             <div class="flex flex-col">
                                 <div class="flex items-center gap-2 mb-2">
-                                    <div class="p-1.5 bg-purple-500/20 rounded text-purple-400">
+                                    <div class="p-1.5 bg-[#FFEEDE] rounded text-[#AC0C13]">
                                         <Wallet class="w-4 h-4" />
                                     </div>
-                                    <span class="text-xs font-bold text-purple-200 uppercase tracking-wider">Revenue</span>
+                                    <span class="text-xs font-bold text-slate-400 uppercase tracking-wider">Revenue</span>
                                 </div>
                                 <div class="flex items-baseline gap-1.5 mt-1">
-                                    <span class="text-3xl font-extrabold text-white tracking-tight">₹{{ (legacyData.achievedVal / 100000).toFixed(1) }}L</span>
-                                    <span class="text-slate-500 text-xs font-semibold">/ {{ (legacyData.targetVal / 100000).toFixed(1) }}L</span>
+                                    <span class="text-3xl font-extrabold text-[#015276] tracking-tight" v-html="formatRupee(`₹${(legacyData.achievedVal / 100000).toFixed(1)}L`)"></span>
+                                    <span class="text-slate-400 text-xs font-semibold">/ {{ (legacyData.targetVal / 100000).toFixed(1) }}L</span>
                                 </div>
                             </div>
                             <div class="h-10 w-10 relative flex items-center justify-center">
                                 <svg class="transform -rotate-90 w-10 h-10">
-                                    <circle cx="20" cy="20" r="16" stroke="currentColor" stroke-width="3" fill="transparent" class="text-slate-800" />
-                                    <circle cx="20" cy="20" r="16" stroke="currentColor" stroke-width="3" fill="transparent" :stroke-dasharray="100" :stroke-dashoffset="100 - (legacyData.achievedVal / legacyData.targetVal * 100)" class="text-purple-500" />
+                                    <circle cx="20" cy="20" r="16" stroke="currentColor" stroke-width="3" fill="transparent" class="text-slate-200" />
+                                    <circle cx="20" cy="20" r="16" stroke="currentColor" stroke-width="3" fill="transparent" :stroke-dasharray="100" :stroke-dashoffset="100 - (legacyData.achievedVal / legacyData.targetVal * 100)" class="text-[#F37B15]" />
                                 </svg>
                             </div>
                         </div>
@@ -466,26 +470,26 @@ const teamPerformance = [
                         <div class="mt-4">
                             <div class="flex justify-between text-xs font-bold text-slate-400 mb-1.5 uppercase tracking-wide">
                                 <span>Collected</span>
-                                <span class="text-purple-400">{{ Math.round((legacyData.achievedVal / legacyData.targetVal) * 100) }}%</span>
+                                <span class="text-[#F37B15]">{{ Math.round((legacyData.achievedVal / legacyData.targetVal) * 100) }}%</span>
                             </div>
-                            <div class="w-full bg-slate-800 rounded-full h-2 overflow-hidden border border-white/5">
-                                <div class="bg-gradient-to-r from-purple-500 to-pink-500 h-full rounded-full shadow-[0_0_8px_rgba(168,85,247,0.6)]" :style="{ width: (legacyData.achievedVal / legacyData.targetVal * 100) + '%' }"></div>
+                            <div class="w-full bg-slate-200 rounded-full h-2 overflow-hidden">
+                                <div class="bg-[#F37B15] h-full rounded-full" :style="{ width: (legacyData.achievedVal / legacyData.targetVal * 100) + '%' }"></div>
                             </div>
                         </div>
                     </div>
                 </div>
 
                 <!-- 3. SCHOOLS COVERAGE -->
-                <div @click="selectMetric('schools')" :class="{'ring-2 ring-emerald-500 ring-offset-2 ring-offset-slate-50 dark:ring-offset-slate-900': selectedMetric === 'schools'}" class="bg-white dark:bg-slate-800 rounded-xl p-5 shadow-sm border border-slate-200 dark:border-slate-700 hover:shadow-md transition-all group relative overflow-hidden cursor-pointer h-full flex flex-col justify-between hover:scale-[1.01]">
-                    <div class="absolute top-0 inset-x-0 h-1 bg-emerald-500 opacity-0 group-hover:opacity-100 transition-opacity"></div>
+                <div @click="selectMetric('schools')" :class="{'ring-2 ring-[#015276] ring-offset-2 ring-offset-slate-50 dark:ring-offset-slate-900': selectedMetric === 'schools'}" class="bg-[#FFFAF7] dark:bg-slate-800 rounded-xl p-5 shadow-sm border border-slate-100 dark:border-slate-700 hover:shadow-md transition-all group relative overflow-hidden cursor-pointer h-full flex flex-col justify-between hover:scale-[1.01]">
+                    <div class="absolute top-0 inset-x-0 h-1 bg-[#015276] opacity-0 group-hover:opacity-100 transition-opacity"></div>
                     
                     <div class="w-full flex-1 flex flex-col justify-between">
                         <div class="flex justify-between items-start">
                             <div>
                                 <span class="text-xs font-bold text-slate-400 uppercase tracking-widest">School Base</span>
-                                <div class="text-lg font-bold text-slate-800 dark:text-white mt-1">Coverage Status</div>
+                                <div class="text-lg font-bold text-[#015276] dark:text-white mt-1">Coverage Status</div>
                             </div>
-                             <div class="p-2 bg-emerald-50 rounded text-emerald-600">
+                             <div class="p-2 bg-[#FFEEDE] rounded text-[#AC0C13]">
                                 <School class="w-5 h-5" />
                             </div>
                         </div>
@@ -520,28 +524,28 @@ const teamPerformance = [
                 </div>
 
                 <!-- 4. VISITS BREAKDOWN -->
-                <div @click="selectMetric('visits')" :class="{'ring-2 ring-blue-500 ring-offset-2 ring-offset-slate-50 dark:ring-offset-slate-900': selectedMetric === 'visits'}" class="bg-white dark:bg-slate-800 rounded-xl p-6 shadow-sm border border-slate-200 dark:border-slate-700 hover:shadow-md transition-all group relative overflow-hidden cursor-pointer h-full flex flex-col justify-between hover:scale-[1.01]">
-                    <div class="absolute top-0 inset-x-0 h-1 bg-blue-500 opacity-0 group-hover:opacity-100 transition-opacity"></div>
+                <div @click="selectMetric('visits')" :class="{'ring-2 ring-[#015276] ring-offset-2 ring-offset-slate-50 dark:ring-offset-slate-900': selectedMetric === 'visits'}" class="bg-[#FFFAF7] dark:bg-slate-800 rounded-xl p-6 shadow-sm border border-slate-100 dark:border-slate-700 hover:shadow-md transition-all group relative overflow-hidden cursor-pointer h-full flex flex-col justify-between hover:scale-[1.01]">
+                    <div class="absolute top-0 inset-x-0 h-1 bg-[#015276] opacity-0 group-hover:opacity-100 transition-opacity"></div>
                     
                     <div class="w-full flex-1 flex flex-col justify-between">
                         <div class="flex justify-between items-start">
                             <div>
                                 <span class="text-xs font-bold text-slate-400 uppercase tracking-widest">Field Activity</span>
-                                <div class="text-lg font-bold text-slate-800 dark:text-white mt-1">Visit Analysis</div>
+                                <div class="text-lg font-bold text-[#015276] dark:text-white mt-1">Visit Analysis</div>
                             </div>
-                             <div class="p-2 bg-blue-50 rounded text-blue-600">
+                             <div class="p-2 bg-[#FFEEDE] rounded text-[#AC0C13]">
                                 <MapPin class="w-5 h-5" />
                             </div>
                         </div>
 
                         <div class="grid grid-cols-2 gap-4 mt-4">
-                            <div class="bg-blue-50/50 rounded-xl p-3 border border-blue-100 flex flex-col justify-center items-center text-center">
-                                <div class="text-3xl font-extrabold text-blue-700 leading-none">{{ legacyData.visitsSenior }}</div>
-                                <div class="text-xs font-bold text-blue-600 uppercase mt-1">Senior Visits</div>
+                            <div class="bg-[#FFEEDE]/50 rounded-xl p-3 border border-[#FFEEDE] flex flex-col justify-center items-center text-center">
+                                <div class="text-3xl font-extrabold text-[#015276] leading-none">{{ legacyData.visitsSenior }}</div>
+                                <div class="text-xs font-bold text-[#F37B15] uppercase mt-1">Senior Visits</div>
                             </div>
-                            <div class="bg-indigo-50/50 rounded-xl p-3 border border-indigo-100 flex flex-col justify-center items-center text-center">
-                                <div class="text-3xl font-extrabold text-indigo-700 leading-none">{{ legacyData.visitsGeneral }}</div>
-                                <div class="text-xs font-bold text-indigo-600 uppercase mt-1">General Visits</div>
+                            <div class="bg-[#FFEEDE]/50 rounded-xl p-3 border border-[#FFEEDE] flex flex-col justify-center items-center text-center">
+                                <div class="text-3xl font-extrabold text-[#015276] leading-none">{{ legacyData.visitsGeneral }}</div>
+                                <div class="text-xs font-bold text-[#F37B15] uppercase mt-1">General Visits</div>
                             </div>
                         </div>
                          <div class="mt-3 text-center">
@@ -551,47 +555,47 @@ const teamPerformance = [
                 </div>
 
                 <!-- 5. SAMPLES -->
-                <div @click="selectMetric('samples')" :class="{'ring-2 ring-violet-500 ring-offset-2 ring-offset-slate-50 dark:ring-offset-slate-900': selectedMetric === 'samples'}" class="bg-white dark:bg-slate-800 rounded-xl p-5 shadow-sm border border-slate-200 dark:border-slate-700 hover:shadow-md transition-all group relative overflow-hidden cursor-pointer h-full flex flex-col justify-between hover:scale-[1.01]">
-                    <div class="absolute left-0 inset-y-0 w-1 bg-violet-500 opacity-0 group-hover:opacity-100 transition-opacity"></div>
+                <div @click="selectMetric('samples')" :class="{'ring-2 ring-[#015276] ring-offset-2 ring-offset-slate-50 dark:ring-offset-slate-900': selectedMetric === 'samples'}" class="bg-[#FFFAF7] dark:bg-slate-800 rounded-xl p-5 shadow-sm border border-slate-100 dark:border-slate-700 hover:shadow-md transition-all group relative overflow-hidden cursor-pointer h-full flex flex-col justify-between hover:scale-[1.01]">
+                    <div class="absolute left-0 inset-y-0 w-1 bg-[#015276] opacity-0 group-hover:opacity-100 transition-opacity"></div>
                     <div class="w-full flex-1 flex flex-col justify-between">
                          <div class="flex justify-between items-center mb-2">
                              <div class="flex items-center gap-2">
-                                  <div class="p-1.5 bg-violet-100 text-violet-600 rounded">
+                                  <div class="p-1.5 bg-[#FFEEDE] text-[#AC0C13] rounded">
                                      <Package class="w-4 h-4" />
                                  </div>
-                                 <span class="text-xs font-bold text-slate-700 uppercase">Samples</span>
+                                 <span class="text-xs font-bold text-slate-500 uppercase">Samples</span>
                              </div>
                              <span class="text-xs font-bold bg-green-100 text-green-700 px-2 py-0.5 rounded-full">+14% YoY</span>
                          </div>
                          
                          <div class="flex items-center gap-2 my-auto">
-                             <div class="text-4xl font-extrabold text-slate-900 leading-none">{{ legacyData.samplesCY }}</div>
-                             <div class="text-xs font-bold text-slate-400 mt-2">Given</div>
+                             <div class="text-4xl font-extrabold text-[#015276] leading-none">{{ legacyData.samplesCY }}</div>
+                             <div class="text-xs font-bold text-[#F37B15] mt-2">Given</div>
                          </div>
 
                         <div class="text-xs text-slate-500 flex items-center justify-between border-t border-slate-100 pt-3 mt-3 w-full">
                              <span>Last Year</span>
-                             <span class="font-bold text-slate-800 text-sm">{{ legacyData.samplesLY }}</span>
+                             <span class="font-bold text-[#015276] text-sm">{{ legacyData.samplesLY }}</span>
                         </div>
                     </div>
                 </div>
 
                 <!-- 6. DISCOUNT -->
-                <div @click="selectMetric('discount')" :class="{'ring-2 ring-orange-500 ring-offset-2 ring-offset-slate-50 dark:ring-offset-slate-900': selectedMetric === 'discount'}" class="bg-white dark:bg-slate-800 rounded-xl p-5 shadow-sm border border-slate-200 dark:border-slate-700 hover:shadow-md transition-all group relative overflow-hidden cursor-pointer h-full flex flex-col justify-between hover:scale-[1.01]">
-                    <div class="absolute left-0 inset-y-0 w-1 bg-orange-500 opacity-0 group-hover:opacity-100 transition-opacity"></div>
+                <div @click="selectMetric('discount')" :class="{'ring-2 ring-[#F37B15] ring-offset-2 ring-offset-slate-50 dark:ring-offset-slate-900': selectedMetric === 'discount'}" class="bg-[#FFFAF7] dark:bg-slate-800 rounded-xl p-5 shadow-sm border border-slate-100 dark:border-slate-700 hover:shadow-md transition-all group relative overflow-hidden cursor-pointer h-full flex flex-col justify-between hover:scale-[1.01]">
+                    <div class="absolute left-0 inset-y-0 w-1 bg-[#F37B15] opacity-0 group-hover:opacity-100 transition-opacity"></div>
                     <div class="w-full flex-1 flex flex-col justify-between">
                          <div class="flex justify-between items-center mb-2">
                              <div class="flex items-center gap-2">
-                                  <div class="p-1.5 bg-orange-100 text-orange-600 rounded">
+                                  <div class="p-1.5 bg-[#FFEEDE] text-[#AC0C13] rounded">
                                      <Percent class="w-4 h-4" />
                                  </div>
-                                 <span class="text-xs font-bold text-slate-700 uppercase">Discount</span>
+                                 <span class="text-xs font-bold text-slate-500 uppercase">Discount</span>
                              </div>
                              <span class="text-xs font-bold bg-slate-100 text-slate-600 px-2 py-0.5 rounded-full">Avg</span>
                          </div>
                          
                          <div class="flex items-center gap-2 my-auto">
-                             <div class="text-4xl font-extrabold text-slate-900 leading-none">{{ legacyData.discountCY }}%</div>
+                             <div class="text-4xl font-extrabold text-[#015276] leading-none">{{ legacyData.discountCY }}%</div>
                          </div>
                     
                          <div class="text-xs text-slate-500 flex items-center justify-between border-t border-slate-100 pt-3 mt-3 w-full">
@@ -602,30 +606,30 @@ const teamPerformance = [
                 </div>
 
                 <!-- 7. RETURNS -->
-                <div @click="selectMetric('returns')" :class="{'ring-2 ring-red-500 ring-offset-2 ring-offset-slate-50 dark:ring-offset-slate-900': selectedMetric === 'returns'}" class="md:col-span-2 bg-white dark:bg-slate-800 rounded-xl p-5 shadow-sm border border-slate-200 dark:border-slate-700 hover:shadow-md transition-all group relative overflow-hidden cursor-pointer h-full flex flex-col justify-between hover:scale-[1.01]">
-                     <div class="absolute left-0 inset-y-0 w-1 bg-red-500 opacity-0 group-hover:opacity-100 transition-opacity"></div>
+                <div @click="selectMetric('returns')" :class="{'ring-2 ring-[#AC0C13] ring-offset-2 ring-offset-slate-50 dark:ring-offset-slate-900': selectedMetric === 'returns'}" class="md:col-span-2 bg-[#FFFAF7] dark:bg-slate-800 rounded-xl p-5 shadow-sm border border-slate-100 dark:border-slate-700 hover:shadow-md transition-all group relative overflow-hidden cursor-pointer h-full flex flex-col justify-between hover:scale-[1.01]">
+                     <div class="absolute left-0 inset-y-0 w-1 bg-[#AC0C13] opacity-0 group-hover:opacity-100 transition-opacity"></div>
                     <div class="flex justify-between items-center w-full h-full">
                         <div class="flex flex-col justify-center h-full max-w-[50%]">
                             <div class="flex items-center gap-3 mb-2">
-                                <div class="p-2 bg-red-50 text-red-600 rounded-lg">
+                                <div class="p-2 bg-[#FFEEDE] text-[#AC0C13] rounded-lg">
                                     <RotateCcw class="w-5 h-5" />
                                 </div>
-                                <span class="text-sm font-bold text-slate-800 uppercase tracking-wide">Sales Returns <span class="text-slate-400 font-normal normal-case">(LY)</span></span>
+                                <span class="text-sm font-bold text-[#015276] uppercase tracking-wide">Sales Returns <span class="text-slate-400 font-normal normal-case">(LY)</span></span>
                            </div>
                            <p class="text-xs text-slate-500 leading-relaxed pr-6">
                                Total processed returns from last fiscal timeline.
-                               <span class="text-red-600 font-bold block mt-1 hover:underline text-sm">View Breakdown &rarr;</span>
+                               <span class="text-[#AC0C13] font-bold block mt-1 hover:underline text-sm">View Breakdown &rarr;</span>
                            </p>
                         </div>
 
-                         <div class="bg-slate-50 rounded-xl p-4 border border-slate-100 flex gap-6 px-6 items-center h-fit my-auto">
-                            <div class="text-center border-r border-slate-200 pr-6">
+                         <div class="bg-[#FFEEDE]/50 rounded-xl p-4 border border-[#FFEEDE] flex gap-6 px-6 items-center h-fit my-auto">
+                            <div class="text-center border-r border-[#F37B15]/30 pr-6">
                                 <div class="text-xs font-bold text-slate-400 uppercase mb-1">Volume</div>
-                                <div class="text-2xl font-extrabold text-slate-900">{{ (legacyData.returnsLYQty / 1000).toFixed(1) }}k</div>
+                                <div class="text-2xl font-extrabold text-[#015276]">{{ (legacyData.returnsLYQty / 1000).toFixed(1) }}k</div>
                             </div>
                             <div class="text-center">
                                 <div class="text-xs font-bold text-slate-400 uppercase mb-1">Value</div>
-                                <div class="text-2xl font-extrabold text-red-600">₹{{ (legacyData.returnsLYVal / 100000).toFixed(1) }}L</div>
+                                <div class="text-2xl font-extrabold text-[#AC0C13]" v-html="formatRupee(`₹${(legacyData.returnsLYVal / 100000).toFixed(1)}L`)"></div>
                             </div>
                         </div>
                     </div>

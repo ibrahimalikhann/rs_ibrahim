@@ -1,5 +1,5 @@
 <script setup>
-import { ref, computed } from 'vue';
+import { ref, computed, onMounted, onUnmounted } from 'vue';
 import { Link, usePage } from '@inertiajs/vue3';
 import {
     LayoutDashboard,
@@ -18,16 +18,27 @@ import {
     RotateCcw,
     LifeBuoy,
     AlertCircle,
-    ChevronDown,
     ChevronRight,
     LogOut,
     Calendar,
-    CircleDot,
     PieChart,
     TrendingUp,
     School,
     BarChart3,
-    User
+    User,
+    Shield,
+    Phone,
+    IndianRupee,
+    RefreshCw,
+    Headphones,
+    UserCircle,
+    Building2,
+    Target,
+    FileCheck,
+    HelpCircle,
+    Lock,
+    Award,
+    Users as UsersIcon
 } from 'lucide-vue-next';
 import Dropdown from '@/Components/Dropdown.vue';
 import DropdownLink from '@/Components/DropdownLink.vue';
@@ -35,30 +46,36 @@ import CommandPalette from '@/Components/CommandPalette.vue';
 
 const sidebarOpen = ref(false);
 const showCommandPalette = ref(false);
+const activeHoverMenu = ref(null);
+const flyoutPosition = ref({ top: 0 });
 
-const openGroups = ref({
-    'Team': true, 
-    'Pre-Sales': false,
-    'Sales': false,
-    'Post Sales': false,
-    'Support': false
-});
+const page = usePage();
+const userName = computed(() => page.props.auth.user.name);
+const userRole = computed(() => page.props.auth.user.role || 'admin');
 
-const toggleGroup = (group) => {
-    // Accordion behavior: Close others if opening a new one
-    if (!openGroups.value[group]) {
-        Object.keys(openGroups.value).forEach(key => {
-            openGroups.value[key] = false;
-        });
-    }
-    openGroups.value[group] = !openGroups.value[group];
+// Role Display Names
+const roleDisplayNames = {
+    'admin': 'Super Admin',
+    'hr': 'HR Manager',
+    'vp': 'Vice President',
+    'geo-head': 'Head GEO',
+    'team-leader': 'Team Leader',
+    'executive': 'Sales Executive'
 };
 
-const userRole = computed(() => page.props.auth.user.role || 'user');
+const roleDashboardLabel = computed(() => {
+    if (userRole.value === 'admin') return 'Super Admin Dashboard';
+    if (userRole.value === 'hr') return 'HR Dashboard';
+    if (userRole.value === 'executive') return 'Executive Dashboard';
+    return roleDisplayNames[userRole.value] || 'User';
+});
+
+const roleProfileLabel = computed(() => roleDisplayNames[userRole.value] || 'User');
 
 const dashboardRoute = computed(() => {
     const role = userRole.value;
     if (role === 'admin') return route('dashboard.admin');
+    if (role === 'hr') return route('dashboard.hr');
     if (role === 'vp') return route('dashboard.vp');
     if (role === 'geo-head') return route('dashboard.geo-head');
     if (role === 'team-leader') return route('dashboard.team-leader');
@@ -66,287 +83,499 @@ const dashboardRoute = computed(() => {
     return route('dashboard');
 });
 
-// Sidebar Configuration based on Ratna Sagar requirements
+// Sidebar Navigation with icons for all items
 const navigation = computed(() => [
-    { name: 'Overview', href: dashboardRoute.value, icon: LayoutDashboard, current: true },
-    
-    // Group: Team Management
     { 
-        name: 'Team', 
-        icon: Users,
+        name: 'Overview', 
+        href: dashboardRoute.value, 
+        icon: LayoutDashboard, 
+        current: true 
+    },
+    { 
+        name: 'Profile', 
+        icon: Shield,
         isGroup: true,
         children: [
-            { name: 'Team Overview', href: '#', icon: PieChart },
-            { name: 'Exec Performance', href: '#', icon: BarChart3 },
-            { name: 'Assigned Schools', href: '#', icon: School },
-            { name: 'Pending Actions', href: '#', icon: AlertCircle },
+            { name: 'My Profile', href: route('my-profile'), icon: UserCircle },
+            { name: 'Security', href: route('security'), icon: Lock },
+            { name: 'Preferences', href: '#', icon: Settings },
         ]
     },
-
-    // Group: Pre-Sales
     { 
         name: 'Pre-Sales', 
-        icon: Briefcase,
+        icon: Phone,
         isGroup: true,
         children: [
-            { name: 'CRM', href: '#', icon: Users },
-            { name: 'Survey', href: '#', icon: ClipboardList },
+            { name: 'CRM', href: '#', icon: Building2 },
+            { name: 'Survey', href: route('pre-sales.survey'), icon: ClipboardList },
             { name: 'Specimen', href: '#', icon: BookOpen },
+            { name: 'Lead Management', href: '#', icon: Target },
         ]
     },
-
-    // Group: Sales
     { 
         name: 'Sales', 
-        icon: ShoppingCart,
+        icon: IndianRupee,
         isGroup: true,
         children: [
-            { name: 'Sales Order', href: '#', icon: FileText },
+            { name: 'Sales Order', href: '#', icon: ShoppingCart },
+            { name: 'Quotations', href: '#', icon: FileText },
+            { name: 'Invoices', href: '#', icon: FileCheck },
+            { name: 'Delivery Tracking', href: '#', icon: Truck },
         ]
     },
-
-    // Group: Post Sales
     { 
         name: 'Post Sales', 
-        icon: Truck,
+        icon: RefreshCw,
         isGroup: true,
         children: [
             { name: 'Sales Return', href: '#', icon: RotateCcw },
         ]
     },
-
-    // Group: Support
     { 
-        name: 'Support', 
-        icon: LifeBuoy,
+        name: 'Team', 
+        icon: Users,
         isGroup: true,
         children: [
-            { name: 'Case / Service Desk', href: route('service-desk'), icon: Briefcase }, 
-            { name: 'Raised Issues', href: '#', icon: AlertCircle },
+            { name: 'Team Overview', href: route('team.overview'), icon: PieChart },
+            { name: 'Exec Performance', href: '#', icon: BarChart3 },
+            { name: 'Assigned Schools', href: '#', icon: School },
+            { name: 'Pending Actions', href: '#', icon: AlertCircle },
         ]
     },
-
-    // Group: Profile
     { 
-        name: 'Profile', 
-        icon: User,
+        name: 'HR', 
+        icon: Award,
+        isGroup: true,
+        visible: userRole.value === 'admin' || userRole.value === 'hr',
+        children: [
+            { name: 'HR Dashboard', href: route('dashboard.hr'), icon: BarChart3 },
+            { name: 'Employees', href: '#', icon: User },
+            { name: 'Attendance', href: '#', icon: Calendar },
+            { name: 'Payroll', href: '#', icon: IndianRupee },
+            { name: 'Leave Management', href: '#', icon: FileText },
+        ]
+    },
+    { 
+        name: 'Support', 
+        icon: Headphones,
         isGroup: true,
         children: [
-            { name: 'My Profile', href: route('my-profile'), icon: User },
+            { name: 'Service Desk', href: route('service-desk'), icon: LifeBuoy },
+            { name: 'Raised Issues', href: '#', icon: AlertCircle },
+            { name: 'Knowledge Base', href: '#', icon: HelpCircle },
         ]
     },
 ]);
 
+// Flyout Menu Handlers
+let hoverTimeout = null;
+
+const handleMenuHover = (item, event) => {
+    if (!item.isGroup) return;
+    
+    clearTimeout(hoverTimeout);
+    
+    const rect = event.currentTarget.getBoundingClientRect();
+    
+    flyoutPosition.value = {
+        top: rect.top - 75
+    };
+    
+    activeHoverMenu.value = item.name;
+};
+
+const handleMenuLeave = () => {
+    hoverTimeout = setTimeout(() => {
+        activeHoverMenu.value = null;
+    }, 150);
+};
+
+const handleFlyoutEnter = () => {
+    clearTimeout(hoverTimeout);
+};
+
+const handleFlyoutLeave = () => {
+    activeHoverMenu.value = null;
+};
+
 const toggleSidebar = () => (sidebarOpen.value = !sidebarOpen.value);
-const page = usePage();
-const userName = computed(() => page.props.auth.user.name);
+
 const isActive = (href) => {
-    if (href === '#') return false; 
+    if (href === '#') return false;
     try {
         const url = new URL(href);
         return page.url === url.pathname || page.url.startsWith(url.pathname);
     } catch (e) {
-        return false;
+        return page.url === href || page.url.startsWith(href);
     }
 };
 
-const currentDate = new Date().toLocaleDateString('en-IN', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
+const currentDate = new Date().toLocaleDateString('en-IN', { 
+    weekday: 'long', 
+    year: 'numeric', 
+    month: 'long', 
+    day: 'numeric' 
+});
 
-const consoleLabel = computed(() => {
-    if (route().current('dashboard.executive')) return 'Executive Console';
-    if (route().current('dashboard.team-leader')) return 'Team Leader Console';
-    if (route().current('dashboard.geo-head')) return 'Geo Head Console';
-    if (route().current('dashboard.vp')) return 'VP Console';
-    if (route().current('dashboard.admin')) return 'Admin Console';
-    return 'Ratna Sagar Console';
+// Close sidebar on escape
+const handleEscape = (e) => {
+    if (e.key === 'Escape') {
+        sidebarOpen.value = false;
+        activeHoverMenu.value = null;
+    }
+};
+
+onMounted(() => {
+    document.addEventListener('keydown', handleEscape);
+});
+
+onUnmounted(() => {
+    document.removeEventListener('keydown', handleEscape);
+    clearTimeout(hoverTimeout);
 });
 </script>
 
 <template>
-    <div class="bg-slate-100 dark:bg-slate-900 min-h-screen font-sans text-slate-900 dark:text-slate-100 flex">
+    <div class="min-h-screen flex flex-col bg-slate-100">
         <!-- Command Palette -->
         <CommandPalette v-model="showCommandPalette" />
 
-        <!-- Mobile Sidebar Backdrop -->
-        <div v-if="sidebarOpen" @click="sidebarOpen = false" class="fixed inset-0 z-20 bg-black/50 lg:hidden backdrop-blur-sm transition-opacity"></div>
-
-        <!-- Sidebar - High Contrast & Fixed Footer -->
-        <aside :class="[
-            'fixed inset-y-0 left-0 z-30 w-72 transform bg-gradient-to-b from-[#0f172a] to-[#1e293b] dark:from-slate-950 dark:to-slate-900 border-r border-slate-700 transition-transform duration-300 lg:static lg:translate-x-0 shadow-xl flex flex-col',
-            sidebarOpen ? 'translate-x-0' : '-translate-x-full'
-        ]">
-            <!-- Brand Logo (Fixed Top) -->
-            <div class="flex-shrink-0 flex h-[5rem] items-center px-6 border-b border-slate-700/50 bg-transparent">
-                <img src="/images/newlogo.png" alt="Ratna Sagar" class="h-11 w-auto object-contain brightness-0 invert" />
-            </div>
-            
-            <!-- Scrollable Navigation (Flex-1) -->
-            <nav class="flex-1 px-4 space-y-2 overflow-y-auto custom-scrollbar pt-6 pb-6">
-                <template v-for="item in navigation" :key="item.name">
-                    <!-- Single Item -->
-                    <div v-if="!item.isGroup" class="mb-3">
-                         <Link :href="item.href"
-                            :class="[
-                                isActive(item.href)
-                                    ? 'bg-gradient-to-r from-orange-600 to-orange-500 text-white shadow-lg shadow-orange-900/20' 
-                                    : 'text-slate-300 hover:bg-white/5 hover:text-white',
-                                'group flex items-center px-4 py-3 text-[1rem] font-medium rounded-lg transition-all duration-200'
-                            ]">
-                            <component :is="item.icon" 
-                                :class="[
-                                    isActive(item.href)
-                                        ? 'text-white'
-                                        : 'text-slate-300 group-hover:text-white',
-                                    'mr-3 h-[1.35rem] w-[1.35rem] flex-shrink-0 transition-colors'
-                                ]" 
-                            aria-hidden="true" />
-                            {{ item.name }}
-                        </Link>
+        <!-- ============================================== -->
+        <!-- TOP HEADER - Orange Gradient (ICICI Inspired) -->
+        <!-- ============================================== -->
+        <header class="h-[72px] bg-gradient-to-b from-[#AC0C13] to-[#AC0C13] sticky top-0 z-50 shadow-lg">
+            <div class="h-full flex items-center justify-between px-6">
+                <!-- Left Section: Logo + Date + Role Badge -->
+                <div class="flex items-center gap-6">
+                    <!-- Company Logo (Aligned to Sidebar Width) -->
+                    <div class="flex items-center w-[264px]">
+                        <img 
+                            src="/images/newlogo.png" 
+                            alt="Ratna Sagar P. Ltd." 
+                            class="h-8 w-auto object-contain brightness-0 invert"
+                        />
                     </div>
 
-                    <!-- Group Configuration -->
-                    <div v-else class="py-2">
-                        <button 
-                            @click="toggleGroup(item.name)"
-                            class="w-full flex items-center justify-between px-4 py-3 text-xs font-bold text-slate-400 uppercase tracking-widest hover:text-white transition-colors border-l-2 border-transparent hover:border-slate-500 bg-slate-800/20 rounded-r-lg"
-                        >
-                            <div class="flex items-center gap-2">
-                                {{ item.name }}
-                            </div>
-                            <component :is="openGroups[item.name] ? ChevronDown : ChevronRight" class="h-4 w-4 opacity-80" />
-                        </button>
+                    <!-- Vertical Divider (Centered with Equal Gap) -->
+                    <div class="hidden md:block h-10 w-px bg-white/25"></div>
 
-                        <div v-show="openGroups[item.name]" class="mt-2 space-y-1 pl-2">
-                            <Link v-for="child in item.children" :key="child.name" :href="child.href"
-                                :class="[
-                                    'group flex items-center pl-3 pr-3 py-2.5 text-[0.95rem] font-medium rounded-lg text-slate-300 hover:text-white hover:bg-slate-800 transition-all border border-transparent hover:border-slate-700'
-                                ]">
-                                <component :is="child.icon" class="h-4 w-4 mr-3 text-slate-400 group-hover:text-brand-400 transition-colors" />
-                                {{ child.name }}
-                            </Link>
+                    <!-- Date + Role (Compact Stack) -->
+                    <div class="hidden md:flex flex-col gap-1 text-white/90">
+                        <div class="flex items-center gap-2">
+                            <div class="w-1.5 h-1.5 rounded-full bg-green-400 animate-pulse"></div>
+                            <span class="text-[13px] font-bold text-white/95 uppercase tracking-wide">{{ roleDashboardLabel }}</span>
                         </div>
-                    </div>
-                </template>
-            </nav>
-            
-            <!-- User Profile Fixed Bottom -->
-            <div class="flex-shrink-0 w-full p-5 border-t border-slate-700 bg-transparent z-10">
-                <div class="flex items-center p-3 rounded-xl bg-slate-800/50 border border-slate-700">
-                    <div class="relative flex-shrink-0">
-                        <img class="h-10 w-10 rounded-full ring-2 ring-slate-500" :src="'https://ui-avatars.com/api/?name=' + userName + '&background=e2e8f0&color=0f172a'" alt="" />
-                        <span class="absolute bottom-0 right-0 h-3 w-3 rounded-full bg-green-500 ring-2 ring-[#0f172a]"></span>
-                    </div>
-                    <div class="ml-3 overflow-hidden">
-                        <p class="text-[0.95rem] font-bold text-white truncate">{{ userName }}</p>
-                        <p class="text-xs font-medium text-slate-400 truncate">Team Leader</p>
-                    </div>
-                </div>
-            </div>
-        </aside>
-
-        <!-- Main Content Wrapper -->
-        <div class="flex-1 flex flex-col min-w-0 overflow-hidden relative bg-slate-50 dark:bg-slate-900">
-            
-            <!-- Top Navbar - Taller & Cleaner -->
-            <header class="h-[5rem] bg-white dark:bg-slate-800 border-b border-slate-200 dark:border-slate-700 sticky top-0 z-10 flex items-center justify-between px-8 shadow-sm">
-                 <div class="flex items-center gap-5">
-                    <button @click="toggleSidebar" type="button" class="lg:hidden -ml-2 p-2 rounded-lg text-slate-500 hover:bg-slate-100 focus:outline-none">
-                        <Menu class="h-7 w-7" />
-                    </button>
-                    <!-- Date greeting in header -->
-                    <div class="hidden md:flex flex-col">
-                        <div class="flex items-center text-[0.95rem] font-medium text-slate-600">
-                            <Calendar class="w-4 h-4 mr-2 text-brand-600" />
-                            {{ currentDate }}
+                        <div class="flex items-center gap-2">
+                            <span class="text-[11px] font-medium leading-tight text-white">{{ currentDate }}</span>
                         </div>
-                    </div>
-                     <!-- Context Badge -->
-                    <div class="hidden md:flex items-center gap-2 px-3 py-1 bg-slate-50 rounded-full border border-slate-200">
-                        <div class="w-2 h-2 rounded-full bg-brand-500 animate-pulse"></div>
-                        <span class="text-[11px] font-bold text-slate-500 uppercase tracking-widest">{{ consoleLabel }}</span>
                     </div>
                 </div>
 
+                <!-- Right Section: Search + Notifications + Profile -->
                 <div class="flex items-center gap-4">
-                    <!-- Global Search Trigger -->
-                    <div class="relative hidden sm:block group cursor-pointer" @click="showCommandPalette = true">
-                         <div class="pointer-events-none absolute inset-y-0 left-0 pl-3 flex items-center">
-                            <Search class="h-5 w-5 text-slate-400 group-hover:text-brand-600 transition-colors" />
-                        </div>
-                        <div class="h-10 w-64 bg-slate-100 hover:bg-slate-200/70 rounded-lg flex items-center px-10 text-[0.9rem] font-medium text-slate-600 transition-colors ring-1 ring-transparent focus:ring-brand-500">
-                            Quick search...
-                        </div>
-                        <div class="absolute inset-y-0 right-2 flex items-center">
-                            <span class="text-xs font-bold text-slate-500 bg-white px-1.5 py-0.5 rounded border border-slate-200 shadow-sm">⌘K</span>
+                    <!-- Global Search -->
+                    <div 
+                        class="hidden sm:flex items-center gap-2 px-4 py-2.5 bg-white/10 hover:bg-white/20 backdrop-blur-sm rounded-xl cursor-pointer transition-all duration-200 border border-white/10 hover:border-white/25 group"
+                        @click="showCommandPalette = true"
+                    >
+                        <Search class="w-5 h-5 text-white/70 group-hover:text-white transition-colors" />
+                        <span class="text-[15px] text-white/70 group-hover:text-white/90 font-medium w-32 transition-colors">Quick search...</span>
+                        <div class="flex items-center gap-1 ml-2">
+                            <kbd class="text-[11px] font-bold text-white/60 bg-white/10 px-1.5 py-0.5 rounded">⌘K</kbd>
                         </div>
                     </div>
 
-                    <!-- Bell -->
-                    <button class="relative p-2 text-slate-500 hover:text-brand-600 transition-colors rounded-lg hover:bg-slate-100">
-                        <span class="absolute top-2.5 right-2.5 flex h-2.5 w-2.5">
-                            <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-brand-400 opacity-75"></span>
-                            <span class="relative inline-flex rounded-full h-2.5 w-2.5 bg-brand-600 border-2 border-white"></span>
+                    <!-- Notification Bell -->
+                    <button class="relative p-2.5 text-white/80 hover:text-white hover:bg-white/10 rounded-xl transition-all duration-200">
+                        <span class="absolute top-2 right-2 flex h-2.5 w-2.5">
+                            <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-yellow-300 opacity-75"></span>
+                            <span class="relative inline-flex rounded-full h-2.5 w-2.5 bg-yellow-400 ring-2 ring-[#E6611D]"></span>
                         </span>
-                        <Bell class="h-6 w-6" />
+                        <Bell class="w-6 h-6" />
                     </button>
-                    
-                    <div class="h-8 w-px bg-slate-200 mx-1"></div>
 
-                    <!-- User Dropdown (Logout) -->
+                    <!-- Profile Dropdown -->
                     <div class="relative">
-                        <Dropdown align="right" width="48">
+                        <Dropdown align="right" width="72">
                             <template #trigger>
-                                <button class="flex items-center gap-2 p-1 pl-2 pr-1 rounded-full border border-slate-200 hover:border-slate-300 transition-colors bg-white hover:bg-slate-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-brand-500">
-                                    <div class="w-8 h-8 rounded-full bg-brand-100 flex items-center justify-center text-brand-700 font-bold border border-brand-200 uppercase">
+                                <button class="flex items-center gap-3 pl-3 pr-2 py-1.5 bg-white/10 hover:bg-white/20 rounded-full transition-all duration-200 border border-white/15 hover:border-white/30">
+                                    <div class="w-9 h-9 rounded-full bg-white flex items-center justify-center text-[#E6611D] font-bold text-lg uppercase shadow-inner">
                                         {{ userName.charAt(0) }}
                                     </div>
-                                    <ChevronDown class="w-4 h-4 text-slate-400" />
+                                    <ChevronRight class="w-4 h-4 text-white/70 rotate-90" />
                                 </button>
                             </template>
 
                             <template #content>
-                                <div class="px-4 py-3 border-b border-slate-100">
-                                    <p class="text-sm font-bold text-slate-900">{{ userName }}</p>
-                                    <p class="text-xs text-slate-500 truncate">user@ratnasagar.com</p>
+                                <!-- User Header Section -->
+                                <div class="px-6 py-5 bg-gradient-to-br from-orange-500 via-orange-600 to-orange-700 border-b border-orange-400">
+                                    <div class="flex items-center gap-4 mb-3">
+                                        <div class="w-16 h-16 rounded-full bg-white flex items-center justify-center text-orange-600 font-bold text-2xl uppercase shadow-lg border-2 border-orange-300">
+                                            {{ userName.charAt(0) }}
+                                        </div>
+                                        <div>
+                                            <p class="text-lg font-bold text-white">{{ userName }}</p>
+                                            <p class="text-sm text-orange-100 mt-0.5">{{ roleProfileLabel }}</p>
+                                            <p class="text-xs text-orange-200 mt-2 font-medium">System Admin</p>
+                                        </div>
+                                    </div>
+                                    <div class="h-px bg-orange-400/30"></div>
                                 </div>
                                 
-                                <DropdownLink :href="route('profile.edit')" class="flex items-center gap-2 text-slate-600 hover:text-brand-600 hover:bg-slate-50">
-                                    <User class="w-4 h-4" /> Profile
-                                </DropdownLink>
+                                <!-- Menu Items -->
+                                <div class="py-3 space-y-1">
+                                    <DropdownLink :href="route('my-profile')" class="flex items-center gap-4 px-6 py-3 text-[14px] text-slate-600 hover:text-orange-600 hover:bg-orange-50/80 transition-all duration-200 border-l-4 border-transparent hover:border-orange-500">
+                                        <UserCircle class="w-5 h-5" /> 
+                                        <div>
+                                            <span class="font-semibold block">My Profile</span>
+                                            <span class="text-xs text-slate-400">View & edit profile</span>
+                                        </div>
+                                    </DropdownLink>
+                                    <DropdownLink :href="route('security')" class="flex items-center gap-4 px-6 py-3 text-[14px] text-slate-600 hover:text-blue-600 hover:bg-blue-50/80 transition-all duration-200 border-l-4 border-transparent hover:border-blue-500">
+                                        <Lock class="w-5 h-5" /> 
+                                        <div>
+                                            <span class="font-semibold block">Security</span>
+                                            <span class="text-xs text-slate-400">2FA, passwords & more</span>
+                                        </div>
+                                    </DropdownLink>
+                                    <DropdownLink href="#" class="flex items-center gap-4 px-6 py-3 text-[14px] text-slate-600 hover:text-slate-900 hover:bg-slate-50/80 transition-all duration-200 border-l-4 border-transparent hover:border-slate-500">
+                                        <Settings class="w-5 h-5" /> 
+                                        <div>
+                                            <span class="font-semibold block">Settings</span>
+                                            <span class="text-xs text-slate-400">Preferences & notifications</span>
+                                        </div>
+                                    </DropdownLink>
+                                </div>
 
                                 <div class="border-t border-slate-100"></div>
 
-                                <form method="POST" @submit.prevent="$inertia.post(route('logout'))">
-                                    <button type="submit" class="w-full text-left flex items-center gap-2 px-4 py-2 text-sm leading-5 text-red-600 hover:bg-red-50 focus:outline-none transition-colors">
-                                        <LogOut class="w-4 h-4" /> Log Out
+                                <!-- Log Out Section -->
+                                <form method="POST" @submit.prevent="$inertia.post(route('logout'))" class="py-3">
+                                    <button type="submit" class="w-full flex items-center gap-4 px-6 py-3 text-[14px] text-red-600 hover:text-white hover:bg-red-600 transition-all duration-200 border-l-4 border-transparent hover:border-red-400 font-semibold rounded-b">
+                                        <LogOut class="w-5 h-5" /> 
+                                        <div class="text-left">
+                                            <span class="block">Log Out</span>
+                                            <span class="text-xs font-normal text-red-400">Sign out of your account</span>
+                                        </div>
                                     </button>
                                 </form>
                             </template>
                         </Dropdown>
                     </div>
                 </div>
-            </header>
+            </div>
+        </header>
 
-            <!-- Main Content -->
-            <main class="flex-1 overflow-y-auto px-6 sm:px-8 py-8 space-y-8">
-                <slot />
+        <!-- Main Layout Container -->
+        <div class="flex flex-1">
+            <!-- Mobile Sidebar Backdrop -->
+            <div 
+                v-if="sidebarOpen" 
+                @click="sidebarOpen = false" 
+                class="fixed inset-0 z-30 bg-black/50 lg:hidden backdrop-blur-sm transition-opacity"
+            ></div>
+
+            <!-- ============================================== -->
+            <!-- SIDEBAR - Pure White with Flyout Submenus -->
+            <!-- ============================================== -->
+            <aside 
+                :class="[
+                    'fixed lg:sticky top-[72px] left-0 z-40 w-[280px] h-[calc(100vh-72px)] bg-white border-r border-slate-200 shadow-lg lg:shadow-sm transition-transform duration-300 flex flex-col',
+                    sidebarOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'
+                ]"
+            >
+                <!-- Close Button (Mobile) -->
+                <button 
+                    @click="sidebarOpen = false"
+                    class="lg:hidden absolute top-4 right-4 p-2 text-slate-400 hover:text-slate-600 hover:bg-slate-100 rounded-lg transition-colors"
+                >
+                    <X class="w-5 h-5" />
+                </button>
+
+                <!-- User Profile Card (Top of Sidebar) -->
+                <div class="px-4 pt-4 pb-4 border-b border-slate-200">
+                    <div class="bg-gradient-to-br from-[#FFEEDE] to-[#FFEEDE] rounded-xl p-4 text-white text-center shadow-md">
+                        <!-- Profile Image -->
+                        <div class="flex justify-center mb-3">
+                            <img 
+                                :src="`https://www.corporatephotographerslondon.com/wp-content/uploads/2023/02/LinkedIn_Profile_Photo.jpg`"
+                                :alt="userName"
+                                class="w-16 h-16 rounded-full object-cover border-4 border-white shadow-lg"
+                            />
+                        </div>
+                        
+                        <!-- Name -->
+                        <p class="font-bold text-lg text-[#015276]">{{userName}}</p>
+                        
+                        <!-- Role -->
+                        <p class="text-sm text-[#015276]/90 mt-1 font-medium">{{ roleProfileLabel }}</p>
+                        
+                        <!-- Department/Status -->
+                        <div class="mt-3 pt-3 border-t border-gray-300">
+                            <div class="flex items-center justify-center gap-2">
+                                <div class="w-2 h-2 rounded-full bg-green-300 animate-pulse"></div>
+                                <span class="text-xs font-medium text-[#015276]/85">Active</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Navigation Menu -->
+                <nav class="flex-1 px-4 py-6 overflow-y-auto sidebar-scroll relative">
+                    <template v-for="item in navigation" :key="item.name">
+                        <!-- Single Item (Overview) -->
+                        <div v-if="!item.isGroup && (!item.visible || item.visible)" class="mb-2">
+                            <Link 
+                                :href="item.href"
+                                :class="[
+                                    'group flex items-center gap-3 px-4 py-3.5 rounded-xl text-[16px] font-medium transition-all duration-200',
+                                    isActive(item.href)
+                                        ? 'bg-gradient-to-r from-[#F88313] to-[#E6611D] text-white shadow-md shadow-orange-200'
+                                        : 'text-slate-600 hover:bg-orange-50 hover:text-[#E6611D]'
+                                ]"
+                            >
+                                <component 
+                                    :is="item.icon" 
+                                    :class="[
+                                        'w-[22px] h-[22px] flex-shrink-0 transition-colors',
+                                        isActive(item.href) ? 'text-white' : 'text-slate-400 group-hover:text-[#E6611D]'
+                                    ]" 
+                                />
+                                <span>{{ item.name }}</span>
+                            </Link>
+                        </div>
+
+                        <!-- Group Items with Flyout -->
+                        <div 
+                            v-else-if="item.isGroup && (!item.visible || item.visible)"
+                            class="mb-2 relative"
+                            @mouseenter="handleMenuHover(item, $event)"
+                            @mouseleave="handleMenuLeave"
+                        >
+                            <button
+                                :class="[
+                                    'w-full group flex items-center justify-between gap-3 px-4 py-3.5 rounded-xl text-[16px] font-medium transition-all duration-200',
+                                    activeHoverMenu === item.name
+                                        ? 'bg-orange-50 text-[#E6611D]'
+                                        : 'text-slate-600 hover:bg-orange-50 hover:text-[#E6611D]'
+                                ]"
+                            >
+                                <div class="flex items-center gap-3">
+                                    <component 
+                                        :is="item.icon" 
+                                        :class="[
+                                            'w-[22px] h-[22px] flex-shrink-0 transition-colors',
+                                            activeHoverMenu === item.name 
+                                                ? 'text-[#E6611D]' 
+                                                : 'text-slate-400 group-hover:text-[#E6611D]'
+                                        ]" 
+                                    />
+                                    <span>{{ item.name }}</span>
+                                </div>
+                                <ChevronRight 
+                                    :class="[
+                                        'w-4 h-4 transition-all duration-200',
+                                        activeHoverMenu === item.name 
+                                            ? 'text-[#E6611D] translate-x-0.5' 
+                                            : 'text-slate-400 group-hover:text-[#E6611D]'
+                                    ]" 
+                                />
+                            </button>
+
+                            <!-- Flyout Submenu (WordPress-style) -->
+                            <Transition
+                                enter-active-class="transition-all duration-200 ease-out"
+                                enter-from-class="opacity-0 translate-x-2"
+                                enter-to-class="opacity-100 translate-x-0"
+                                leave-active-class="transition-all duration-150 ease-in"
+                                leave-from-class="opacity-100 translate-x-0"
+                                leave-to-class="opacity-0 translate-x-2"
+                            >
+                                <div
+                                    v-if="activeHoverMenu === item.name"
+                                    class="fixed left-[280px] z-50 min-w-[240px] bg-white rounded-xl shadow-xl border border-slate-200 py-2 overflow-hidden"
+                                    :style="{ top: flyoutPosition.top + 'px' }"
+                                    @mouseenter="handleFlyoutEnter"
+                                    @mouseleave="handleFlyoutLeave"
+                                >
+                                    <!-- Flyout Header -->
+                                    <div class="px-4 py-2.5 bg-gradient-to-r from-orange-50 to-amber-50 border-b border-orange-100 mb-1">
+                                        <span class="text-[13px] font-bold text-[#E6611D] uppercase tracking-wide">{{ item.name }}</span>
+                                    </div>
+                                    
+                                    <!-- Flyout Items -->
+                                    <Link
+                                        v-for="child in item.children"
+                                        :key="child.name"
+                                        :href="child.href"
+                                        class="flex items-center gap-3 px-4 py-3 text-[15px] font-medium text-slate-500 hover:bg-orange-50 hover:text-[#E6611D] transition-colors"
+                                    >
+                                        <component 
+                                            :is="child.icon" 
+                                            class="w-5 h-5 text-slate-400 hover:text-[#E6611D]" 
+                                        />
+                                        <span>{{ child.name }}</span>
+                                    </Link>
+                                </div>
+                            </Transition>
+                        </div>
+                    </template>
+                </nav>
+
+                <!-- Sidebar Footer - Sync Status -->
+                <div class="flex-shrink-0 px-4 py-4 border-t border-slate-100 bg-slate-50/50">
+                    <div class="flex items-center justify-between text-[13px] text-slate-500">
+                        <div class="flex items-center gap-2">
+                            <div class="w-2 h-2 rounded-full bg-green-500"></div>
+                            <span>System Online</span>
+                        </div>
+                        <span class="text-slate-400">v2.4.1</span>
+                    </div>
+                </div>
+            </aside>
+
+            <!-- Mobile Menu Toggle (Fixed) -->
+            <button 
+                @click="toggleSidebar" 
+                class="lg:hidden fixed bottom-6 left-6 z-50 p-4 bg-gradient-to-b from-[#F88313] to-[#E6611D] text-white rounded-full shadow-lg shadow-orange-300 hover:shadow-xl transition-all duration-200"
+            >
+                <Menu class="w-6 h-6" />
+            </button>
+
+            <!-- ============================================== -->
+            <!-- MAIN CONTENT AREA -->
+            <!-- ============================================== -->
+            <main class="flex-1 min-w-0 overflow-y-auto bg-slate-100">
+                <div class="px-6 sm:px-8 py-8">
+                    <slot />
+                </div>
             </main>
         </div>
     </div>
 </template>
 
 <style scoped>
-.custom-scrollbar::-webkit-scrollbar {
-  width: 5px;
+/* Sidebar Custom Scrollbar */
+.sidebar-scroll::-webkit-scrollbar {
+    width: 6px;
 }
-.custom-scrollbar::-webkit-scrollbar-track {
-  background: rgba(255, 255, 255, 0.05);
+.sidebar-scroll::-webkit-scrollbar-track {
+    background: transparent;
 }
-.custom-scrollbar::-webkit-scrollbar-thumb {
-  background-color: rgba(255, 255, 255, 0.2);
-  border-radius: 20px;
+.sidebar-scroll::-webkit-scrollbar-thumb {
+    background-color: #e2e8f0;
+    border-radius: 20px;
 }
-.custom-scrollbar:hover::-webkit-scrollbar-thumb {
-    background-color: rgba(255, 255, 255, 0.3);
+.sidebar-scroll:hover::-webkit-scrollbar-thumb {
+    background-color: #cbd5e1;
+}
+
+/* Ensure flyout doesn't clip */
+aside {
+    overflow: visible;
+}
+nav {
+    overflow-x: visible;
+    overflow-y: auto;
 }
 </style>

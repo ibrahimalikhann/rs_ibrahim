@@ -18,7 +18,9 @@ import {
     Star,
     CheckCircle,
     Building2,
-    Lock
+    Lock,
+    Eye,
+    EyeOff
 } from 'lucide-vue-next';
 
 // ----------------------------------------------------------------------
@@ -26,6 +28,67 @@ import {
 // ----------------------------------------------------------------------
 
 const activeTab = ref('Personal');
+
+// OTP State for Allowances
+const isAllowancesUnlocked = ref(false);
+const showAllowancesOtpModal = ref(false);
+const allowancesOtpInput = ref('');
+const allowancesOtpError = ref('');
+const allowancesOTP = '123456';
+
+// OTP State for Document Download
+const showDocumentOtpModal = ref(false);
+const documentOtpInput = ref('');
+const documentOtpError = ref('');
+const documentOTP = '654321';
+const pendingDocument = ref(null);
+
+// Allowances OTP Functions
+const openAllowancesOtpModal = () => {
+    showAllowancesOtpModal.value = true;
+    allowancesOtpInput.value = '';
+    allowancesOtpError.value = '';
+};
+
+const closeAllowancesOtpModal = () => {
+    showAllowancesOtpModal.value = false;
+    allowancesOtpInput.value = '';
+    allowancesOtpError.value = '';
+};
+
+const submitAllowancesOtp = () => {
+    if (allowancesOtpInput.value === allowancesOTP) {
+        isAllowancesUnlocked.value = true;
+        closeAllowancesOtpModal();
+    } else {
+        allowancesOtpError.value = 'Invalid OTP. Please try again.';
+    }
+};
+
+// Document OTP Functions
+const requestDocumentDownload = (doc) => {
+    pendingDocument.value = doc;
+    showDocumentOtpModal.value = true;
+    documentOtpInput.value = '';
+    documentOtpError.value = '';
+};
+
+const closeDocumentOtpModal = () => {
+    showDocumentOtpModal.value = false;
+    documentOtpInput.value = '';
+    documentOtpError.value = '';
+    pendingDocument.value = null;
+};
+
+const submitDocumentOtp = () => {
+    if (documentOtpInput.value === documentOTP) {
+        // Simulate document download
+        alert(`Downloading: ${pendingDocument.value.name}`);
+        closeDocumentOtpModal();
+    } else {
+        documentOtpError.value = 'Invalid OTP. Please try again.';
+    }
+};
 
 const tabs = [
     { name: 'Personal', icon: User },
@@ -54,11 +117,17 @@ const employee = {
 };
 
 const stats = [
-    { label: 'Attendance', value: '96%', color: 'bg-emerald-50 text-emerald-700 border-emerald-100', icon: CheckCircle },
-    { label: 'Leave Bal', value: '12 Days', color: 'bg-blue-50 text-blue-700 border-blue-100', icon: Clock },
+    { label: 'Attendance', value: '22/30', color: 'bg-emerald-50 text-emerald-700 border-emerald-100', icon: CheckCircle },
+    { label: 'Annual Leave Balance', value: '12 Days', color: 'bg-blue-50 text-blue-700 border-blue-100', icon: Clock },
     { label: 'Rating', value: '4.2 / 5', color: 'bg-amber-50 text-amber-700 border-amber-100', icon: Star },
-    { label: 'Allowances', value: '₹ 12,XXX', color: 'bg-slate-50 text-slate-700 border-slate-200', icon: Lock }, // Masked salary/allowances
 ];
+
+const allowancesData = {
+    label: 'Allowances',
+    value: '₹ 12,500',
+    color: 'bg-slate-50 text-slate-700 border-slate-200',
+    icon: Lock
+};
 
 const documents = [
     { name: 'Offer Letter', date: '15 Jun 2021', size: '1.2 MB' },
@@ -77,9 +146,9 @@ const documents = [
         <div class="max-w-6xl mx-auto space-y-6">
             
             <!-- 1) PROFILE HEADER CARD -->
-            <div class="rounded-2xl bg-[#0B1120] text-white overflow-hidden shadow-lg relative">
+            <div class="rounded-2xl bg-[#FFEEDE] overflow-hidden shadow-lg relative">
                 <!-- Background decorative elements -->
-                <div class="absolute top-0 right-0 w-64 h-64 bg-slate-800/30 rounded-full blur-3xl -mr-16 -mt-16 pointer-events-none"></div>
+                <div class="absolute top-0 right-0 w-64 h-64 bg-[#AC0C13]/10 rounded-full blur-3xl -mr-16 -mt-16 pointer-events-none"></div>
                 
                 <div class="p-8 flex flex-col md:flex-row items-center md:items-start gap-8 relative z-10">
                     
@@ -87,36 +156,36 @@ const documents = [
                     <div class="relative shrink-0">
                         <div class="h-28 w-28 rounded-full bg-gradient-to-br from-orange-500 to-orange-700 p-1 shadow-2xl">
                             <img 
-                                src="https://ui-avatars.com/api/?name=Rahul+Sharma&background=0F172A&color=fff&size=512" 
+                                src="https://www.corporatephotographerslondon.com/wp-content/uploads/2023/02/LinkedIn_Profile_Photo.jpg" 
                                 alt="Profile" 
-                                class="h-full w-full rounded-full object-cover border-4 border-[#0B1120]" 
+                                class="h-full w-full rounded-full object-cover border-4 border-[#AC0C13]" 
                             />
                         </div>
                         <!-- Status Badge -->
-                        <div class="absolute bottom-1 right-1 bg-emerald-500 border-[3px] border-[#0B1120] w-6 h-6 rounded-full" title="Active"></div>
+                        <div class="absolute bottom-1 right-1 bg-emerald-500 border-[3px] border-[#FFEEDE] w-6 h-6 rounded-full" title="Active"></div>
                     </div>
 
                     <!-- Info -->
                     <div class="text-center md:text-left flex-1">
                         <div class="flex flex-col md:flex-row md:items-center gap-3 mb-2">
-                            <h1 class="text-3xl font-bold font-display tracking-tight">{{ employee.name }}</h1>
-                            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-bold bg-blue-500/20 text-blue-200 border border-blue-500/30">
+                            <h1 class="text-3xl font-bold font-display tracking-tight text-[#015276]">{{ employee.name }}</h1>
+                            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-bold bg-[#AC0C13]/20 text-[#AC0C13] border border-[#AC0C13]/30">
                                 {{ employee.status }}
                             </span>
                         </div>
                         
-                        <p class="text-lg text-slate-300 font-medium mb-4 flex items-center justify-center md:justify-start gap-2">
+                        <p class="text-lg text-[#015276] font-medium mb-4 flex items-center justify-center md:justify-start gap-2">
                              <Briefcase class="w-4 h-4" /> {{ employee.role }} 
-                             <span class="text-slate-600 mx-1">•</span> 
-                             <span class="text-orange-400">{{ employee.id }}</span>
+                             <span class="text-[#015276]/70 mx-1">•</span> 
+                             <span class="text-[#015276] font-bold">{{ employee.id }}</span>
                         </p>
 
-                        <div class="flex flex-wrap items-center justify-center md:justify-start gap-y-2 gap-x-6 text-sm text-slate-400">
+                        <div class="flex flex-wrap items-center justify-center md:justify-start gap-y-2 gap-x-6 text-sm text-[#015276]/90">
                             <div class="flex items-center gap-2">
                                 <MapPin class="w-4 h-4" />
                                 {{ employee.region }}
                             </div>
-                            <div class="hidden md:block w-px h-4 bg-slate-700"></div>
+                            <div class="hidden md:block w-px h-4 bg-[#015276]/30"></div>
                             <div class="flex items-center gap-2">
                                 <Calendar class="w-4 h-4" />
                                 Date of Joining: {{ employee.doj }}
@@ -136,6 +205,18 @@ const documents = [
                     </div>
                     <span class="text-xs font-bold uppercase tracking-widest opacity-70 mb-1">{{ stat.label }}</span>
                     <span class="text-lg font-bold">{{ stat.value }}</span>
+                </div>
+                
+                <!-- Allowances Card with OTP Protection -->
+                <div 
+                    :class="['rounded-xl border p-4 flex flex-col items-center justify-center text-center transition-all hover:shadow-sm cursor-pointer', allowancesData.color]"
+                    @click="!isAllowancesUnlocked && openAllowancesOtpModal()">
+                    <div class="mb-2 opacity-80">
+                        <component :is="isAllowancesUnlocked ? Eye : Lock" class="w-5 h-5" />
+                    </div>
+                    <span class="text-xs font-bold uppercase tracking-widest opacity-70 mb-1">{{ allowancesData.label }}</span>
+                    <span v-if="isAllowancesUnlocked" class="text-lg font-bold">{{ allowancesData.value }}</span>
+                    <span v-else class="text-lg font-bold tracking-widest">••••••</span>
                 </div>
             </div>
 
@@ -300,7 +381,9 @@ const documents = [
                                         </div>
                                     </div>
 
-                                    <button class="p-2 text-slate-400 hover:text-orange-600 hover:bg-orange-50 rounded-lg transition-colors">
+                                    <button 
+                                        @click="requestDocumentDownload(doc)"
+                                        class="p-2 text-slate-400 hover:text-orange-600 hover:bg-orange-50 rounded-lg transition-colors">
                                         <Download class="w-5 h-5" />
                                     </button>
                                 </div>
@@ -311,6 +394,137 @@ const documents = [
                 </div>
             </div>
         </div>
+
+        <!-- ====================== -->
+        <!-- ALLOWANCES OTP MODAL -->
+        <!-- ====================== -->
+        <transition 
+            enter-active-class="transition ease-out duration-300"
+            enter-from-class="opacity-0 scale-95"
+            enter-to-class="opacity-100 scale-100"
+            leave-active-class="transition ease-in duration-200"
+            leave-from-class="opacity-100 scale-100"
+            leave-to-class="opacity-0 scale-95">
+            <div v-if="showAllowancesOtpModal" class="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
+                <div class="bg-white rounded-xl shadow-2xl max-w-sm w-full overflow-hidden">
+                    <!-- Header -->
+                    <div class="bg-gradient-to-r from-[#1E40AF] via-[#0EA5E9] to-[#0369A1] px-6 py-4">
+                        <h2 class="text-lg font-bold text-white flex items-center gap-2">
+                            <Lock class="w-5 h-5" /> Unlock Allowances
+                        </h2>
+                        <p class="text-blue-100 text-xs mt-1">Enter OTP to view sensitive data</p>
+                    </div>
+
+                    <!-- Body -->
+                    <div class="p-6 space-y-4">
+                        <!-- Fake OTP Display -->
+                        <div class="bg-blue-50 border border-blue-200 rounded-lg p-3 text-center">
+                            <p class="text-xs text-blue-600 font-medium mb-1">Your OTP (Demo)</p>
+                            <p class="text-2xl font-bold text-blue-800 tracking-[0.3em]">{{ allowancesOTP }}</p>
+                        </div>
+
+                        <!-- OTP Input -->
+                        <div>
+                            <label class="block text-xs font-bold text-slate-600 mb-2">Enter OTP</label>
+                            <input 
+                                v-model="allowancesOtpInput"
+                                type="text"
+                                maxlength="6"
+                                placeholder="Enter 6-digit OTP"
+                                class="w-full px-4 py-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-center text-lg tracking-[0.3em] font-bold"
+                                @keyup.enter="submitAllowancesOtp" />
+                        </div>
+
+                        <!-- Error -->
+                        <p v-if="allowancesOtpError" class="text-red-600 text-xs font-medium text-center">{{ allowancesOtpError }}</p>
+                    </div>
+
+                    <!-- Footer -->
+                    <div class="bg-slate-50 px-6 py-4 flex gap-3">
+                        <button 
+                            @click="closeAllowancesOtpModal"
+                            class="flex-1 px-4 py-2 bg-slate-200 hover:bg-slate-300 text-slate-700 font-bold rounded-lg transition-all">
+                            Cancel
+                        </button>
+                        <button 
+                            @click="submitAllowancesOtp"
+                            class="flex-1 px-4 py-2 bg-[#1E40AF] hover:bg-[#1E3A8A] text-white font-bold rounded-lg transition-all">
+                            Verify
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </transition>
+
+        <!-- ========================= -->
+        <!-- DOCUMENT DOWNLOAD OTP MODAL -->
+        <!-- ========================= -->
+        <transition 
+            enter-active-class="transition ease-out duration-300"
+            enter-from-class="opacity-0 scale-95"
+            enter-to-class="opacity-100 scale-100"
+            leave-active-class="transition ease-in duration-200"
+            leave-from-class="opacity-100 scale-100"
+            leave-to-class="opacity-0 scale-95">
+            <div v-if="showDocumentOtpModal" class="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
+                <div class="bg-white rounded-xl shadow-2xl max-w-sm w-full overflow-hidden">
+                    <!-- Header -->
+                    <div class="bg-gradient-to-r from-amber-500 to-amber-600 px-6 py-4">
+                        <h2 class="text-lg font-bold text-white flex items-center gap-2">
+                            <Shield class="w-5 h-5" /> Secure Download
+                        </h2>
+                        <p class="text-amber-100 text-xs mt-1">Verify your identity to download</p>
+                    </div>
+
+                    <!-- Body -->
+                    <div class="p-6 space-y-4">
+                        <!-- Document Info -->
+                        <div class="bg-slate-50 border border-slate-200 rounded-lg p-3 flex items-center gap-3">
+                            <FileText class="w-8 h-8 text-slate-400" />
+                            <div>
+                                <p class="font-bold text-slate-800 text-sm">{{ pendingDocument?.name }}</p>
+                                <p class="text-xs text-slate-500">{{ pendingDocument?.size }}</p>
+                            </div>
+                        </div>
+
+                        <!-- Fake OTP Display -->
+                        <div class="bg-amber-50 border border-amber-200 rounded-lg p-3 text-center">
+                            <p class="text-xs text-amber-600 font-medium mb-1">Your OTP (Demo)</p>
+                            <p class="text-2xl font-bold text-amber-800 tracking-[0.3em]">{{ documentOTP }}</p>
+                        </div>
+
+                        <!-- OTP Input -->
+                        <div>
+                            <label class="block text-xs font-bold text-slate-600 mb-2">Enter OTP</label>
+                            <input 
+                                v-model="documentOtpInput"
+                                type="text"
+                                maxlength="6"
+                                placeholder="Enter 6-digit OTP"
+                                class="w-full px-4 py-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-amber-500 focus:border-amber-500 text-center text-lg tracking-[0.3em] font-bold"
+                                @keyup.enter="submitDocumentOtp" />
+                        </div>
+
+                        <!-- Error -->
+                        <p v-if="documentOtpError" class="text-red-600 text-xs font-medium text-center">{{ documentOtpError }}</p>
+                    </div>
+
+                    <!-- Footer -->
+                    <div class="bg-slate-50 px-6 py-4 flex gap-3">
+                        <button 
+                            @click="closeDocumentOtpModal"
+                            class="flex-1 px-4 py-2 bg-slate-200 hover:bg-slate-300 text-slate-700 font-bold rounded-lg transition-all">
+                            Cancel
+                        </button>
+                        <button 
+                            @click="submitDocumentOtp"
+                            class="flex-1 px-4 py-2 bg-amber-500 hover:bg-amber-600 text-white font-bold rounded-lg transition-all flex items-center justify-center gap-2">
+                            <Download class="w-4 h-4" /> Download
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </transition>
     </AuthenticatedLayout>
 </template>
 

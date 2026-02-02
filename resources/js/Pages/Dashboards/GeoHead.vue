@@ -33,6 +33,12 @@ import {
     ArrowLeft
 } from 'lucide-vue-next';
 
+// Helper function to wrap rupee symbols with CSS class for font styling
+const formatRupee = (text) => {
+    if (!text) return text;
+    return String(text).replace(/₹/g, '<span class="rupee-symbol">₹</span>');
+};
+
 // ECharts Imports
 import VChart from 'vue-echarts';
 import { use } from 'echarts/core';
@@ -94,11 +100,11 @@ const insights = [
 ];
 
 const kpis = [
-    { id: 'revenue', label: 'Total Revenue', value: '₹ 28.45 Cr', change: '+12%', sub: 'vs last year', trend: 'up', icon: DollarSign, color: 'border-blue-500', shadow: 'shadow-blue-100', bg: 'bg-blue-50', text: 'text-blue-600' },
-    { id: 'orders', label: 'Total Orders', value: '1,240', change: '+8%', sub: 'vs last month', trend: 'up', icon: ShoppingCart, color: 'border-purple-500', shadow: 'shadow-purple-100', bg: 'bg-purple-50', text: 'text-purple-600' },
-    { id: 'schools', label: 'Active Schools', value: '450', change: '-2%', sub: 'churn rate', trend: 'down', icon: School, color: 'border-orange-500', shadow: 'shadow-orange-100', bg: 'bg-orange-50', text: 'text-orange-600' },
-    { id: 'conversion', label: 'Conversion', value: '68%', change: '+1.5%', sub: 'efficiency', trend: 'up', icon: Percent, color: 'border-emerald-500', shadow: 'shadow-emerald-100', bg: 'bg-emerald-50', text: 'text-emerald-600' },
-    { id: 'returns', label: 'Returns Value', value: '₹ 1.2 Cr', change: '4.2%', sub: 'of revenue', trend: 'up', isBad: true, icon: AlertCircle, color: 'border-red-500', shadow: 'shadow-red-100', bg: 'bg-red-50', text: 'text-red-600' },
+    { id: 'revenue', label: 'Total Revenue', value: '₹ 28.45 Cr', change: '+12%', sub: 'vs last year', trend: 'up', icon: DollarSign, color: 'border-[#015276]', shadow: 'shadow-[#FFEEDE]', bg: 'bg-[#FFEEDE]', text: 'text-[#AC0C13]' },
+    { id: 'orders', label: 'Total Orders', value: '1,240', change: '+8%', sub: 'vs last month', trend: 'up', icon: ShoppingCart, color: 'border-[#F37B15]', shadow: 'shadow-[#FFEEDE]', bg: 'bg-[#FFEEDE]', text: 'text-[#AC0C13]' },
+    { id: 'schools', label: 'Active Schools', value: '450', change: '-2%', sub: 'churn rate', trend: 'down', icon: School, color: 'border-[#015276]', shadow: 'shadow-[#FFEEDE]', bg: 'bg-[#FFEEDE]', text: 'text-[#AC0C13]' },
+    { id: 'conversion', label: 'Conversion', value: '68%', change: '+1.5%', sub: 'efficiency', trend: 'up', icon: Percent, color: 'border-[#F37B15]', shadow: 'shadow-[#FFEEDE]', bg: 'bg-[#FFEEDE]', text: 'text-[#AC0C13]' },
+    { id: 'returns', label: 'Returns Value', value: '₹ 1.2 Cr', change: '4.2%', sub: 'of revenue', trend: 'up', isBad: true, icon: AlertCircle, color: 'border-[#AC0C13]', shadow: 'shadow-[#FFEEDE]', bg: 'bg-[#FFEEDE]', text: 'text-[#AC0C13]' },
 ];
 
 // Zone Data
@@ -309,7 +315,7 @@ const toggleRow = (id) => {
                             <button 
                                 v-for="(kpi, idx) in kpis" :key="idx" 
                                 @click="openDetailView(kpi)"
-                                :class="['group relative bg-white dark:bg-slate-800 rounded-xl p-4 shadow-sm hover:shadow-lg hover:-translate-y-1 transition-all duration-300 border-b-4 text-left outline-none focus:ring-2 focus:ring-offset-2 focus:ring-brand-500', kpi.color, 'border border-t-slate-100 border-l-slate-100 border-r-slate-100 dark:border-slate-700']"
+                                :class="['group relative bg-[#FFFAF7] dark:bg-slate-800 rounded-xl p-4 shadow-sm hover:shadow-lg hover:-translate-y-1 transition-all duration-300 border-b-4 text-left outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#015276]', kpi.color, 'border border-t-slate-100 border-l-slate-100 border-r-slate-100 dark:border-slate-700']"
                             >
                                 <div class="flex items-start justify-between mb-3">
                                     <div :class="['p-2 rounded-lg transition-colors group-hover:scale-110', kpi.bg, kpi.text]">
@@ -320,7 +326,7 @@ const toggleRow = (id) => {
                                         <component :is="kpi.trend === 'up' ? TrendingUp : TrendingDown" :class="['w-3 h-3', kpi.isBad ? 'text-red-600' : 'text-emerald-600']" />
                                     </div>
                                 </div>
-                                <p class="text-2xl font-bold text-slate-800 dark:text-white">{{ kpi.value }}</p>
+                                <p class="text-2xl font-bold text-[#015276] dark:text-white" v-html="formatRupee(kpi.value)"></p>
                                 <p class="text-[11px] font-bold text-slate-400 uppercase tracking-wide mt-1">{{ kpi.label }}</p>
                                 <div class="absolute inset-0 rounded-xl ring-2 ring-transparent group-hover:ring-black/5 transition-all"></div>
                             </button>
@@ -547,7 +553,7 @@ const toggleRow = (id) => {
                             <p class="text-xs font-bold text-slate-400 uppercase tracking-widest mb-0.5">Deep Dive Analytics</p>
                             <h2 class="text-2xl font-bold font-display text-slate-800 dark:text-white flex items-center gap-2">
                                 {{ selectedKpi.label }} 
-                                <span class="px-2 py-0.5 rounded-md bg-slate-100 text-sm text-slate-600">{{ selectedKpi.value }}</span>
+                                <span class="px-2 py-0.5 rounded-md bg-slate-100 text-sm text-slate-600" v-html="formatRupee(selectedKpi.value)"></span>
                             </h2>
                         </div>
                     </div>
