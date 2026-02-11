@@ -20,7 +20,7 @@ const messages = ref([
     {
         id: 1,
         type: 'bot',
-        content: "Hi there! 👋 I'm your Richmond AI assistant. How can I help you today?",
+        content: "Hi there! 👋 I'm your Ratna Sagar AI assistant. How can I help you today?",
         timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
     }
 ]);
@@ -78,7 +78,7 @@ const sendMessage = (text) => {
         if (matchedFaq) {
             response = matchedFaq.response;
         } else if (lowerInput.includes('hello') || lowerInput.includes('hi')) {
-            response = "Hello! I'm Richmond AI. I can help you navigate the ERP system. What's on your mind?";
+            response = "Hello! I'm Ratna Sagar AI. I can help you navigate the ERP system. What's on your mind?";
         } else if (lowerInput.includes('thank')) {
             response = "You're very welcome! Let me know if you need anything else.";
         } else if (lowerInput.includes('where') && lowerInput.includes('dashboard')) {
@@ -134,7 +134,7 @@ defineExpose({ toggleChat });
                                 <Bot class="w-7 h-7" />
                             </div>
                             <div>
-                                <h3 class="font-bold text-lg leading-tight">Richmond AI</h3>
+                                <h3 class="font-bold text-lg leading-tight">Ratna Sagar AI</h3>
                                 <div class="flex items-center gap-1.5 mt-0.5">
                                     <span class="w-2 h-2 bg-green-400 rounded-full animate-pulse"></span>
                                     <span class="text-xs font-medium text-white/80 uppercase tracking-widest">Always Online</span>
@@ -217,7 +217,7 @@ defineExpose({ toggleChat });
                         </div>
                     </div>
                     <div class="mt-3 text-center">
-                        <p class="text-[11px] text-slate-400 font-medium">Powered by Richmond GenAI v2.0</p>
+                        <p class="text-[11px] text-slate-400 font-medium">Powered by Ratna Sagar GenAI v2.0</p>
                     </div>
                 </div>
             </div>
