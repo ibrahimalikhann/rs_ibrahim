@@ -453,7 +453,7 @@ const maxSchoolValue = computed(() => {
                             </div>
 
                             <!-- Visit Analysis -->
-                            <div class="md:col-span-2 rounded-2xl bg-[#F37B15] dark:bg-slate-800 p-5 shadow-sm border border-slate-100 dark:border-slate-700">
+                            <div class="md:col-span-2 rounded-2xl bg-[#EB6C1A] dark:bg-slate-800 p-5 shadow-sm border border-slate-100 dark:border-slate-700">
                                 <div class="flex justify-between items-start mb-4">
                                     <div>
                                         <p class="text-[10px] font-bold text-white/80 uppercase tracking-widest">Field Activity</p>
@@ -669,16 +669,6 @@ const maxSchoolValue = computed(() => {
                                                     <p class="text-lg font-semibold text-amber-300 mb-2" style="text-shadow: 1px 1px 4px rgba(0,0,0,0.5);">
                                                         {{ userName }}!
                                                     </p>
-                                                    
-                                                    <!-- Bottom Badge -->
-                                                    <div class="absolute bottom-12 left-1/2 -translate-x-1/2">
-                                                        <div class="px-3 py-1.5 bg-white/10 backdrop-blur-sm rounded-full border border-white/20">
-                                                            <p class="text-[10px] font-medium text-white/90 flex items-center gap-1">
-                                                                <span class="text-yellow-300">✨</span> 
-                                                                Wishing you joy & success!
-                                                            </p>
-                                                        </div>
-                                                    </div>
                                                 </div>
                                             </div>
                                         </Transition>
@@ -768,31 +758,34 @@ const maxSchoolValue = computed(() => {
             </div>
 
             <!-- MY SCHOOLS FULL WIDTH CHART SECTION -->
-            <div class="rounded-2xl border border-slate-100 bg-white p-6 shadow-sm dark:border-slate-700 dark:bg-slate-800">
-                <div class="mb-6 flex items-center justify-between">
-                    <h3 class="text-lg font-bold text-slate-800 dark:text-white flex items-center gap-2">
-                        <School class="w-6 h-6 text-[#AC0C13]" />
+            <div class="rounded-2xl border border-slate-100 bg-white p-4 sm:p-6 shadow-sm dark:border-slate-700 dark:bg-slate-800">
+                <div class="mb-6 flex flex-col items-start justify-between gap-4 md:flex-row md:items-center">
+                    <h3 class="flex items-center gap-2 text-lg font-bold text-slate-800 dark:text-white">
+                        <School class="h-6 w-6 text-[#AC0C13]" />
                         My Schools
                     </h3>
-                    <div class="flex items-center gap-4">
+                    <div class="flex w-full flex-col gap-4 md:w-auto md:flex-row md:items-center">
                         <!-- Legend -->
-                        <div class="flex flex-wrap gap-4">
+                        <div class="flex flex-wrap gap-x-4 gap-y-2">
                             <div class="flex items-center gap-1.5">
-                                <div class="w-3 h-3 rounded-sm bg-[#4472C4]"></div>
-                                <span class="text-[11px] font-medium text-slate-600">Assigned Schools</span>
+                                <div class="h-3 w-3 rounded-sm bg-[#4472C4]"></div>
+                                <span class="text-[11px] font-medium text-slate-600">Assigned</span>
                             </div>
                             <div class="flex items-center gap-1.5">
-                                <div class="w-3 h-3 rounded-sm bg-[#ED7D31]"></div>
-                                <span class="text-[11px] font-medium text-slate-600">User Schools (RS Customers)</span>
+                                <div class="h-3 w-3 rounded-sm bg-[#ED7D31]"></div>
+                                <span class="text-[11px] font-medium text-slate-600">User</span>
                             </div>
                             <div class="flex items-center gap-1.5">
-                                <div class="w-3 h-3 rounded-sm bg-[#A5A5A5]"></div>
-                                <span class="text-[11px] font-medium text-slate-600">Non-User Schools</span>
+                                <div class="h-3 w-3 rounded-sm bg-[#A5A5A5]"></div>
+                                <span class="text-[11px] font-medium text-slate-600">Non-User</span>
                             </div>
                         </div>
-                        <span class="text-xs font-bold text-blue-600 cursor-pointer hover:underline">View All</span>
+                        <span class="cursor-pointer text-xs font-bold text-blue-600 hover:underline">View All</span>
                     </div>
                 </div>
+
+                <div class="overflow-x-auto pb-4">
+                    <div class="min-w-[650px]">
 
                 <!-- Vertical Bar Chart Container -->
                 <div class="flex">
@@ -870,13 +863,13 @@ const maxSchoolValue = computed(() => {
                             </div>
                         </div>
 
-                        <!-- X-Axis Labels -->
-                        <div class="flex justify-around mt-3 border-t border-slate-200 pt-3">
-                            <span class="text-[11px] font-bold text-slate-600 uppercase">CBSE</span>
-                            <span class="text-[11px] font-bold text-slate-600 uppercase">ICSE</span>
-                            <span class="text-[11px] font-bold text-slate-600 uppercase">State Board</span>
-                            <span class="text-[11px] font-bold text-slate-600 uppercase">IGCSE</span>
-                            <span class="text-[11px] font-bold text-slate-700 uppercase">TOTAL</span>
+                                <!-- X-Axis Labels -->
+                                <div class="mt-3 flex justify-around border-t border-slate-200 pt-3">
+                                    <span class="text-[11px] font-bold uppercase text-slate-600">CBSE</span>
+                                    <span class="text-[11px] font-bold uppercase text-slate-600">ICSE</span>
+                                    <span class="text-[11px] font-bold uppercase text-slate-600">State Board</span>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>

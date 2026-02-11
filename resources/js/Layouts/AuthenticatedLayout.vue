@@ -38,14 +38,18 @@ import {
     HelpCircle,
     Lock,
     Award,
+    Sparkles,
     Users as UsersIcon
 } from 'lucide-vue-next';
 import Dropdown from '@/Components/Dropdown.vue';
 import DropdownLink from '@/Components/DropdownLink.vue';
 import CommandPalette from '@/Components/CommandPalette.vue';
 
+import AIChat from '@/Components/AIChat.vue';
+
 const sidebarOpen = ref(false);
 const showCommandPalette = ref(false);
+const aiChatRef = ref(null);
 const activeHoverMenu = ref(null);
 const flyoutPosition = ref({ top: 0 });
 
@@ -284,6 +288,19 @@ onUnmounted(() => {
                             <kbd class="text-[11px] font-bold text-white/60 bg-white/10 px-1.5 py-0.5 rounded">⌘K</kbd>
                         </div>
                     </div>
+
+                    <!-- AI Assistant -->
+                    <button 
+                        @click="aiChatRef?.toggleChat()"
+                        class="hidden sm:flex relative p-2.5 text-white/80 hover:text-white hover:bg-white/10 rounded-xl transition-all duration-200 group"
+                        title="AI Assistant"
+                    >
+                        <Sparkles class="w-6 h-6 group-hover:scale-110 transition-transform" />
+                        <span class="absolute -top-1 -right-1 flex h-3 w-3">
+                            <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-orange-300 opacity-75"></span>
+                            <span class="relative inline-flex rounded-full h-3 w-3 bg-orange-400 border border-white/20"></span>
+                        </span>
+                    </button>
 
                     <!-- Notification Bell -->
                     <button class="relative p-2.5 text-white/80 hover:text-white hover:bg-white/10 rounded-xl transition-all duration-200">
@@ -550,6 +567,8 @@ onUnmounted(() => {
                     <slot />
                 </div>
             </main>
+            <!-- AI Chatbot component -->
+            <AIChat ref="aiChatRef" />
         </div>
     </div>
 </template>
