@@ -1,7 +1,11 @@
 <script setup>
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
-import { Head } from '@inertiajs/vue3';
+import { Head, usePage } from '@inertiajs/vue3';
 import { ref, onMounted, computed } from 'vue';
+
+// Get user name from page props
+const page = usePage();
+const userName = computed(() => page.props.auth.user.name);
 import { 
     TrendingUp, 
     TrendingDown,
@@ -219,6 +223,13 @@ const deepDiveTrendOption = computed(() => ({
 
     <AuthenticatedLayout>
         <div class="space-y-8 pb-12 font-sans text-slate-800 relative">
+            
+            <!-- Greeting Section -->
+            <div class="flex items-center justify-between">
+                <div>
+                    <h1 class="text-3xl font-bold text-slate-800 dark:text-white">Hi, {{ userName }}!</h1>
+                </div>
+            </div>
             
             <!-- 1) VP STRATEGIC COMMAND BAR -->
             <div class="bg-gradient-to-r from-slate-900 to-slate-800 rounded-2xl p-8 text-white shadow-xl relative overflow-hidden">

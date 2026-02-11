@@ -1,7 +1,11 @@
 <script setup>
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
-import { Head } from '@inertiajs/vue3';
+import { Head, usePage } from '@inertiajs/vue3';
 import { ref, onMounted, computed } from 'vue';
+
+// Get user name from page props
+const page = usePage();
+const userName = computed(() => page.props.auth.user.name);
 import { 
     TrendingUp, 
     TrendingDown, 
@@ -373,6 +377,13 @@ const closeDrawer = () => {
 
     <AuthenticatedLayout>
         <div class="space-y-8 pb-12 font-sans text-slate-900 bg-slate-50 min-h-screen">
+            
+            <!-- Greeting Section -->
+            <div class="px-6 pt-8 flex items-center justify-between">
+                <div>
+                    <h1 class="text-3xl font-bold text-slate-800 dark:text-white">Hi, {{ userName }}!</h1>
+                </div>
+            </div>
 
             <!-- 1) COMPANY COMMAND HEADER -->
             <div class="bg-gradient-to-r from-slate-900 via-slate-800 to-slate-900 text-white p-6 shadow-2xl relative overflow-hidden border-b-4 border-orange-600">

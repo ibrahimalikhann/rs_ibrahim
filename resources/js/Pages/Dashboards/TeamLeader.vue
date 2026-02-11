@@ -1,7 +1,11 @@
 <script setup>
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
-import { Head } from '@inertiajs/vue3';
+import { Head, usePage } from '@inertiajs/vue3';
 import { ref, computed } from 'vue';
+
+// Get user name from page props
+const page = usePage();
+const userName = computed(() => page.props.auth.user.name);
 import { 
     Target, 
     TrendingUp, 
@@ -201,6 +205,13 @@ const teamPerformance = [
     <Head title="Overview" />
 
     <AuthenticatedLayout>
+        
+        <!-- Greeting Section -->
+        <div class="mb-6 flex items-center justify-between">
+            <div>
+                <h1 class="text-3xl font-bold text-slate-800 dark:text-white">Hi, {{ userName }}!</h1>
+            </div>
+        </div>
         
         <!-- Dashboard Header / Toolbar - Enterprise -->
         <div class="flex flex-col md:flex-row md:items-center justify-between gap-3 mb-6">

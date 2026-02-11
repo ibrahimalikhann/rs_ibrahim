@@ -35,13 +35,7 @@ const formatRupee = (text) => {
     return String(text).replace(/₹/g, '<span class="rupee-symbol">₹</span>');
 };
 
-// Greeting function based on time of day
-const getGreeting = () => {
-    const hour = new Date().getHours();
-    if (hour < 12) return 'Good Morning';
-    if (hour < 17) return 'Good Afternoon';
-    return 'Good Evening';
-};
+
 
 // Inspirational Quotes Collection
 const quotes = [
@@ -255,7 +249,7 @@ const maxSchoolValue = computed(() => {
             <!-- Greeting Section -->
             <div class="flex items-center justify-between">
                 <div>
-                    <h1 class="text-3xl font-bold text-slate-800 dark:text-white">{{ getGreeting() }}, {{ userName }}!</h1>
+                    <h1 class="text-3xl font-bold text-slate-800 dark:text-white">Hi, {{ userName }}!</h1>
                     <div class="mt-2">
                         <p class="text-sm text-slate-600 dark:text-slate-300 italic leading-relaxed">
                             "{{ dailyQuote.text }}"

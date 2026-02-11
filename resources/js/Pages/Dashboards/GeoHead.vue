@@ -1,7 +1,11 @@
 <script setup>
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
-import { Head } from '@inertiajs/vue3';
+import { Head, usePage } from '@inertiajs/vue3';
 import { ref, onMounted, computed, watch, nextTick } from 'vue';
+
+// Get user name from page props
+const page = usePage();
+const userName = computed(() => page.props.auth.user.name);
 import { 
     AlertTriangle, 
     TrendingUp, 
@@ -260,6 +264,13 @@ const toggleRow = (id) => {
         <!-- MASTER CONTAINER FOR DASHBOARD -->
         <div class="relative transition-all duration-500 ease-in-out pb-10"
              :class="[detailViewOpen ? 'opacity-30 scale-95 blur-sm overflow-hidden h-screen pointer-events-none' : 'opacity-100 scale-100']">
+            
+            <!-- Greeting Section -->
+            <div class="mb-8 flex items-center justify-between">
+                <div>
+                    <h1 class="text-3xl font-bold text-slate-800 dark:text-white">Hi, {{ userName }}!</h1>
+                </div>
+            </div>
             
             <div class="space-y-8">
                 
