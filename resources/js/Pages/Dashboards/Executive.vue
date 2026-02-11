@@ -223,11 +223,9 @@ const tasks = [
 ];
 
 const pipeline = [
-    { stage: 'Assigned', count: 45, status: 'past' },
-    { stage: 'Surveyed', count: 32, status: 'past' },
-    { stage: 'Proposal', count: 18, status: 'current' },
-    { stage: 'Order', count: 12, status: 'future' },
-    { stage: 'Approved', count: 8, status: 'future' },
+    { stage: 'Assigned', count: 45, status: 'past', icon: ClipboardList },
+    { stage: 'Proposal', count: 18, status: 'current', icon: FileText },
+    { stage: 'Order', count: 12, status: 'future', icon: ShoppingCart },
 ];
 
 // My Schools Data - Board wise breakdown
@@ -388,35 +386,51 @@ const maxSchoolValue = computed(() => {
                             <!-- PIPELINE VIEW -->
                             <div class="rounded-2xl bg-[#FFFAF7] p-6 text-white shadow-lg relative overflow-hidden group">
                                 <!-- Glow Effect -->
-                                <div class="absolute top-0 right-0 w-32 h-32 bg-green-500/10 rounded-full blur-3xl -mr-10 -mt-10"></div>
+                                <div class="absolute top-0 right-0 w-32 h-32 bg-orange-500/10 rounded-full blur-3xl -mr-10 -mt-10"></div>
                                 
                                 <div class="flex justify-between items-start mb-4">
-                                    <div class="p-3 rounded-xl bg-[#FFEEDE]">
-                                        <Activity class="w-6 h-6 text-[#AC0C13]" />
+                                    <div class="p-2.5 rounded-xl bg-[#FFEEDE]">
+                                        <Activity class="w-5 h-5 text-[#AC0C13]" />
                                     </div>
-                                    <span class="text-sm font-bold text-blue-600 cursor-pointer hover:underline">Details</span>
+                                    <button class="text-xs font-bold text-blue-600 hover:text-blue-700 transition-colors uppercase tracking-wider">
+                                        View Pipeline
+                                    </button>
                                 </div>
                                 
-                                <p class="text-sm font-bold text-slate-500 uppercase tracking-widest mb-4">Pipeline View</p>
+                                <p class="text-xs font-bold text-slate-400 uppercase tracking-widest mb-6">Pipeline Overview</p>
                                 
-                                <div class="relative mt-2">
-                                    <div class="absolute top-4 left-4 right-4 h-0.5 bg-slate-200 dark:bg-slate-700"></div>
+                                <div class="relative px-2">
+                                    <!-- Background Line -->
+                                    <div class="absolute top-5 left-8 right-8 h-0.5 bg-slate-200 dark:bg-slate-700"></div>
+                                    
                                     <div class="relative flex justify-between">
-                                        <div v-for="(step, i) in pipeline" :key="i" class="flex flex-col items-center group cursor-pointer">
+                                        <div v-for="(step, i) in pipeline" :key="i" class="flex flex-col items-center group/step min-w-[60px]">
+                                            <!-- Step Indicator -->
                                             <div :class="[
-                                                'relative z-10 flex items-center justify-center rounded-full border-2 font-bold transition-all',
-                                                step.status === 'past' ? 'h-8 w-8 border-orange-500 bg-orange-500 text-white' :
-                                                step.status === 'current' ? 'h-9 w-9 border-orange-600 bg-white text-orange-600 shadow-md ring-2 ring-orange-100' :
-                                                'h-8 w-8 border-slate-200 bg-slate-50 text-slate-400'
+                                                'relative z-10 flex items-center justify-center rounded-full border-2 transition-all duration-300',
+                                                step.status === 'past' ? 'h-10 w-10 border-emerald-500 bg-emerald-500 text-white' :
+                                                step.status === 'current' ? 'h-11 w-11 border-[#AC0C13] bg-[#FFEEDE] text-[#AC0C13] shadow-lg ring-4 ring-[#FFEEDE]/50 scale-110' :
+                                                'h-10 w-10 border-slate-200 bg-white text-slate-400'
                                             ]">
-                                                <Check v-if="step.status === 'past'" class="h-4 w-4" />
-                                                <span v-else class="text-xs font-bold">{{ step.count }}</span>
+                                                <component :is="step.icon" v-if="step.status !== 'past'" :class="step.status === 'current' ? 'h-5 w-5' : 'h-4 w-4'" />
+                                                <Check v-else class="h-5 w-5 stroke-[3]" />
+                                                
+                                                <!-- Count Badge for Future Steps -->
+                                                <div v-if="step.status === 'future'" class="absolute -top-2 -right-2 bg-slate-100 text-[#015276] text-[10px] font-bold px-1.5 py-0.5 rounded-full border border-white">
+                                                    {{ step.count }}
+                                                </div>
+                                                <div v-if="step.status === 'current'" class="absolute -top-2 -right-2 bg-[#AC0C13] text-white text-[10px] font-bold px-1.5 py-0.5 rounded-full border border-white">
+                                                    {{ step.count }}
+                                                </div>
                                             </div>
+                                            
+                                            <!-- Label -->
                                             <span :class="[
-                                                'mt-2 text-xs font-bold uppercase tracking-wide',
-                                                step.status === 'current' ? 'text-orange-600' : 'text-slate-500'
+                                                'mt-3 text-[10px] font-bold uppercase tracking-tight text-center transition-colors',
+                                                step.status === 'current' ? 'text-[#AC0C13]' : 
+                                                step.status === 'past' ? 'text-emerald-600' : 'text-slate-400'
                                             ]">
-                                                {{ step.stage.substring(0, 5) }}
+                                                {{ step.stage }}
                                             </span>
                                         </div>
                                     </div>
