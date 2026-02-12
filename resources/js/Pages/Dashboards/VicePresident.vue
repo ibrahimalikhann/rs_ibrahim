@@ -1,4 +1,4 @@
-<script setup>
+﻿<script setup>
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
 import { Head, usePage } from '@inertiajs/vue3';
 import { ref, onMounted, computed } from 'vue';
@@ -85,12 +85,12 @@ const corporateData = {
 
 // 2. STRATEGIC KPI CARDS
 const kpis = [
-    { id: 'revenue', label: 'Total Revenue', value: '₹ 145.2 Cr', change: '+14%', sub: 'vs last year', trend: 'up', icon: DollarSign, color: 'border-[#015276]', bg: 'bg-[#FFEEDE]', text: 'text-[#AC0C13]' },
-    { id: 'orders', label: 'Total Orders', value: '12,450', change: '+8%', sub: 'vs last year', trend: 'up', icon: ShoppingCart, color: 'border-[#F37B15]', bg: 'bg-[#FFEEDE]', text: 'text-[#AC0C13]' },
-    { id: 'schools', label: 'Active Schools', value: '2,800', change: '+3%', sub: 'growing base', trend: 'up', icon: School, color: 'border-[#015276]', bg: 'bg-[#FFEEDE]', text: 'text-[#AC0C13]' },
-    { id: 'conversion', label: 'Conversion', value: '64%', change: '-1.2%', sub: 'slight dip', trend: 'down', icon: Percent, color: 'border-[#F37B15]', bg: 'bg-[#FFEEDE]', text: 'text-[#AC0C13]' },
-    { id: 'returns', label: 'Returns Value', value: '₹ 5.8 Cr', change: '4.0%', sub: 'of revenue', trend: 'up', isBad: true, icon: AlertCircle, color: 'border-[#AC0C13]', bg: 'bg-[#FFEEDE]', text: 'text-[#AC0C13]' },
-    { id: 'receivables', label: 'Receivables', value: '₹ 12.5 Cr', change: '-2%', sub: 'outstanding', trend: 'down', isGood: true, icon: Activity, color: 'border-[#015276]', bg: 'bg-[#FFEEDE]', text: 'text-[#AC0C13]' },
+    { id: 'revenue', label: 'Total Revenue', value: '₹ 145.2 Cr', change: '+14%', sub: 'vs last year', trend: 'up', icon: DollarSign, color: 'border-[#015276]', bg: 'bg-[#FFEEDE]', text: 'text-[rgb(143,5,7)]' },
+    { id: 'orders', label: 'Total Orders', value: '12,450', change: '+8%', sub: 'vs last year', trend: 'up', icon: ShoppingCart, color: 'border-[#F37B15]', bg: 'bg-[#FFEEDE]', text: 'text-[rgb(143,5,7)]' },
+    { id: 'schools', label: 'Active Schools', value: '2,800', change: '+3%', sub: 'growing base', trend: 'up', icon: School, color: 'border-[#015276]', bg: 'bg-[#FFEEDE]', text: 'text-[rgb(143,5,7)]' },
+    { id: 'conversion', label: 'Conversion', value: '64%', change: '-1.2%', sub: 'slight dip', trend: 'down', icon: Percent, color: 'border-[#F37B15]', bg: 'bg-[#FFEEDE]', text: 'text-[rgb(143,5,7)]' },
+    { id: 'returns', label: 'Returns Value', value: '₹ 5.8 Cr', change: '4.0%', sub: 'of revenue', trend: 'up', isBad: true, icon: AlertCircle, color: 'border-[rgb(143,5,7)]', bg: 'bg-[#FFEEDE]', text: 'text-[rgb(143,5,7)]' },
+    { id: 'receivables', label: 'Receivables', value: '₹ 12.5 Cr', change: '-2%', sub: 'outstanding', trend: 'down', isGood: true, icon: Activity, color: 'border-[#015276]', bg: 'bg-[#FFEEDE]', text: 'text-[rgb(143,5,7)]' },
 ];
 
 // 4. PERFORMANCE HIERARCHY DATA
@@ -243,7 +243,7 @@ const deepDiveTrendOption = computed(() => ({
                             <Building2 class="w-3 h-3" /> Corporate Command
                         </div>
                         <h1 class="text-3xl font-bold font-display tracking-tight leading-none">National Overview</h1>
-                        <p class="text-slate-400 text-xs mt-1 font-medium tracking-wide">FY 2025-26 • Synced: {{ corporateData.lastSync }}</p>
+                        <p class="text-slate-400 text-xs mt-1 font-medium tracking-wide">FY 2025-26 â€¢ Synced: {{ corporateData.lastSync }}</p>
                     </div>
 
                     <!-- Main Metrics -->

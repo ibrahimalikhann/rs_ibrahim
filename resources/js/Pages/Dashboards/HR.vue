@@ -1,4 +1,4 @@
-<script setup>
+﻿<script setup>
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
 import { Head } from '@inertiajs/vue3';
 import { ref, onMounted, computed } from 'vue';
@@ -257,7 +257,7 @@ onMounted(() => {
                         <Download class="w-4 h-4" />
                         Export Report
                     </button>
-                    <button class="px-4 py-2 text-sm font-medium text-white bg-[#AC0C13] rounded-lg hover:bg-[#8a0a0f] transition-colors flex items-center gap-2">
+                    <button class="px-4 py-2 text-sm font-medium text-white bg-[rgb(143,5,7)] rounded-lg hover:bg-[#8a0a0f] transition-colors flex items-center gap-2">
                         <PlusCircle class="w-4 h-4" />
                         Add Employee
                     </button>
@@ -274,7 +274,7 @@ onMounted(() => {
                         :class="[
                             'px-4 py-2 text-sm font-medium rounded-lg transition-all flex items-center gap-2 whitespace-nowrap',
                             activeSection === section.id 
-                                ? 'bg-[#FFEEDE] text-[#AC0C13]' 
+                                ? 'bg-[#FFEEDE] text-[rgb(143,5,7)]' 
                                 : 'text-slate-600 hover:bg-slate-50 dark:text-slate-400 dark:hover:bg-slate-700'
                         ]"
                     >
@@ -296,7 +296,7 @@ onMounted(() => {
                         <div class="absolute top-0 right-0 w-24 h-24 rounded-full blur-3xl -mr-8 -mt-8 opacity-20" :style="{ backgroundColor: stat.color }"></div>
                         <div class="flex items-start justify-between mb-4">
                             <div class="p-2 rounded-lg bg-[#FFEEDE]">
-                                <component :is="stat.icon" class="w-5 h-5 text-[#AC0C13]" />
+                                <component :is="stat.icon" class="w-5 h-5 text-[rgb(143,5,7)]" />
                             </div>
                             <span :class="[
                                 'text-xs font-bold px-2 py-1 rounded-full flex items-center gap-1',
@@ -318,7 +318,7 @@ onMounted(() => {
                     <div class="bg-[#FFFAF7] rounded-2xl p-6 shadow-sm border border-slate-100 dark:border-slate-700">
                         <div class="flex items-center justify-between mb-4">
                             <h3 class="font-bold text-[#015276]">Department Distribution</h3>
-                            <PieChart class="w-5 h-5 text-[#AC0C13]" />
+                            <PieChart class="w-5 h-5 text-[rgb(143,5,7)]" />
                         </div>
                         <div class="space-y-3">
                             <div v-for="dept in employeeData.departments" :key="dept.name" class="flex items-center gap-3">
@@ -336,7 +336,7 @@ onMounted(() => {
                     <div class="bg-[#FFFAF7] rounded-2xl p-6 shadow-sm border border-slate-100 dark:border-slate-700">
                         <div class="flex items-center justify-between mb-4">
                             <h3 class="font-bold text-[#015276]">Today's Attendance</h3>
-                            <Clock class="w-5 h-5 text-[#AC0C13]" />
+                            <Clock class="w-5 h-5 text-[rgb(143,5,7)]" />
                         </div>
                         <div class="grid grid-cols-2 gap-4 mb-4">
                             <div class="text-center p-3 bg-green-50 rounded-xl">
@@ -366,7 +366,7 @@ onMounted(() => {
                     <div class="bg-[#FFFAF7] rounded-2xl p-6 shadow-sm border border-slate-100 dark:border-slate-700">
                         <div class="flex items-center justify-between mb-4">
                             <h3 class="font-bold text-[#015276]">Pending Actions</h3>
-                            <AlertCircle class="w-5 h-5 text-[#AC0C13]" />
+                            <AlertCircle class="w-5 h-5 text-[rgb(143,5,7)]" />
                         </div>
                         <div class="space-y-3">
                             <div class="flex items-center justify-between p-3 bg-amber-50 rounded-xl">
@@ -408,19 +408,19 @@ onMounted(() => {
                     <div class="bg-[#FFFAF7] rounded-2xl p-6 shadow-sm border border-slate-100 dark:border-slate-700">
                         <div class="flex items-center justify-between mb-4">
                             <h3 class="font-bold text-[#015276]">Recent Joiners</h3>
-                            <button class="text-sm text-[#AC0C13] font-medium hover:underline flex items-center gap-1">
+                            <button class="text-sm text-[rgb(143,5,7)] font-medium hover:underline flex items-center gap-1">
                                 View All <ChevronRight class="w-4 h-4" />
                             </button>
                         </div>
                         <div class="space-y-3">
                             <div v-for="emp in employeeData.recentEmployees" :key="emp.name" 
                                  class="flex items-center gap-4 p-3 bg-white rounded-xl border border-slate-100 hover:shadow-sm transition-shadow">
-                                <div class="w-10 h-10 rounded-full bg-[#FFEEDE] flex items-center justify-center text-sm font-bold text-[#AC0C13]">
+                                <div class="w-10 h-10 rounded-full bg-[#FFEEDE] flex items-center justify-center text-sm font-bold text-[rgb(143,5,7)]">
                                     {{ emp.avatar }}
                                 </div>
                                 <div class="flex-1">
                                     <p class="font-medium text-[#015276]">{{ emp.name }}</p>
-                                    <p class="text-xs text-slate-500">{{ emp.role }} • {{ emp.department }}</p>
+                                    <p class="text-xs text-slate-500">{{ emp.role }} â€¢ {{ emp.department }}</p>
                                 </div>
                                 <div class="text-right">
                                     <p class="text-xs text-slate-500">{{ emp.joinDate }}</p>
@@ -437,7 +437,7 @@ onMounted(() => {
                     <div class="bg-[#FFFAF7] rounded-2xl p-6 shadow-sm border border-slate-100 dark:border-slate-700">
                         <div class="flex items-center justify-between mb-4">
                             <h3 class="font-bold text-[#015276]">Open Positions</h3>
-                            <button class="text-sm text-[#AC0C13] font-medium hover:underline flex items-center gap-1">
+                            <button class="text-sm text-[rgb(143,5,7)] font-medium hover:underline flex items-center gap-1">
                                 View All <ChevronRight class="w-4 h-4" />
                             </button>
                         </div>
@@ -445,11 +445,11 @@ onMounted(() => {
                             <div v-for="job in recruitmentData.recentJobs" :key="job.title" 
                                  class="flex items-center gap-4 p-3 bg-white rounded-xl border border-slate-100 hover:shadow-sm transition-shadow">
                                 <div class="w-10 h-10 rounded-full bg-[#FFEEDE] flex items-center justify-center">
-                                    <Briefcase class="w-5 h-5 text-[#AC0C13]" />
+                                    <Briefcase class="w-5 h-5 text-[rgb(143,5,7)]" />
                                 </div>
                                 <div class="flex-1">
                                     <p class="font-medium text-[#015276]">{{ job.title }}</p>
-                                    <p class="text-xs text-slate-500">{{ job.department }} • {{ job.location }}</p>
+                                    <p class="text-xs text-slate-500">{{ job.department }} â€¢ {{ job.location }}</p>
                                 </div>
                                 <div class="text-right">
                                     <p class="text-sm font-bold text-[#015276]">{{ job.applicants }}</p>
@@ -471,7 +471,7 @@ onMounted(() => {
                     <div class="bg-[#FFFAF7] rounded-2xl p-6 shadow-sm border border-slate-100">
                         <div class="flex items-center justify-between mb-3">
                             <div class="p-2 rounded-lg bg-[#FFEEDE]">
-                                <Briefcase class="w-5 h-5 text-[#AC0C13]" />
+                                <Briefcase class="w-5 h-5 text-[rgb(143,5,7)]" />
                             </div>
                             <span class="text-xs font-bold text-green-600 bg-green-50 px-2 py-1 rounded-full">Active</span>
                         </div>
@@ -481,7 +481,7 @@ onMounted(() => {
                     <div class="bg-[#FFFAF7] rounded-2xl p-6 shadow-sm border border-slate-100">
                         <div class="flex items-center justify-between mb-3">
                             <div class="p-2 rounded-lg bg-[#FFEEDE]">
-                                <Users class="w-5 h-5 text-[#AC0C13]" />
+                                <Users class="w-5 h-5 text-[rgb(143,5,7)]" />
                             </div>
                         </div>
                         <p class="text-xs font-bold text-slate-400 uppercase tracking-widest mb-1">Total Applicants</p>
@@ -490,7 +490,7 @@ onMounted(() => {
                     <div class="bg-[#FFFAF7] rounded-2xl p-6 shadow-sm border border-slate-100">
                         <div class="flex items-center justify-between mb-3">
                             <div class="p-2 rounded-lg bg-[#FFEEDE]">
-                                <Calendar class="w-5 h-5 text-[#AC0C13]" />
+                                <Calendar class="w-5 h-5 text-[rgb(143,5,7)]" />
                             </div>
                         </div>
                         <p class="text-xs font-bold text-slate-400 uppercase tracking-widest mb-1">Interviews Scheduled</p>
@@ -499,7 +499,7 @@ onMounted(() => {
                     <div class="bg-[#FFFAF7] rounded-2xl p-6 shadow-sm border border-slate-100">
                         <div class="flex items-center justify-between mb-3">
                             <div class="p-2 rounded-lg bg-[#FFEEDE]">
-                                <FileText class="w-5 h-5 text-[#AC0C13]" />
+                                <FileText class="w-5 h-5 text-[rgb(143,5,7)]" />
                             </div>
                         </div>
                         <p class="text-xs font-bold text-slate-400 uppercase tracking-widest mb-1">Offers Extended</p>
@@ -531,7 +531,7 @@ onMounted(() => {
                 <div class="bg-[#FFFAF7] rounded-2xl p-6 shadow-sm border border-slate-100">
                     <div class="flex items-center justify-between mb-4">
                         <h3 class="font-bold text-[#015276]">Active Job Postings</h3>
-                        <button class="px-4 py-2 text-sm font-medium text-white bg-[#AC0C13] rounded-lg hover:bg-[#8a0a0f] transition-colors flex items-center gap-2">
+                        <button class="px-4 py-2 text-sm font-medium text-white bg-[rgb(143,5,7)] rounded-lg hover:bg-[#8a0a0f] transition-colors flex items-center gap-2">
                             <PlusCircle class="w-4 h-4" />
                             Post New Job
                         </button>
@@ -589,10 +589,10 @@ onMounted(() => {
                 <div class="bg-[#FFFAF7] rounded-2xl p-4 shadow-sm border border-slate-100 flex flex-col md:flex-row gap-4">
                     <div class="flex-1 relative">
                         <Search class="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" />
-                        <input type="text" placeholder="Search employees..." class="w-full pl-10 pr-4 py-2 bg-white border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#AC0C13]/20 focus:border-[#AC0C13]" />
+                        <input type="text" placeholder="Search employees..." class="w-full pl-10 pr-4 py-2 bg-white border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[rgb(143,5,7)]/20 focus:border-[rgb(143,5,7)]" />
                     </div>
                     <div class="flex gap-2">
-                        <select class="px-4 py-2 bg-white border border-slate-200 rounded-lg text-sm text-[#015276] focus:outline-none focus:ring-2 focus:ring-[#AC0C13]/20">
+                        <select class="px-4 py-2 bg-white border border-slate-200 rounded-lg text-sm text-[#015276] focus:outline-none focus:ring-2 focus:ring-[rgb(143,5,7)]/20">
                             <option>All Departments</option>
                             <option>Sales</option>
                             <option>Marketing</option>
@@ -601,7 +601,7 @@ onMounted(() => {
                             <option>HR</option>
                             <option>IT</option>
                         </select>
-                        <select class="px-4 py-2 bg-white border border-slate-200 rounded-lg text-sm text-[#015276] focus:outline-none focus:ring-2 focus:ring-[#AC0C13]/20">
+                        <select class="px-4 py-2 bg-white border border-slate-200 rounded-lg text-sm text-[#015276] focus:outline-none focus:ring-2 focus:ring-[rgb(143,5,7)]/20">
                             <option>All Status</option>
                             <option>Active</option>
                             <option>Probation</option>
@@ -661,7 +661,7 @@ onMounted(() => {
                                 <tr v-for="emp in employeeData.recentEmployees" :key="emp.name" class="hover:bg-white/50">
                                     <td class="py-4 pr-4">
                                         <div class="flex items-center gap-3">
-                                            <div class="w-10 h-10 rounded-full bg-[#FFEEDE] flex items-center justify-center text-sm font-bold text-[#AC0C13]">
+                                            <div class="w-10 h-10 rounded-full bg-[#FFEEDE] flex items-center justify-center text-sm font-bold text-[rgb(143,5,7)]">
                                                 {{ emp.avatar }}
                                             </div>
                                             <div>
@@ -708,7 +708,7 @@ onMounted(() => {
                 <div class="grid grid-cols-1 md:grid-cols-4 gap-5">
                     <div class="bg-[#FFFAF7] rounded-2xl p-6 shadow-sm border border-slate-100">
                         <div class="p-2 rounded-lg bg-[#FFEEDE] w-fit mb-3">
-                            <UserPlus class="w-5 h-5 text-[#AC0C13]" />
+                            <UserPlus class="w-5 h-5 text-[rgb(143,5,7)]" />
                         </div>
                         <p class="text-xs font-bold text-slate-400 uppercase tracking-widest mb-1">New Joiners</p>
                         <p class="text-3xl font-bold text-[#015276]">{{ onboardingData.newJoiners }}</p>
@@ -884,7 +884,7 @@ onMounted(() => {
                 <div class="grid grid-cols-1 md:grid-cols-4 gap-5">
                     <div class="bg-[#FFFAF7] rounded-2xl p-6 shadow-sm border border-slate-100">
                         <div class="p-2 rounded-lg bg-[#FFEEDE] w-fit mb-3">
-                            <IndianRupee class="w-5 h-5 text-[#AC0C13]" />
+                            <IndianRupee class="w-5 h-5 text-[rgb(143,5,7)]" />
                         </div>
                         <p class="text-xs font-bold text-slate-400 uppercase tracking-widest mb-1">Total Payroll</p>
                         <p class="text-3xl font-bold text-[#015276]" v-html="formatRupee(payrollData.totalPayroll)"></p>
@@ -905,7 +905,7 @@ onMounted(() => {
                     </div>
                     <div class="bg-[#FFFAF7] rounded-2xl p-6 shadow-sm border border-slate-100">
                         <div class="p-2 rounded-lg bg-[#FFEEDE] w-fit mb-3">
-                            <Calendar class="w-5 h-5 text-[#AC0C13]" />
+                            <Calendar class="w-5 h-5 text-[rgb(143,5,7)]" />
                         </div>
                         <p class="text-xs font-bold text-slate-400 uppercase tracking-widest mb-1">Last Run</p>
                         <p class="text-xl font-bold text-[#015276]">{{ payrollData.lastRunDate }}</p>
@@ -934,7 +934,7 @@ onMounted(() => {
                     <div class="bg-[#FFFAF7] rounded-2xl p-6 shadow-sm border border-slate-100">
                         <div class="flex items-center justify-between mb-4">
                             <h3 class="font-bold text-[#015276]">Recent Payslips</h3>
-                            <button class="px-4 py-2 text-sm font-medium text-white bg-[#AC0C13] rounded-lg hover:bg-[#8a0a0f] transition-colors">
+                            <button class="px-4 py-2 text-sm font-medium text-white bg-[rgb(143,5,7)] rounded-lg hover:bg-[#8a0a0f] transition-colors">
                                 Run Payroll
                             </button>
                         </div>
@@ -966,7 +966,7 @@ onMounted(() => {
                 <div class="grid grid-cols-1 md:grid-cols-4 gap-5">
                     <div class="bg-[#FFFAF7] rounded-2xl p-6 shadow-sm border border-slate-100">
                         <div class="p-2 rounded-lg bg-[#FFEEDE] w-fit mb-3">
-                            <Star class="w-5 h-5 text-[#AC0C13]" />
+                            <Star class="w-5 h-5 text-[rgb(143,5,7)]" />
                         </div>
                         <p class="text-xs font-bold text-slate-400 uppercase tracking-widest mb-1">Average Rating</p>
                         <p class="text-3xl font-bold text-[#015276]">{{ performanceData.averageRating }}<span class="text-lg text-slate-400">/5</span></p>
@@ -987,7 +987,7 @@ onMounted(() => {
                     </div>
                     <div class="bg-[#FFFAF7] rounded-2xl p-6 shadow-sm border border-slate-100">
                         <div class="p-2 rounded-lg bg-[#FFEEDE] w-fit mb-3">
-                            <Award class="w-5 h-5 text-[#AC0C13]" />
+                            <Award class="w-5 h-5 text-[rgb(143,5,7)]" />
                         </div>
                         <p class="text-xs font-bold text-slate-400 uppercase tracking-widest mb-1">Top Performers</p>
                         <p class="text-3xl font-bold text-[#015276]">{{ performanceData.topPerformers }}</p>
@@ -1040,14 +1040,14 @@ onMounted(() => {
                 <div class="grid grid-cols-1 md:grid-cols-4 gap-5">
                     <div class="bg-[#FFFAF7] rounded-2xl p-6 shadow-sm border border-slate-100">
                         <div class="p-2 rounded-lg bg-[#FFEEDE] w-fit mb-3">
-                            <BookOpen class="w-5 h-5 text-[#AC0C13]" />
+                            <BookOpen class="w-5 h-5 text-[rgb(143,5,7)]" />
                         </div>
                         <p class="text-xs font-bold text-slate-400 uppercase tracking-widest mb-1">Active Programs</p>
                         <p class="text-3xl font-bold text-[#015276]">{{ learningData.activePrograms }}</p>
                     </div>
                     <div class="bg-[#FFFAF7] rounded-2xl p-6 shadow-sm border border-slate-100">
                         <div class="p-2 rounded-lg bg-[#FFEEDE] w-fit mb-3">
-                            <Users class="w-5 h-5 text-[#AC0C13]" />
+                            <Users class="w-5 h-5 text-[rgb(143,5,7)]" />
                         </div>
                         <p class="text-xs font-bold text-slate-400 uppercase tracking-widest mb-1">Enrolled</p>
                         <p class="text-3xl font-bold text-[#015276]">{{ learningData.enrolledEmployees }}</p>
@@ -1061,7 +1061,7 @@ onMounted(() => {
                     </div>
                     <div class="bg-[#FFFAF7] rounded-2xl p-6 shadow-sm border border-slate-100">
                         <div class="p-2 rounded-lg bg-[#FFEEDE] w-fit mb-3">
-                            <Award class="w-5 h-5 text-[#AC0C13]" />
+                            <Award class="w-5 h-5 text-[rgb(143,5,7)]" />
                         </div>
                         <p class="text-xs font-bold text-slate-400 uppercase tracking-widest mb-1">Certifications</p>
                         <p class="text-3xl font-bold text-[#015276]">{{ learningData.certifications }}</p>
@@ -1073,7 +1073,7 @@ onMounted(() => {
                     <div class="bg-[#FFFAF7] rounded-2xl p-6 shadow-sm border border-slate-100">
                         <div class="flex items-center justify-between mb-4">
                             <h3 class="font-bold text-[#015276]">Training Programs</h3>
-                            <button class="px-3 py-1.5 text-sm font-medium text-white bg-[#AC0C13] rounded-lg hover:bg-[#8a0a0f]">
+                            <button class="px-3 py-1.5 text-sm font-medium text-white bg-[rgb(143,5,7)] rounded-lg hover:bg-[#8a0a0f]">
                                 Add Program
                             </button>
                         </div>
@@ -1123,7 +1123,7 @@ onMounted(() => {
                 <div class="grid grid-cols-1 md:grid-cols-4 gap-5">
                     <div class="bg-[#FFFAF7] rounded-2xl p-6 shadow-sm border border-slate-100">
                         <div class="p-2 rounded-lg bg-[#FFEEDE] w-fit mb-3">
-                            <FileText class="w-5 h-5 text-[#AC0C13]" />
+                            <FileText class="w-5 h-5 text-[rgb(143,5,7)]" />
                         </div>
                         <p class="text-xs font-bold text-slate-400 uppercase tracking-widest mb-1">Total Policies</p>
                         <p class="text-3xl font-bold text-[#015276]">{{ complianceData.totalPolicies }}</p>
@@ -1144,7 +1144,7 @@ onMounted(() => {
                     </div>
                     <div class="bg-[#FFFAF7] rounded-2xl p-6 shadow-sm border border-slate-100">
                         <div class="p-2 rounded-lg bg-[#FFEEDE] w-fit mb-3">
-                            <Shield class="w-5 h-5 text-[#AC0C13]" />
+                            <Shield class="w-5 h-5 text-[rgb(143,5,7)]" />
                         </div>
                         <p class="text-xs font-bold text-slate-400 uppercase tracking-widest mb-1">Upcoming Audits</p>
                         <p class="text-3xl font-bold text-[#015276]">{{ complianceData.upcomingAudits }}</p>
@@ -1156,7 +1156,7 @@ onMounted(() => {
                     <div class="bg-[#FFFAF7] rounded-2xl p-6 shadow-sm border border-slate-100">
                         <div class="flex items-center justify-between mb-4">
                             <h3 class="font-bold text-[#015276]">Company Policies</h3>
-                            <button class="px-3 py-1.5 text-sm font-medium text-white bg-[#AC0C13] rounded-lg hover:bg-[#8a0a0f]">
+                            <button class="px-3 py-1.5 text-sm font-medium text-white bg-[rgb(143,5,7)] rounded-lg hover:bg-[#8a0a0f]">
                                 Add Policy
                             </button>
                         </div>

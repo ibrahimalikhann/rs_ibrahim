@@ -1,4 +1,4 @@
-<script setup>
+﻿<script setup>
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
 import { Head } from '@inertiajs/vue3';
 import { ref } from 'vue';
@@ -243,7 +243,7 @@ const toggleMobileOtp = () => {
                                         <button 
                                             @click="show2FABackupCodes = true"
                                             class="text-xs text-blue-600 hover:text-blue-700 font-bold">
-                                            View Backup Codes →
+                                            View Backup Codes â†’
                                         </button>
                                     </div>
                                 </div>
@@ -399,7 +399,7 @@ const toggleMobileOtp = () => {
                                 <div class="flex items-center gap-2 mt-1">
                                     <MapPin class="w-3 h-3 text-slate-500" />
                                     <span class="text-xs text-slate-600">{{ login.location }}</span>
-                                    <span class="text-xs text-slate-400">•</span>
+                                    <span class="text-xs text-slate-400">â€¢</span>
                                     <Clock class="w-3 h-3 text-slate-500" />
                                     <span class="text-xs text-slate-600">{{ login.time }}</span>
                                 </div>

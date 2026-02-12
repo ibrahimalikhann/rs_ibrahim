@@ -1,4 +1,4 @@
-<script setup>
+﻿<script setup>
 import { ref, computed, onMounted, onUnmounted } from 'vue';
 import { Link, usePage } from '@inertiajs/vue3';
 import {
@@ -247,7 +247,7 @@ onUnmounted(() => {
         <!-- ============================================== -->
         <!-- TOP HEADER - Orange Gradient (ICICI Inspired) -->
         <!-- ============================================== -->
-        <header class="h-[72px] bg-gradient-to-b from-[#AC0C13] to-[#AC0C13] sticky top-0 z-50 shadow-lg">
+        <header class="h-[72px] bg-gradient-to-b from-[rgb(143,5,7)] to-[rgb(143,5,7)] sticky top-0 z-50 shadow-lg">
             <div class="h-full flex items-center justify-between px-6">
                 <!-- Left Section: Logo + Date + Role Badge -->
                 <div class="flex items-center gap-6">

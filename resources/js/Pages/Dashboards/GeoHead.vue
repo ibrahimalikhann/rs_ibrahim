@@ -1,4 +1,4 @@
-<script setup>
+﻿<script setup>
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
 import { Head, usePage } from '@inertiajs/vue3';
 import { ref, onMounted, computed, watch, nextTick } from 'vue';
@@ -104,11 +104,11 @@ const insights = [
 ];
 
 const kpis = [
-    { id: 'revenue', label: 'Total Revenue', value: '₹ 28.45 Cr', change: '+12%', sub: 'vs last year', trend: 'up', icon: DollarSign, color: 'border-[#015276]', shadow: 'shadow-[#FFEEDE]', bg: 'bg-[#FFEEDE]', text: 'text-[#AC0C13]' },
-    { id: 'orders', label: 'Total Orders', value: '1,240', change: '+8%', sub: 'vs last month', trend: 'up', icon: ShoppingCart, color: 'border-[#F37B15]', shadow: 'shadow-[#FFEEDE]', bg: 'bg-[#FFEEDE]', text: 'text-[#AC0C13]' },
-    { id: 'schools', label: 'Active Schools', value: '450', change: '-2%', sub: 'churn rate', trend: 'down', icon: School, color: 'border-[#015276]', shadow: 'shadow-[#FFEEDE]', bg: 'bg-[#FFEEDE]', text: 'text-[#AC0C13]' },
-    { id: 'conversion', label: 'Conversion', value: '68%', change: '+1.5%', sub: 'efficiency', trend: 'up', icon: Percent, color: 'border-[#F37B15]', shadow: 'shadow-[#FFEEDE]', bg: 'bg-[#FFEEDE]', text: 'text-[#AC0C13]' },
-    { id: 'returns', label: 'Returns Value', value: '₹ 1.2 Cr', change: '4.2%', sub: 'of revenue', trend: 'up', isBad: true, icon: AlertCircle, color: 'border-[#AC0C13]', shadow: 'shadow-[#FFEEDE]', bg: 'bg-[#FFEEDE]', text: 'text-[#AC0C13]' },
+    { id: 'revenue', label: 'Total Revenue', value: '₹ 28.45 Cr', change: '+12%', sub: 'vs last year', trend: 'up', icon: DollarSign, color: 'border-[#015276]', shadow: 'shadow-[#FFEEDE]', bg: 'bg-[#FFEEDE]', text: 'text-[rgb(143,5,7)]' },
+    { id: 'orders', label: 'Total Orders', value: '1,240', change: '+8%', sub: 'vs last month', trend: 'up', icon: ShoppingCart, color: 'border-[#F37B15]', shadow: 'shadow-[#FFEEDE]', bg: 'bg-[#FFEEDE]', text: 'text-[rgb(143,5,7)]' },
+    { id: 'schools', label: 'Active Schools', value: '450', change: '-2%', sub: 'churn rate', trend: 'down', icon: School, color: 'border-[#015276]', shadow: 'shadow-[#FFEEDE]', bg: 'bg-[#FFEEDE]', text: 'text-[rgb(143,5,7)]' },
+    { id: 'conversion', label: 'Conversion', value: '68%', change: '+1.5%', sub: 'efficiency', trend: 'up', icon: Percent, color: 'border-[#F37B15]', shadow: 'shadow-[#FFEEDE]', bg: 'bg-[#FFEEDE]', text: 'text-[rgb(143,5,7)]' },
+    { id: 'returns', label: 'Returns Value', value: '₹ 1.2 Cr', change: '4.2%', sub: 'of revenue', trend: 'up', isBad: true, icon: AlertCircle, color: 'border-[rgb(143,5,7)]', shadow: 'shadow-[#FFEEDE]', bg: 'bg-[#FFEEDE]', text: 'text-[rgb(143,5,7)]' },
 ];
 
 // Zone Data

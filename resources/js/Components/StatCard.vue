@@ -1,4 +1,4 @@
-<script setup>
+﻿<script setup>
 import { computed } from 'vue';
 import { ArrowUp, ArrowDown, Activity } from 'lucide-vue-next';
 

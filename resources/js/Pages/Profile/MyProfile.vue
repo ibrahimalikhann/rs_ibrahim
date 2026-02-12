@@ -1,4 +1,4 @@
-<script setup>
+﻿<script setup>
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
 import { Head } from '@inertiajs/vue3';
 import { ref } from 'vue';
@@ -148,7 +148,7 @@ const documents = [
             <!-- 1) PROFILE HEADER CARD -->
             <div class="rounded-2xl bg-[#FFEEDE] overflow-hidden shadow-lg relative">
                 <!-- Background decorative elements -->
-                <div class="absolute top-0 right-0 w-64 h-64 bg-[#AC0C13]/10 rounded-full blur-3xl -mr-16 -mt-16 pointer-events-none"></div>
+                <div class="absolute top-0 right-0 w-64 h-64 bg-[rgb(143,5,7)]/10 rounded-full blur-3xl -mr-16 -mt-16 pointer-events-none"></div>
                 
                 <div class="p-8 flex flex-col md:flex-row items-center md:items-start gap-8 relative z-10">
                     
@@ -158,7 +158,7 @@ const documents = [
                             <img 
                                 src="https://www.corporatephotographerslondon.com/wp-content/uploads/2023/02/LinkedIn_Profile_Photo.jpg" 
                                 alt="Profile" 
-                                class="h-full w-full rounded-full object-cover border-4 border-[#AC0C13]" 
+                                class="h-full w-full rounded-full object-cover border-4 border-[rgb(143,5,7)]" 
                             />
                         </div>
                         <!-- Status Badge -->
@@ -169,14 +169,14 @@ const documents = [
                     <div class="text-center md:text-left flex-1">
                         <div class="flex flex-col md:flex-row md:items-center gap-3 mb-2">
                             <h1 class="text-3xl font-bold font-display tracking-tight text-[#015276]">{{ employee.name }}</h1>
-                            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-bold bg-[#AC0C13]/20 text-[#AC0C13] border border-[#AC0C13]/30">
+                            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-bold bg-[rgb(143,5,7)]/20 text-[rgb(143,5,7)] border border-[rgb(143,5,7)]/30">
                                 {{ employee.status }}
                             </span>
                         </div>
                         
                         <p class="text-lg text-[#015276] font-medium mb-4 flex items-center justify-center md:justify-start gap-2">
                              <Briefcase class="w-4 h-4" /> {{ employee.role }} 
-                             <span class="text-[#015276]/70 mx-1">•</span> 
+                             <span class="text-[#015276]/70 mx-1">â€¢</span> 
                              <span class="text-[#015276] font-bold">{{ employee.id }}</span>
                         </p>
 
@@ -216,7 +216,7 @@ const documents = [
                     </div>
                     <span class="text-xs font-bold uppercase tracking-widest opacity-70 mb-1">{{ allowancesData.label }}</span>
                     <span v-if="isAllowancesUnlocked" class="text-lg font-bold">{{ allowancesData.value }}</span>
-                    <span v-else class="text-lg font-bold tracking-widest">••••••</span>
+                    <span v-else class="text-lg font-bold tracking-widest">â€¢â€¢â€¢â€¢â€¢â€¢</span>
                 </div>
             </div>
 

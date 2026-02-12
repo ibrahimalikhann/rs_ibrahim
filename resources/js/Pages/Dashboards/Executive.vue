@@ -1,4 +1,4 @@
-<script setup>
+﻿<script setup>
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
 import { Head, usePage } from '@inertiajs/vue3';
 import { computed, ref, onMounted, onUnmounted } from 'vue';
@@ -50,7 +50,7 @@ const quotes = [
     { text: "Don't stop when you're tired. Stop when you're done.", author: "Anonymous" },
     { text: "Great things never come from comfort zones.", author: "Anonymous" },
     { text: "Success is the sum of small efforts repeated day in and day out.", author: "Robert Collier" },
-    { text: "Your limitation—it's only your imagination.", author: "Anonymous" },
+    { text: "Your limitationâ€”it's only your imagination.", author: "Anonymous" },
     { text: "Push yourself, because no one else is going to do it for you.", author: "Anonymous" },
     { text: "Sometimes later becomes never. Do it now.", author: "Anonymous" },
     { text: "The key to success is to focus on goals, not obstacles.", author: "Anonymous" },
@@ -210,7 +210,7 @@ const insights = [
 ];
 
 const tasks = [
-    { id: 1, title: 'Visit St. Xavier’s High School', subtitle: 'Meet Principal regarding math series', time: '10:00 AM', completed: false },
+    { id: 1, title: 'Visit St. Xavierâ€™s High School', subtitle: 'Meet Principal regarding math series', time: '10:00 AM', completed: false },
     { id: 2, title: 'Call Mr. Sharma (Distributor)', subtitle: 'Follow up on pending payment', time: '11:30 AM', completed: false },
     { id: 3, title: 'Complete Survey for PPS Karnal', subtitle: 'Upload photos of library infrastructure', time: '02:00 PM', completed: false },
     { id: 4, title: 'Approve Order #ORD-2024-89', subtitle: '2,500 books - Science Stream', time: '04:00 PM', completed: true },
@@ -254,7 +254,7 @@ const maxSchoolValue = computed(() => {
                         <p class="text-sm text-slate-600 dark:text-slate-300 italic leading-relaxed">
                             "{{ dailyQuote.text }}"
                         </p>
-                        <p class="text-xs text-slate-400 dark:text-slate-500 mt-1">— {{ dailyQuote.author }}</p>
+                        <p class="text-xs text-slate-400 dark:text-slate-500 mt-1">â€” {{ dailyQuote.author }}</p>
                     </div>
                 </div>
             </div>
@@ -278,7 +278,7 @@ const maxSchoolValue = computed(() => {
                     <div class="w-full md:w-1/2">
                         <div class="flex justify-between text-xs font-bold text-[#015276] uppercase tracking-widest mb-2">
                             <span>Progress</span>
-                            <span v-html="`₹0.56 Cr Remaining`"></span>
+                            <span>₹0.56 Cr Remaining</span>
                         </div>
                         <div class="h-3 w-full overflow-hidden rounded-full bg-black/20 relative group cursor-pointer">
                             <div class="h-full rounded-full bg-white transition-all duration-1000 ease-out" style="width: 62.4%; background-color: #F36E21;"></div>
@@ -296,7 +296,7 @@ const maxSchoolValue = computed(() => {
                                 ₹0.94 Cr Achieved
                             </p>
                             <p class="text-xs font-medium text-[#015276] flex items-center">
-                                <TrendingUp class="w-3 h-3 mr-1 text-[#AC0C13] bg-[#FFEEDE] p-0.5 rounded" /> On track to exceed annual targets
+                                <TrendingUp class="w-3 h-3 mr-1 text-[rgb(143,5,7)] bg-[#FFEEDE] p-0.5 rounded" /> On track to exceed annual targets
                             </p>
                         </div>
                     </div>
@@ -326,7 +326,7 @@ const maxSchoolValue = computed(() => {
                                 
                                 <div class="flex justify-between items-start mb-3">
                                     <div class="p-2 rounded-lg bg-[#FFEEDE]">
-                                        <Box class="w-5 h-5 text-[#AC0C13]" />
+                                        <Box class="w-5 h-5 text-[rgb(143,5,7)]" />
                                     </div>
                                     <div class="h-7 w-7 rounded-full border-2 border-blue-500/30 border-t-blue-500 animate-spin-slow"></div>
                                 </div>
@@ -355,7 +355,7 @@ const maxSchoolValue = computed(() => {
                                 
                                 <div class="flex justify-between items-start mb-3">
                                     <div class="p-2 rounded-lg bg-[#FFEEDE]">
-                                        <CircleDollarSign class="w-5 h-5 text-[#AC0C13]" />
+                                        <CircleDollarSign class="w-5 h-5 text-[rgb(143,5,7)]" />
                                     </div>
                                     <div class="h-7 w-7 rounded-full border-2 border-purple-500/30 border-r-purple-500 animate-spin-slow"></div>
                                 </div>
@@ -384,7 +384,7 @@ const maxSchoolValue = computed(() => {
                                 
                                 <div class="flex justify-between items-start mb-4">
                                     <div class="p-2.5 rounded-xl bg-[#FFEEDE]">
-                                        <Activity class="w-5 h-5 text-[#AC0C13]" />
+                                        <Activity class="w-5 h-5 text-[rgb(143,5,7)]" />
                                     </div>
                                     <button class="text-xs font-bold text-blue-600 hover:text-blue-700 transition-colors uppercase tracking-wider">
                                         View Pipeline
@@ -403,7 +403,7 @@ const maxSchoolValue = computed(() => {
                                             <div :class="[
                                                 'relative z-10 flex items-center justify-center rounded-full border-2 transition-all duration-300',
                                                 step.status === 'past' ? 'h-10 w-10 border-emerald-500 bg-emerald-500 text-white' :
-                                                step.status === 'current' ? 'h-11 w-11 border-[#AC0C13] bg-[#FFEEDE] text-[#AC0C13] shadow-lg ring-4 ring-[#FFEEDE]/50 scale-110' :
+                                                step.status === 'current' ? 'h-11 w-11 border-[rgb(143,5,7)] bg-[#FFEEDE] text-[rgb(143,5,7)] shadow-lg ring-4 ring-[#FFEEDE]/50 scale-110' :
                                                 'h-10 w-10 border-slate-200 bg-white text-slate-400'
                                             ]">
                                                 <component :is="step.icon" v-if="step.status !== 'past'" :class="step.status === 'current' ? 'h-5 w-5' : 'h-4 w-4'" />
@@ -413,7 +413,7 @@ const maxSchoolValue = computed(() => {
                                                 <div v-if="step.status === 'future'" class="absolute -top-2 -right-2 bg-slate-100 text-[#015276] text-[10px] font-bold px-1.5 py-0.5 rounded-full border border-white">
                                                     {{ step.count }}
                                                 </div>
-                                                <div v-if="step.status === 'current'" class="absolute -top-2 -right-2 bg-[#AC0C13] text-white text-[10px] font-bold px-1.5 py-0.5 rounded-full border border-white">
+                                                <div v-if="step.status === 'current'" class="absolute -top-2 -right-2 bg-[rgb(143,5,7)] text-white text-[10px] font-bold px-1.5 py-0.5 rounded-full border border-white">
                                                     {{ step.count }}
                                                 </div>
                                             </div>
@@ -421,7 +421,7 @@ const maxSchoolValue = computed(() => {
                                             <!-- Label -->
                                             <span :class="[
                                                 'mt-3 text-[10px] font-bold uppercase tracking-tight text-center transition-colors',
-                                                step.status === 'current' ? 'text-[#AC0C13]' : 
+                                                step.status === 'current' ? 'text-[rgb(143,5,7)]' : 
                                                 step.status === 'past' ? 'text-emerald-600' : 'text-slate-400'
                                             ]">
                                                 {{ step.stage }}
@@ -443,7 +443,7 @@ const maxSchoolValue = computed(() => {
                                         <p class="text-[10px] font-bold text-slate-400 uppercase tracking-widest">School Base</p>
                                         <h4 class="font-bold text-[#015276] dark:text-white">Coverage Status</h4>
                                     </div>
-                                    <School class="w-5 h-5 text-[#AC0C13] bg-[#FFEEDE] p-1 rounded" />
+                                    <School class="w-5 h-5 text-[rgb(143,5,7)] bg-[#FFEEDE] p-1 rounded" />
                                 </div>
 
                                 <div class="flex items-center justify-between mb-2">
@@ -461,7 +461,7 @@ const maxSchoolValue = computed(() => {
                             </div>
 
                             <!-- Visit Analysis -->
-                            <div class="md:col-span-2 rounded-2xl bg-[#EB6C1A] dark:bg-slate-800 p-5 shadow-sm border border-slate-100 dark:border-slate-700">
+                            <div class="md:col-span-2 rounded-2xl bg-[#f36e21] dark:bg-slate-800 p-5 shadow-sm border border-slate-100 dark:border-slate-700">
                                 <div class="flex justify-between items-start mb-4">
                                     <div>
                                         <p class="text-[10px] font-bold text-white/80 uppercase tracking-widest">Field Activity</p>
@@ -503,7 +503,7 @@ const maxSchoolValue = computed(() => {
                             <div class="rounded-2xl bg-[#FFFAF7] dark:bg-slate-800 p-5 shadow-sm border border-slate-100 dark:border-slate-700 flex flex-col justify-between">
                                 <div class="flex items-center gap-2 mb-3">
                                     <div class="p-1 bg-[#FFEEDE] rounded">
-                                        <Box class="w-3.5 h-3.5 text-[#AC0C13]" />
+                                        <Box class="w-3.5 h-3.5 text-[rgb(143,5,7)]" />
                                     </div>
                                     <span class="text-xs font-bold uppercase text-slate-400">Samples</span>
                                 </div>
@@ -536,7 +536,7 @@ const maxSchoolValue = computed(() => {
                                     <div>
                                         <div class="flex items-center gap-2 mb-1">
                                             <div class="p-1 bg-[#FFEEDE] rounded">
-                                                <Percent class="w-3.5 h-3.5 text-[#AC0C13]" />
+                                                <Percent class="w-3.5 h-3.5 text-[rgb(143,5,7)]" />
                                             </div>
                                             <span class="text-xs font-bold uppercase text-slate-400">Discount</span>
                                         </div>
@@ -558,7 +558,7 @@ const maxSchoolValue = computed(() => {
 
                             <div class="rounded-2xl bg-[#FFFAF7] dark:bg-slate-800 p-5 shadow-sm border border-slate-100 dark:border-slate-700 flex flex-col justify-between">
                                 <div class="flex items-center gap-2 mb-3">
-                                    <RotateCcw class="w-4 h-4 text-[#AC0C13] bg-[#FFEEDE] p-1 rounded" />
+                                    <RotateCcw class="w-4 h-4 text-[rgb(143,5,7)] bg-[#FFEEDE] p-1 rounded" />
                                     <span class="text-xs font-bold uppercase text-slate-400">Sales Returns (LY)</span>
                                 </div>
                                 
@@ -575,7 +575,7 @@ const maxSchoolValue = computed(() => {
                                     </div>
                                 </div>
                                 
-                                <button class="mt-3 text-xs font-bold text-[#AC0C13] hover:text-[#8a0a0f] transition-colors flex items-center gap-1">
+                                <button class="mt-3 text-xs font-bold text-[rgb(143,5,7)] hover:text-[#8a0a0f] transition-colors flex items-center gap-1">
                                     View Breakdown 
                                     <ArrowRight class="w-3 h-3" />
                                 </button>
@@ -589,7 +589,7 @@ const maxSchoolValue = computed(() => {
                         <div class="rounded-2xl border border-slate-100 bg-white shadow-sm dark:border-slate-700 dark:bg-slate-800">
                             <div class="flex items-center justify-between border-b border-slate-100 px-6 py-4 dark:border-slate-700">
                                 <h3 class="flex items-center text-md font-bold text-slate-800 dark:text-white">
-                                    <CheckSquare class="mr-2 h-5 w-5 text-[#AC0C13] bg-[#FFEEDE] p-1 rounded" />
+                                    <CheckSquare class="mr-2 h-5 w-5 text-[rgb(143,5,7)] bg-[#FFEEDE] p-1 rounded" />
                                     Today's Actions
                                 </h3>
                                 <span class="text-xs font-bold text-orange-600 bg-orange-50 px-2 py-0.5 rounded-full">4 Pending</span>
@@ -600,7 +600,7 @@ const maxSchoolValue = computed(() => {
                                     class="group flex cursor-pointer items-start p-4 hover:bg-slate-50 transition-colors">
                                     
                                     <div class="mt-0.5 relative mr-3 flex h-5 w-5 flex-shrink-0 items-center justify-center rounded border border-slate-300 transition-colors group-hover:border-orange-500">
-                                        <Check v-if="task.completed" class="h-3.5 w-3.5 text-[#AC0C13] bg-[#FFEEDE] p-0.5 rounded" />
+                                        <Check v-if="task.completed" class="h-3.5 w-3.5 text-[rgb(143,5,7)] bg-[#FFEEDE] p-0.5 rounded" />
                                     </div>
 
                                     <div class="min-w-0 flex-1">
@@ -623,7 +623,7 @@ const maxSchoolValue = computed(() => {
                         <!-- UPDATES & CELEBRATIONS CAROUSEL SECTION -->
                         <div>
                             <h3 class="text-base font-bold text-slate-800 dark:text-white mb-4 flex items-center gap-2">
-                                <div class="w-2 h-2 rounded-full bg-[#AC0C13]"></div>
+                                <div class="w-2 h-2 rounded-full bg-[rgb(143,5,7)]"></div>
                                 Updates & Celebrations
                             </h3>
 
@@ -741,14 +741,14 @@ const maxSchoolValue = computed(() => {
                                             insight.type === 'warning' ? 'bg-amber-50 text-amber-500' : 
                                             insight.type === 'alert' ? 'bg-red-50 text-red-500' : 'bg-blue-50 text-blue-500'
                                         ]">
-                                            <component :is="insight.icon" class="h-4 w-4 text-[#AC0C13] bg-[#FFEEDE] p-0.5 rounded" />
+                                            <component :is="insight.icon" class="h-4 w-4 text-[rgb(143,5,7)] bg-[#FFEEDE] p-0.5 rounded" />
                                         </div>
                                         <div>
                                             <p class="text-sm font-medium leading-snug text-slate-700 dark:text-slate-300">
                                                 {{ insight.text }}
                                             </p>
                                             <button v-if="insight.action" class="mt-2 text-xs font-bold text-slate-500 hover:text-indigo-600 uppercase flex items-center gap-1">
-                                                {{ insight.action }} <ChevronRight class="w-3 h-3 text-[#AC0C13] bg-[#FFEEDE] p-0.5 rounded" />
+                                                {{ insight.action }} <ChevronRight class="w-3 h-3 text-[rgb(143,5,7)] bg-[#FFEEDE] p-0.5 rounded" />
                                             </button>
                                         </div>
                                     </div>
@@ -769,7 +769,7 @@ const maxSchoolValue = computed(() => {
             <div class="rounded-2xl border border-slate-100 bg-white p-4 sm:p-6 shadow-sm dark:border-slate-700 dark:bg-slate-800">
                 <div class="mb-6 flex flex-col items-start justify-between gap-4 md:flex-row md:items-center">
                     <h3 class="flex items-center gap-2 text-lg font-bold text-slate-800 dark:text-white">
-                        <School class="h-6 w-6 text-[#AC0C13]" />
+                        <School class="h-6 w-6 text-[rgb(143,5,7)]" />
                         My Schools
                     </h3>
                     <div class="flex w-full flex-col gap-4 md:w-auto md:flex-row md:items-center">

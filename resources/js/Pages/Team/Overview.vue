@@ -1,4 +1,4 @@
-<script setup>
+﻿<script setup>
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
 import { Head } from '@inertiajs/vue3';
 import { ref, computed } from 'vue';
@@ -703,7 +703,7 @@ const formatRupee = (val) => {
                         <span class="text-xs font-bold uppercase text-slate-500">Total Team</span>
                     </div>
                     <p class="text-2xl font-bold text-slate-800">{{ overallStats.totalTeam }}</p>
-                    <p class="text-xs text-slate-500 mt-1">2 VPs • 6 GEOs • 11 TLs</p>
+                    <p class="text-xs text-slate-500 mt-1">2 VPs â€¢ 6 GEOs â€¢ 11 TLs</p>
                 </div>
                 <div class="bg-white border border-slate-200 rounded-xl p-4 shadow-sm">
                     <div class="flex items-center gap-2 mb-2 text-emerald-600">
@@ -850,7 +850,7 @@ const formatRupee = (val) => {
                                         <Crown class="w-4 h-4 text-orange-500" />
                                         <p class="font-bold text-slate-900 text-lg">{{ vp.name }}</p>
                                     </div>
-                                    <p class="text-sm text-slate-500">{{ vp.role }} • {{ vp.region }}</p>
+                                    <p class="text-sm text-slate-500">{{ vp.role }} â€¢ {{ vp.region }}</p>
                                 </div>
                             </div>
                             <div class="flex items-center gap-8">
@@ -899,7 +899,7 @@ const formatRupee = (val) => {
                                                 <MapPin class="w-3 h-3 text-blue-500" />
                                                 <p class="font-bold text-slate-800">{{ geo.name }}</p>
                                             </div>
-                                            <p class="text-xs text-slate-500">{{ geo.role }} • {{ geo.region }}</p>
+                                            <p class="text-xs text-slate-500">{{ geo.role }} â€¢ {{ geo.region }}</p>
                                         </div>
                                     </div>
                                     <div class="flex items-center gap-6">
@@ -941,7 +941,7 @@ const formatRupee = (val) => {
                                                 </div>
                                                 <div>
                                                     <p class="font-bold text-slate-700 text-sm">{{ tl.name }}</p>
-                                                    <p class="text-[10px] text-slate-500">{{ tl.role }} • {{ tl.region }} • {{ tl.teamSize }} members</p>
+                                                    <p class="text-[10px] text-slate-500">{{ tl.role }} â€¢ {{ tl.region }} â€¢ {{ tl.teamSize }} members</p>
                                                 </div>
                                             </div>
                                             <div class="flex items-center gap-5">

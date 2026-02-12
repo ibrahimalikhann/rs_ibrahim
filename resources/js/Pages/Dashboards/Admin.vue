@@ -1,4 +1,4 @@
-<script setup>
+﻿<script setup>
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
 import { Head, usePage } from '@inertiajs/vue3';
 import { ref, onMounted, computed } from 'vue';
@@ -99,13 +99,13 @@ const maskFinancial = (value) => {
     if (isFinancialsUnlocked.value) return value;
     // Return dots matching the length
     const numStr = String(value).replace(/[^0-9]/g, '');
-    return '••••••';
+    return 'â€¢â€¢â€¢â€¢â€¢â€¢';
 };
 
 // Helper function to display masked or real values
 const displayFinancial = (value) => {
     if (isFinancialsUnlocked.value) return formatRupee(value);
-    return '<span class="tracking-widest font-bold">•••••••</span>';
+    return '<span class="tracking-widest font-bold">â€¢â€¢â€¢â€¢â€¢â€¢â€¢</span>';
 };
 
 // Critical Issue Reporting State
@@ -161,7 +161,7 @@ const submitCriticalIssue = async () => {
         console.log('Critical Issue Reported:', formData);
         await new Promise(resolve => setTimeout(resolve, 1500));
         
-        issueSubmitMessage.value = '✓ Issue reported successfully to IT Department!';
+        issueSubmitMessage.value = 'âœ“ Issue reported successfully to IT Department!';
         setTimeout(() => {
             closeCriticalIssueModal();
         }, 2000);
@@ -408,7 +408,7 @@ const closeDrawer = () => {
                         <div class="text-center">
                             <p class="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-1">Revenue</p>
                             <p v-if="isFinancialsUnlocked" class="text-4xl font-bold font-mono tracking-tight" v-html="formatRupee(companyData.revenue)"></p>
-                            <p v-else class="text-4xl font-bold font-mono tracking-widest text-white/40">•••••••</p>
+                            <p v-else class="text-4xl font-bold font-mono tracking-widest text-white/40">â€¢â€¢â€¢â€¢â€¢â€¢â€¢</p>
                             <span class="text-xs font-bold text-emerald-400 flex items-center justify-center gap-1">{{ companyData.growth }} YoY</span>
                         </div>
                         <div class="h-10 w-px bg-white/10"></div>
@@ -472,7 +472,7 @@ const closeDrawer = () => {
                         </div>
                         <p class="text-xs font-bold text-slate-400 uppercase tracking-wider mb-0.5">{{ kpi.label }}</p>
                         <p v-if="isFinancialsUnlocked" class="text-xl font-bold text-[#015276] tracking-tight" v-html="formatRupee(kpi.value)"></p>
-                        <p v-else class="text-xl font-bold text-slate-400 tracking-widest">•••••••</p>
+                        <p v-else class="text-xl font-bold text-slate-400 tracking-widest">â€¢â€¢â€¢â€¢â€¢â€¢â€¢</p>
                         <div class="flex items-center gap-1 mt-1.5 text-[10px] font-bold">
                              <component :is="kpi.trend === 'up' ? TrendingUp : TrendingDown" :class="['w-3 h-3', (kpi.trend === 'up' && !kpi.isBad) || (kpi.trend === 'down' && kpi.isGood) ? 'text-emerald-600' : 'text-red-600']" />
                             <span :class="[(kpi.trend === 'up' && !kpi.isBad) || (kpi.trend === 'down' && kpi.isGood) ? 'text-emerald-600' : 'text-red-600']">{{ kpi.change }}</span>
@@ -508,7 +508,7 @@ const closeDrawer = () => {
                         <div v-for="(item, idx) in financialSummary" :key="idx" class="p-4 rounded-xl border bg-slate-50/50 flex flex-col justify-center">
                             <p class="text-xs font-bold text-slate-400 uppercase tracking-widest mb-1">{{ item.label }}</p>
                             <p v-if="isFinancialsUnlocked" :class="['text-2xl font-bold tracking-tight', item.label === 'Net Profit' || item.label === 'Profit Margin' ? 'text-emerald-700' : 'text-slate-900']" v-html="formatRupee(item.value)"></p>
-                            <p v-else class="text-2xl font-bold tracking-widest text-slate-300">•••••••</p>
+                            <p v-else class="text-2xl font-bold tracking-widest text-slate-300">â€¢â€¢â€¢â€¢â€¢â€¢â€¢</p>
                             <div class="flex items-center gap-1 mt-1">
                                 <component :is="item.isPositive ? TrendingUp : TrendingDown" :class="['w-3 h-3', item.isPositive ? 'text-emerald-600' : 'text-slate-500']" />
                                 <span :class="['text-xs font-bold', item.isPositive ? 'text-emerald-600' : 'text-slate-500']">{{ item.change }}</span>
@@ -524,7 +524,7 @@ const closeDrawer = () => {
                                 <div>
                                     <h3 class="font-bold text-slate-700 text-xs uppercase">Revenue to Profit Flow (Cr)</h3>
                                     <p v-if="isFinancialsUnlocked" class="text-sm font-bold text-emerald-700 mt-1">Net Profit: <span v-html="formatRupee('₹ 24.5 Cr')"></span></p>
-                                    <p v-else class="text-sm font-bold text-slate-400 mt-1 tracking-widest">••••••••••••</p>
+                                    <p v-else class="text-sm font-bold text-slate-400 mt-1 tracking-widest">â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢</p>
                                 </div>
                                 <div class="text-[10px] text-slate-400 italic">Click on 'Revenue' to expand details</div>
                             </div>
@@ -551,32 +551,32 @@ const closeDrawer = () => {
                                     <div class="flex justify-between text-xs items-center">
                                         <div class="flex items-center gap-2"><div class="w-2 h-2 rounded-full bg-blue-500"></div> <span class="text-slate-600 font-bold">Production</span></div>
                                         <span v-if="isFinancialsUnlocked" class="font-bold">35%</span>
-                                        <span v-else class="font-bold text-slate-400 tracking-widest">••••</span>
+                                        <span v-else class="font-bold text-slate-400 tracking-widest">â€¢â€¢â€¢â€¢</span>
                                     </div>
                                     <div class="flex justify-between text-xs items-center">
                                         <div class="flex items-center gap-2"><div class="w-2 h-2 rounded-full bg-green-500"></div> <span class="text-slate-600 font-bold">Salaries</span></div>
                                         <span v-if="isFinancialsUnlocked" class="font-bold">21%</span>
-                                        <span v-else class="font-bold text-slate-400 tracking-widest">••••</span>
+                                        <span v-else class="font-bold text-slate-400 tracking-widest">â€¢â€¢â€¢â€¢</span>
                                     </div>
                                     <div class="flex justify-between text-xs items-center">
                                         <div class="flex items-center gap-2"><div class="w-2 h-2 rounded-full bg-amber-500"></div> <span class="text-slate-600 font-bold">Marketing</span></div>
                                         <span v-if="isFinancialsUnlocked" class="font-bold">15%</span>
-                                        <span v-else class="font-bold text-slate-400 tracking-widest">••••</span>
+                                        <span v-else class="font-bold text-slate-400 tracking-widest">â€¢â€¢â€¢â€¢</span>
                                     </div>
                                     <div class="flex justify-between text-xs items-center">
                                         <div class="flex items-center gap-2"><div class="w-2 h-2 rounded-full bg-red-500"></div> <span class="text-slate-600 font-bold">Discounts</span></div>
                                         <span v-if="isFinancialsUnlocked" class="font-bold">13%</span>
-                                        <span v-else class="font-bold text-slate-400 tracking-widest">••••</span>
+                                        <span v-else class="font-bold text-slate-400 tracking-widest">â€¢â€¢â€¢â€¢</span>
                                     </div>
                                     <div class="flex justify-between text-xs items-center">
                                         <div class="flex items-center gap-2"><div class="w-2 h-2 rounded-full bg-purple-500"></div> <span class="text-slate-600 font-bold">Logistics</span></div>
                                         <span v-if="isFinancialsUnlocked" class="font-bold">10%</span>
-                                        <span v-else class="font-bold text-slate-400 tracking-widest">••••</span>
+                                        <span v-else class="font-bold text-slate-400 tracking-widest">â€¢â€¢â€¢â€¢</span>
                                     </div>
                                     <div class="flex justify-between text-xs items-center">
                                         <div class="flex items-center gap-2"><div class="w-2 h-2 rounded-full bg-pink-500"></div> <span class="text-slate-600 font-bold">Operations</span></div>
                                         <span v-if="isFinancialsUnlocked" class="font-bold">6%</span>
-                                        <span v-else class="font-bold text-slate-400 tracking-widest">••••</span>
+                                        <span v-else class="font-bold text-slate-400 tracking-widest">â€¢â€¢â€¢â€¢</span>
                                     </div>
                                 </div>
                             </div>
@@ -637,7 +637,7 @@ const closeDrawer = () => {
                                             </div>
                                             <div class="w-2/12 text-center font-bold font-mono text-slate-700">
                                                 <span v-if="isFinancialsUnlocked" v-html="formatRupee(node.revenue)"></span>
-                                                <span v-else class="tracking-widest text-slate-400">•••••••</span>
+                                                <span v-else class="tracking-widest text-slate-400">â€¢â€¢â€¢â€¢â€¢â€¢â€¢</span>
                                             </div>
                                             <div class="w-3/12 px-4">
                                                 <div class="flex justify-between text-xs font-bold mb-1">
@@ -668,7 +668,7 @@ const closeDrawer = () => {
                                                     </div>
                                                     <div class="w-2/12 text-center font-bold font-mono text-sm text-slate-600">
                                                         <span v-if="isFinancialsUnlocked" v-html="formatRupee(geo.revenue)"></span>
-                                                        <span v-else class="tracking-widest text-slate-400">•••••••</span>
+                                                        <span v-else class="tracking-widest text-slate-400">â€¢â€¢â€¢â€¢â€¢â€¢â€¢</span>
                                                     </div>
                                                     <div class="w-3/12 px-4">
                                                         <div class="h-1.5 bg-slate-200 rounded-full overflow-hidden">
@@ -689,7 +689,7 @@ const closeDrawer = () => {
                                                           </div>
                                                            <div class="w-2/12 text-center font-mono text-slate-500">
                                                                <span v-if="isFinancialsUnlocked" v-html="formatRupee(tl.revenue)"></span>
-                                                               <span v-else class="tracking-widest text-slate-400">•••••••</span>
+                                                               <span v-else class="tracking-widest text-slate-400">â€¢â€¢â€¢â€¢â€¢â€¢â€¢</span>
                                                            </div>
                                                            <div class="w-3/12 px-4">
                                                                <span class="font-bold text-slate-700">{{ tl.pct }}%</span>
@@ -749,7 +749,7 @@ const closeDrawer = () => {
                                         <div class="flex justify-between items-center mb-1">
                                             <span class="text-xs font-bold text-slate-600 uppercase">{{ item.label }}</span>
                                             <span v-if="isFinancialsUnlocked" class="text-sm font-bold text-slate-900" v-html="formatRupee(item.value)"></span>
-                                            <span v-else class="text-sm font-bold text-slate-400 tracking-widest">•••••••</span>
+                                            <span v-else class="text-sm font-bold text-slate-400 tracking-widest">â€¢â€¢â€¢â€¢â€¢â€¢â€¢</span>
                                         </div>
                                         <p class="text-[11px] font-medium text-slate-500 leading-tight">{{ item.desc }}</p>
                                     </div>
@@ -824,7 +824,7 @@ const closeDrawer = () => {
                         <span>Audit Log: Verified</span>
                     </div>
                     <div>
-                        Ratna Sagar P. Ltd. • Owner Console v3.1 • Confidential
+                        Ratna Sagar P. Ltd. â€¢ Owner Console v3.1 â€¢ Confidential
                     </div>
                 </div>
 
@@ -1066,7 +1066,7 @@ const closeDrawer = () => {
                         <button 
                             @click="closeCriticalIssueModal"
                             class="text-red-100 hover:text-white transition-colors">
-                            ✕
+                            âœ•
                         </button>
                     </div>
 

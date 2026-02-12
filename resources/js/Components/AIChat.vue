@@ -1,4 +1,4 @@
-<script setup>
+﻿<script setup>
 import { ref, onMounted, nextTick } from 'vue';
 import { 
     Sparkles, 
@@ -20,7 +20,7 @@ const messages = ref([
     {
         id: 1,
         type: 'bot',
-        content: "Hi there! 👋 I'm your Ratna Sagar AI assistant. How can I help you today?",
+        content: "Hi there! ðŸ‘‹ I'm your Ratna Sagar AI assistant. How can I help you today?",
         timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
     }
 ]);
@@ -127,7 +127,7 @@ defineExpose({ toggleChat });
                 class="absolute bottom-20 right-0 w-[400px] h-[600px] max-h-[calc(100vh-120px)] bg-white rounded-3xl shadow-[0_20px_50px_rgba(0,0,0,0.15)] flex flex-col overflow-hidden border border-slate-100 ring-1 ring-black/5"
             >
                 <!-- Header -->
-                <div class="p-6 bg-gradient-to-r from-[#AC0C13] to-[#E6611D] text-white">
+                <div class="p-6 bg-gradient-to-r from-[rgb(143,5,7)] to-[#E6611D] text-white">
                     <div class="flex items-center justify-between mb-4">
                         <div class="flex items-center gap-3">
                             <div class="w-12 h-12 bg-white/20 backdrop-blur-md rounded-2xl flex items-center justify-center border border-white/30">

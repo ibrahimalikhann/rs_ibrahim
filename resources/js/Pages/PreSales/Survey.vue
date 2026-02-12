@@ -1,4 +1,4 @@
-<script setup>
+﻿<script setup>
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
 import { Head } from '@inertiajs/vue3';
 import { ref, computed, onMounted } from 'vue';
@@ -626,7 +626,7 @@ const totalVoucherAmount = computed(() => {
                 <div class="bg-[#FFFAF7] border border-slate-100 rounded-xl p-5 shadow-sm">
                     <div class="flex items-center justify-between mb-3">
                         <div class="p-1.5 bg-[#FFEEDE] rounded">
-                            <School class="w-6 h-6 text-[#AC0C13]" />
+                            <School class="w-6 h-6 text-[rgb(143,5,7)]" />
                         </div>
                         <span class="text-xs font-bold text-[#015276] uppercase">Total</span>
                     </div>
@@ -636,7 +636,7 @@ const totalVoucherAmount = computed(() => {
                 <div class="bg-[#FFFAF7] border border-slate-100 rounded-xl p-5 shadow-sm">
                     <div class="flex items-center justify-between mb-3">
                         <div class="p-1.5 bg-[#FFEEDE] rounded">
-                            <CheckCircle2 class="w-6 h-6 text-[#AC0C13]" />
+                            <CheckCircle2 class="w-6 h-6 text-[rgb(143,5,7)]" />
                         </div>
                         <span class="text-xs font-bold text-[#015276] uppercase">Done</span>
                     </div>
@@ -646,7 +646,7 @@ const totalVoucherAmount = computed(() => {
                 <div class="bg-[#FFFAF7] border border-slate-100 rounded-xl p-5 shadow-sm">
                     <div class="flex items-center justify-between mb-3">
                         <div class="p-1.5 bg-[#FFEEDE] rounded">
-                            <Clock class="w-6 h-6 text-[#AC0C13]" />
+                            <Clock class="w-6 h-6 text-[rgb(143,5,7)]" />
                         </div>
                         <span class="text-xs font-bold text-[#015276] uppercase">Pending</span>
                     </div>
@@ -656,7 +656,7 @@ const totalVoucherAmount = computed(() => {
                 <div class="bg-[#FFFAF7] border border-slate-100 rounded-xl p-5 shadow-sm">
                     <div class="flex items-center justify-between mb-3">
                         <div class="p-1.5 bg-[#FFEEDE] rounded">
-                            <Target class="w-6 h-6 text-[#AC0C13]" />
+                            <Target class="w-6 h-6 text-[rgb(143,5,7)]" />
                         </div>
                         <span class="text-xs font-bold text-[#015276] uppercase">Progress</span>
                     </div>

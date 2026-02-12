@@ -1,4 +1,4 @@
-<script setup>
+﻿<script setup>
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
 import { Head, usePage } from '@inertiajs/vue3';
 import { ref, computed } from 'vue';
@@ -86,13 +86,13 @@ const activeGradient = computed(() => {
 
 // Self View Insights
 const currentInsights = [
-    { type: 'warning', text: 'You need to reach 39 more schools to hit this month’s target.', icon: AlertTriangle },
+    { type: 'warning', text: 'You need to reach 39 more schools to hit this monthâ€™s target.', icon: AlertTriangle },
     { type: 'alert', text: 'Pending approvals are delaying ₹1.2L in revenue.', icon: Clock },
-    { type: 'info', text: 'Survey activity is low — 12 schools untouched.', icon: Lightbulb },
+    { type: 'info', text: 'Survey activity is low â€” 12 schools untouched.', icon: Lightbulb },
 ];
 
 const todaysFocus = [
-    { id: 1, title: 'Visit St. Xavier’s High School', sub: 'Demo scheduled at 11:00 AM', type: 'visit', complete: false, icon: MapPin },
+    { id: 1, title: 'Visit St. Xavierâ€™s High School', sub: 'Demo scheduled at 11:00 AM', type: 'visit', complete: false, icon: MapPin },
     { id: 2, title: 'Call Principal Sharma', sub: 'DPS Mathura Road - Follow up on proposal', type: 'call', complete: false, icon: Phone },
     { id: 3, title: 'Approve Pending Orders', sub: '3 orders waiting for approval (₹45k)', type: 'admin', complete: false, icon: FileCheck },
     { id: 4, title: 'Complete School Surveys', sub: '2 schools in Sector 14 pending', type: 'survey', complete: false, icon: ClipboardList },
@@ -341,7 +341,7 @@ const teamPerformance = [
             <div class="bg-[#FFFAF7] dark:bg-slate-800 rounded-xl p-5 shadow-sm border border-slate-100 border-l-4 border-l-[#015276] hover:shadow-md transition-all cursor-pointer group hover:-translate-y-0.5">
                  <div class="flex justify-between items-start mb-2">
                      <span class="text-xs font-bold text-slate-400 uppercase tracking-wide">Active Schools</span>
-                     <div class="p-1.5 bg-[#FFEEDE] rounded text-[#AC0C13]">
+                     <div class="p-1.5 bg-[#FFEEDE] rounded text-[rgb(143,5,7)]">
                         <School class="w-4 h-4" />
                      </div>
                  </div>
@@ -354,7 +354,7 @@ const teamPerformance = [
             <div class="bg-[#FFFAF7] dark:bg-slate-800 rounded-xl p-5 shadow-sm border border-slate-100 border-l-4 border-l-[#F37B15] hover:shadow-md transition-all cursor-pointer group hover:-translate-y-0.5">
                  <div class="flex justify-between items-start mb-2">
                      <span class="text-xs font-bold text-slate-400 uppercase tracking-wide">This Month</span>
-                     <div class="p-1.5 bg-[#FFEEDE] rounded text-[#AC0C13]">
+                     <div class="p-1.5 bg-[#FFEEDE] rounded text-[rgb(143,5,7)]">
                         <Calendar class="w-4 h-4" />
                      </div>
                  </div>
@@ -367,7 +367,7 @@ const teamPerformance = [
             <div class="bg-[#FFFAF7] dark:bg-slate-800 rounded-xl p-5 shadow-sm border border-slate-100 border-l-4 border-l-[#F37B15] hover:shadow-md transition-all cursor-pointer group hover:-translate-y-0.5">
                 <div class="flex justify-between items-start mb-2">
                      <span class="text-xs font-bold text-slate-400 uppercase tracking-wide">Books Sold</span>
-                     <div class="p-1.5 bg-[#FFEEDE] rounded text-[#AC0C13]">
+                     <div class="p-1.5 bg-[#FFEEDE] rounded text-[rgb(143,5,7)]">
                         <Package class="w-4 h-4" />
                      </div>
                  </div>
@@ -377,10 +377,10 @@ const teamPerformance = [
                  </div>
             </div>
 
-            <div class="bg-[#FFFAF7] dark:bg-slate-800 rounded-xl p-5 shadow-sm border border-slate-100 border-l-4 border-l-[#AC0C13] hover:shadow-md transition-all cursor-pointer group hover:-translate-y-0.5">
+            <div class="bg-[#FFFAF7] dark:bg-slate-800 rounded-xl p-5 shadow-sm border border-slate-100 border-l-4 border-l-[rgb(143,5,7)] hover:shadow-md transition-all cursor-pointer group hover:-translate-y-0.5">
                   <div class="flex justify-between items-start mb-2">
                      <span class="text-xs font-bold text-slate-400 uppercase tracking-wide">Returns</span>
-                     <div class="p-1.5 bg-[#FFEEDE] rounded text-[#AC0C13]">
+                     <div class="p-1.5 bg-[#FFEEDE] rounded text-[rgb(143,5,7)]">
                         <RotateCcw class="w-4 h-4" />
                      </div>
                  </div>
@@ -393,7 +393,7 @@ const teamPerformance = [
             <div class="bg-[#FFFAF7] dark:bg-slate-800 rounded-xl p-5 shadow-sm border border-slate-100 border-l-4 border-l-[#015276] hover:shadow-md transition-all cursor-pointer group hover:-translate-y-0.5">
                  <div class="flex justify-between items-start mb-2">
                      <span class="text-xs font-bold text-slate-400 uppercase tracking-wide">Conversion</span>
-                     <div class="p-1.5 bg-[#FFEEDE] rounded text-[#AC0C13]">
+                     <div class="p-1.5 bg-[#FFEEDE] rounded text-[rgb(143,5,7)]">
                         <CheckCircle2 class="w-4 h-4" />
                      </div>
                  </div>
@@ -422,7 +422,7 @@ const teamPerformance = [
                         <div class="flex justify-between items-start">
                             <div class="flex flex-col">
                                 <div class="flex items-center gap-2 mb-2">
-                                    <div class="p-1.5 bg-[#FFEEDE] rounded text-[#AC0C13]">
+                                    <div class="p-1.5 bg-[#FFEEDE] rounded text-[rgb(143,5,7)]">
                                         <Package class="w-4 h-4" />
                                     </div>
                                     <span class="text-xs font-bold text-slate-400 uppercase tracking-wider">Qty Target</span>
@@ -460,7 +460,7 @@ const teamPerformance = [
                         <div class="flex justify-between items-start">
                             <div class="flex flex-col">
                                 <div class="flex items-center gap-2 mb-2">
-                                    <div class="p-1.5 bg-[#FFEEDE] rounded text-[#AC0C13]">
+                                    <div class="p-1.5 bg-[#FFEEDE] rounded text-[rgb(143,5,7)]">
                                         <Wallet class="w-4 h-4" />
                                     </div>
                                     <span class="text-xs font-bold text-slate-400 uppercase tracking-wider">Revenue</span>
@@ -500,7 +500,7 @@ const teamPerformance = [
                                 <span class="text-xs font-bold text-slate-400 uppercase tracking-widest">School Base</span>
                                 <div class="text-lg font-bold text-[#015276] dark:text-white mt-1">Coverage Status</div>
                             </div>
-                             <div class="p-2 bg-[#FFEEDE] rounded text-[#AC0C13]">
+                             <div class="p-2 bg-[#FFEEDE] rounded text-[rgb(143,5,7)]">
                                 <School class="w-5 h-5" />
                             </div>
                         </div>
@@ -544,7 +544,7 @@ const teamPerformance = [
                                 <span class="text-xs font-bold text-slate-400 uppercase tracking-widest">Field Activity</span>
                                 <div class="text-lg font-bold text-[#015276] dark:text-white mt-1">Visit Analysis</div>
                             </div>
-                             <div class="p-2 bg-[#FFEEDE] rounded text-[#AC0C13]">
+                             <div class="p-2 bg-[#FFEEDE] rounded text-[rgb(143,5,7)]">
                                 <MapPin class="w-5 h-5" />
                             </div>
                         </div>
@@ -571,7 +571,7 @@ const teamPerformance = [
                     <div class="w-full flex-1 flex flex-col justify-between">
                          <div class="flex justify-between items-center mb-2">
                              <div class="flex items-center gap-2">
-                                  <div class="p-1.5 bg-[#FFEEDE] text-[#AC0C13] rounded">
+                                  <div class="p-1.5 bg-[#FFEEDE] text-[rgb(143,5,7)] rounded">
                                      <Package class="w-4 h-4" />
                                  </div>
                                  <span class="text-xs font-bold text-slate-500 uppercase">Samples</span>
@@ -597,7 +597,7 @@ const teamPerformance = [
                     <div class="w-full flex-1 flex flex-col justify-between">
                          <div class="flex justify-between items-center mb-2">
                              <div class="flex items-center gap-2">
-                                  <div class="p-1.5 bg-[#FFEEDE] text-[#AC0C13] rounded">
+                                  <div class="p-1.5 bg-[#FFEEDE] text-[rgb(143,5,7)] rounded">
                                      <Percent class="w-4 h-4" />
                                  </div>
                                  <span class="text-xs font-bold text-slate-500 uppercase">Discount</span>
@@ -617,19 +617,19 @@ const teamPerformance = [
                 </div>
 
                 <!-- 7. RETURNS -->
-                <div @click="selectMetric('returns')" :class="{'ring-2 ring-[#AC0C13] ring-offset-2 ring-offset-slate-50 dark:ring-offset-slate-900': selectedMetric === 'returns'}" class="md:col-span-2 bg-[#FFFAF7] dark:bg-slate-800 rounded-xl p-5 shadow-sm border border-slate-100 dark:border-slate-700 hover:shadow-md transition-all group relative overflow-hidden cursor-pointer h-full flex flex-col justify-between hover:scale-[1.01]">
-                     <div class="absolute left-0 inset-y-0 w-1 bg-[#AC0C13] opacity-0 group-hover:opacity-100 transition-opacity"></div>
+                <div @click="selectMetric('returns')" :class="{'ring-2 ring-[rgb(143,5,7)] ring-offset-2 ring-offset-slate-50 dark:ring-offset-slate-900': selectedMetric === 'returns'}" class="md:col-span-2 bg-[#FFFAF7] dark:bg-slate-800 rounded-xl p-5 shadow-sm border border-slate-100 dark:border-slate-700 hover:shadow-md transition-all group relative overflow-hidden cursor-pointer h-full flex flex-col justify-between hover:scale-[1.01]">
+                     <div class="absolute left-0 inset-y-0 w-1 bg-[rgb(143,5,7)] opacity-0 group-hover:opacity-100 transition-opacity"></div>
                     <div class="flex justify-between items-center w-full h-full">
                         <div class="flex flex-col justify-center h-full max-w-[50%]">
                             <div class="flex items-center gap-3 mb-2">
-                                <div class="p-2 bg-[#FFEEDE] text-[#AC0C13] rounded-lg">
+                                <div class="p-2 bg-[#FFEEDE] text-[rgb(143,5,7)] rounded-lg">
                                     <RotateCcw class="w-5 h-5" />
                                 </div>
                                 <span class="text-sm font-bold text-[#015276] uppercase tracking-wide">Sales Returns <span class="text-slate-400 font-normal normal-case">(LY)</span></span>
                            </div>
                            <p class="text-xs text-slate-500 leading-relaxed pr-6">
                                Total processed returns from last fiscal timeline.
-                               <span class="text-[#AC0C13] font-bold block mt-1 hover:underline text-sm">View Breakdown &rarr;</span>
+                               <span class="text-[rgb(143,5,7)] font-bold block mt-1 hover:underline text-sm">View Breakdown &rarr;</span>
                            </p>
                         </div>
 
@@ -640,7 +640,7 @@ const teamPerformance = [
                             </div>
                             <div class="text-center">
                                 <div class="text-xs font-bold text-slate-400 uppercase mb-1">Value</div>
-                                <div class="text-2xl font-extrabold text-[#AC0C13]" v-html="formatRupee(`₹${(legacyData.returnsLYVal / 100000).toFixed(1)}L`)"></div>
+                                <div class="text-2xl font-extrabold text-[rgb(143,5,7)]" v-html="formatRupee(`₹${(legacyData.returnsLYVal / 100000).toFixed(1)}L`)"></div>
                             </div>
                         </div>
                     </div>
